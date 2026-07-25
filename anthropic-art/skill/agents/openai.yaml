@@ -1,0 +1,4 @@
+interface:
+  display_name: "Anthropic Art"
+  short_description: "Generate full-background Anthropic editorial art"
+  default_prompt: "Use $anthropic-art to create a full-background editorial illustration for my topic."
