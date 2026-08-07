@@ -14,6 +14,8 @@ mkdir -p "$dest_root"
 created=0
 skipped=0
 conflicts=0
+removed=0
+kept_foreign=0
 
 build_link_name() {
   local src_root="$1"
@@ -37,6 +39,60 @@ build_link_name() {
   printf '%s\n' "${rel_path//\//-}"
 }
 
+# Returns 0 if the symlink $name -> $target is a valid, up-to-date link for a
+# skill that still exists in the source root.
+is_current_link() {
+  local name="$1"
+  local target="$2"
+
+  # Target must live inside the source root.
+  case "$target" in
+    "$src_root"/*) ;;
+    *) return 1 ;;
+  esac
+
+  # Target must still exist and be a skill directory.
+  [[ -d "$target" && -f "$target/SKILL.md" ]] || return 1
+
+  # The link name must match the current naming convention.
+  local expected
+  if expected="$(build_link_name "$src_root" "$target")"; then
+    [[ "$expected" == "$name" ]]
+  else
+    return 1
+  fi
+}
+
+# Cleanup phase: remove stale symlinks from the destination, i.e. links whose
+# target was deleted, renamed, or is no longer a skill. Live symlinks pointing
+# outside the source root are kept (not managed by this script). Real
+# directories are never touched.
+while IFS= read -r -d '' link_path; do
+  name="$(basename "$link_path")"
+  target="$(readlink "$link_path")"
+
+  if is_current_link "$name" "$target"; then
+    continue
+  fi
+
+  # Keep live symlinks that point outside the source root (not managed here).
+  case "$target" in
+    "$src_root"/*) ;;
+    *)
+      if [[ -e "$target" ]]; then
+        echo "keep  $name -> $target (outside source root)"
+        kept_foreign=$((kept_foreign + 1))
+        continue
+      fi
+      ;;
+  esac
+
+  rm "$link_path"
+  echo "remove  $name -> $target"
+  removed=$((removed + 1))
+done < <(find "$dest_root" -maxdepth 1 -type l -print0 | sort -z)
+
+# Sync phase: create missing links.
 while IFS= read -r -d '' skill_md; do
   skill_dir="$(dirname "$skill_md")"
   if ! link_name="$(build_link_name "$src_root" "$skill_dir")"; then
@@ -73,6 +129,8 @@ done < <(find "$src_root" -type f -name SKILL.md -print0 | sort -z)
 echo
 echo "Created: $created"
 echo "Skipped: $skipped"
+echo "Removed: $removed"
+echo "Kept (outside source): $kept_foreign"
 echo "Conflicts: $conflicts"
 
 if [[ "$conflicts" -gt 0 ]]; then

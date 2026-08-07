@@ -888,6 +888,7 @@ def enrich_nominations(
     # real - stragglers cannot delay process exit. Abandonment is safe because
     # internal_subrun passes write nothing to disk (no save, no library sync,
     # no store), and every fetch layer inside run() carries its own timeout.
+    youtube_yt.reset_search_cache()
     enriched: dict[str, EnrichedTopic] = {}
     results_queue: queue.Queue[tuple[Nomination, schema.Report | None, Exception | None]] = queue.Queue()
     slots = threading.Semaphore(max(1, max_workers))
@@ -1910,6 +1911,11 @@ def run(
     corpus_dirs: list[str] | None = None,
     corpus_all_time: bool = False,
 ) -> schema.Report:
+    # Standalone runs (not competitor/discover sub-runs) own the YouTube
+    # search-cache lifecycle. Comparison fan-out clears once before submit so
+    # parallel entity sub-runs can still share in-run hits.
+    if not internal_subrun:
+        youtube_yt.reset_search_cache()
     settings = _resolve_depth_settings(depth, config)
     requested_sources = normalize_requested_sources(requested_sources)
     from_date, to_date = dates.get_date_range(lookback_days, as_of_date=as_of_date)
@@ -2103,6 +2109,7 @@ def run(
     _github_person_done = False
     if github_user and "github" in available and not _github_custom_done:
         bundle.mark_attempted("github")
+        _github_person_done = True
         try:
             person_items = github.search_github_person(
                 github_user, from_date, to_date,
@@ -2117,7 +2124,15 @@ def run(
                 # Use the first subquery's label so RRF can look up the weight
                 primary_label = plan.subqueries[0].label if plan.subqueries else "primary"
                 bundle.add_items(primary_label, "github", normalized)
-                _github_person_done = True
+            else:
+                # A pinned --github-user that yields nothing must not be
+                # silently backfilled by generic keyword search: the report
+                # would then present unrelated repos as this person's work.
+                bundle.record_failure(
+                    "github",
+                    "no-results",
+                    f"Person mode found no activity for @{github_user} in the window",
+                )
         except Exception as exc:
             bundle.errors_by_source["github"] = f"Person-mode failed: {exc}"
             state, attempted = _classify_source_failure(exc)
