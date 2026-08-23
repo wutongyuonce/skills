@@ -18,25 +18,7 @@ removed=0
 kept_foreign=0
 
 build_link_name() {
-  local src_root="$1"
-  local skill_dir="$2"
-  local rel_path
-  local base_name
-
-  rel_path="${skill_dir#"$src_root"/}"
-  if [[ "$rel_path" == "$skill_dir" ]]; then
-    return 1
-  fi
-
-  base_name="$(basename "$skill_dir")"
-
-  # Normalize packaged skills like `foo/skill/SKILL.md` to `foo`.
-  if [[ "$base_name" == "skill" ]]; then
-    basename "$(dirname "$skill_dir")"
-    return 0
-  fi
-
-  printf '%s\n' "${rel_path//\//-}"
+  basename "$2"
 }
 
 # Returns 0 if the symlink $name -> $target is a valid, up-to-date link for a
