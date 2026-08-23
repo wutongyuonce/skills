@@ -1,0 +1,79 @@
+# Kami: https://kami.tw93.fun
+# Policy: everything here is MIT-licensed source. Search engines, AI answer
+# engines, and assistants acting for a user are welcome to read, quote, and
+# learn from it. Bulk archive crawlers that return no reader to the source
+# are not. Stated in prose at https://kami.tw93.fun/privacy
+#
+# Content Signals: https://contentsignals.org
+
+User-agent: *
+Content-Signal: search=yes, ai-input=yes, ai-train=yes
+Allow: /
+
+# Sitemap
+Sitemap: https://kami.tw93.fun/sitemap.xml
+schemamap: https://kami.tw93.fun/schemamap.xml
+
+# Search Engines
+User-agent: Googlebot
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
+User-agent: Baiduspider
+Allow: /
+
+User-agent: Applebot
+Allow: /
+
+# AI Search and Assistant Bots (retrieval for a user's question)
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+User-agent: DuckAssistBot
+Allow: /
+
+# Model Training Crawlers (allowed: being in the answer is the point)
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+# Bulk Archive Crawlers (no attribution, no referral path back)
+User-agent: CCBot
+Disallow: /
+
+User-agent: Bytespider
+Disallow: /
+
+User-agent: ByteSpider
+Disallow: /
+
+User-agent: Meta-ExternalAgent
+Disallow: /

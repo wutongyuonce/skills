@@ -1,0 +1,94 @@
+{
+  "redirects": [
+    {
+      "source": "/index-en.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "query", "key": "mode", "value": "agent" }],
+      "destination": "/index.md",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "header", "key": "accept", "value": ".*text/markdown.*" }],
+      "destination": "/index.md",
+      "permanent": false
+    }
+  ],
+  "rewrites": [
+    { "source": "/developers", "destination": "/developers.html" },
+    { "source": "/about", "destination": "/about.html" },
+    { "source": "/contact", "destination": "/contact.html" },
+    { "source": "/privacy", "destination": "/privacy.html" }
+  ],
+  "headers": [
+    {
+      "source": "/",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        {
+          "key": "Link",
+          "value": "</sitemap.xml>; rel=\"sitemap\", </index.md>; rel=\"alternate\"; type=\"text/markdown\", </llms.txt>; rel=\"service-doc\"; type=\"text/plain\", </.well-known/mcp/server-card.json>; rel=\"service-desc\"; type=\"application/json\", </feeds/catalog.jsonld>; rel=\"describedby\"; type=\"application/ld+json\", </developers>; rel=\"help\""
+        }
+      ]
+    },
+    {
+      "source": "/developers",
+      "headers": [
+        { "key": "Vary", "value": "Accept, Accept-Encoding" },
+        {
+          "key": "Link",
+          "value": "</developers.md>; rel=\"alternate\"; type=\"text/markdown\", </developers/llms.txt>; rel=\"service-doc\"; type=\"text/plain\", </.well-known/mcp/server-card.json>; rel=\"service-desc\"; type=\"application/json\", </feeds/catalog.jsonld>; rel=\"describedby\"; type=\"application/ld+json\""
+        }
+      ]
+    },
+    {
+      "source": "/about",
+      "headers": [
+        { "key": "Link", "value": "</about.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/contact",
+      "headers": [
+        { "key": "Link", "value": "</contact.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/privacy",
+      "headers": [
+        { "key": "Link", "value": "</privacy.md>; rel=\"alternate\"; type=\"text/markdown\"" }
+      ]
+    },
+    {
+      "source": "/(.*).md",
+      "headers": [
+        { "key": "Content-Type", "value": "text/markdown; charset=utf-8" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/feeds/(.*).jsonld",
+      "headers": [
+        { "key": "Content-Type", "value": "application/ld+json; charset=utf-8" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/.well-known/(.*).json",
+      "headers": [
+        { "key": "Content-Type", "value": "application/json; charset=utf-8" },
+        { "key": "Access-Control-Allow-Origin", "value": "*" }
+      ]
+    },
+    {
+      "source": "/schemamap.xml",
+      "headers": [
+        { "key": "Content-Type", "value": "application/xml; charset=utf-8" }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,49 @@
+{
+  "name": "kami",
+  "title": "Kami",
+  "description": "Render and verify Kami documents locally: list templates and content schemas, render filled HTML to PDF, run the deterministic checks, and rasterize pages for a perceptual review pass.",
+  "version": "1.13.0",
+  "protocolVersion": "2025-06-18",
+  "license": "MIT",
+  "homepage": "https://kami.tw93.fun",
+  "repository": "https://github.com/tw93/kami",
+  "documentation": "https://kami.tw93.fun/developers.md",
+  "transports": [
+    "stdio"
+  ],
+  "remotes": [],
+  "packages": [
+    {
+      "registryType": "github",
+      "identifier": "tw93/kami",
+      "version": "1.13.0",
+      "transport": {
+        "type": "stdio"
+      },
+      "runtimeHint": "python3",
+      "install": "claude mcp add kami -- python3 <checkout>/scripts/mcp_server.py"
+    }
+  ],
+  "tools": [
+    {
+      "name": "kami_templates",
+      "description": "List Kami document templates, browser-only templates, the diagram library, and content schema types, with the reference docs to read before filling."
+    },
+    {
+      "name": "kami_doctor",
+      "description": "Report whether this installed Kami runtime can render PDFs, run visual checks, build editable PPTX fallback decks, and resolve the expected font families. Read-only; missing capabilities are reported explicitly rather than treated as clean checks."
+    },
+    {
+      "name": "kami_render",
+      "description": "Render trusted local Kami HTML to PDF via WeasyPrint, with build-time code highlighting. Referenced file, HTTP, and HTTPS resources load with this process's permissions. Returns the PDF path and page count."
+    },
+    {
+      "name": "kami_check",
+      "description": "Run Kami's deterministic checks for a file. HTML: placeholders + markdown residue (+ content coverage when a content IR JSON is given). PDF: markdown residue + orphans + density. JSON: content IR schema validation. Returns the legacy report plus stable rule IDs, findings, coverage status, and explicit degraded checks."
+    },
+    {
+      "name": "kami_screenshot",
+      "description": "Rasterize every PDF page to PNG for a perceptual review pass. Writes or replaces <pdf-stem>-visual/page-*.png, then returns the image paths, deterministic CJK font verdict, and fixed review checklist; view every image against the checklist before shipping."
+    }
+  ]
+}

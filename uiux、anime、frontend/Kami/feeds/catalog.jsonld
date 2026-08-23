@@ -1,0 +1,486 @@
+{
+  "@context": "https://schema.org",
+  "@id": "https://kami.tw93.fun/feeds/catalog.jsonld",
+  "@type": "ItemList",
+  "name": "Kami template catalog",
+  "description": "Every document template and diagram type Kami ships, plus the content schema types an agent can validate against before layout.",
+  "url": "https://kami.tw93.fun/developers",
+  "numberOfItems": 26,
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-one-pager",
+        "identifier": "one-pager",
+        "name": "One-Pager",
+        "description": "Single-page brief for a product, project, or pitch.",
+        "genre": "document template",
+        "inLanguage": [
+          "zh-CN",
+          "en",
+          "ko"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-letter",
+        "identifier": "letter",
+        "name": "Letter",
+        "description": "Formal correspondence: offers, notices, cover letters.",
+        "genre": "document template",
+        "inLanguage": [
+          "zh-CN",
+          "en",
+          "ko"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-long-doc",
+        "identifier": "long-doc",
+        "name": "Long Document",
+        "description": "Multi-page report or spec with running headers.",
+        "genre": "document template",
+        "inLanguage": [
+          "zh-CN",
+          "en",
+          "ko"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-portfolio",
+        "identifier": "portfolio",
+        "name": "Portfolio",
+        "description": "Case-study layout for work samples.",
+        "genre": "document template",
+        "inLanguage": [
+          "zh-CN",
+          "en",
+          "ko"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-resume",
+        "identifier": "resume",
+        "name": "Resume",
+        "description": "One or two page CV with a fixed density budget.",
+        "genre": "document template",
+        "inLanguage": [
+          "zh-CN",
+          "en",
+          "ko"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-slides",
+        "identifier": "slides",
+        "name": "Slides",
+        "description": "Deck rendered to PDF, with an editable PPTX fallback.",
+        "genre": "document template",
+        "inLanguage": [
+          "ko",
+          "zh-CN",
+          "en"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf",
+          "application/vnd.openxmlformats-officedocument.presentationml.presentation"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-equity-report",
+        "identifier": "equity-report",
+        "name": "Equity Report",
+        "description": "Company or stock analysis with data tables.",
+        "genre": "document template",
+        "inLanguage": [
+          "ko",
+          "zh-CN",
+          "en"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#template-changelog",
+        "identifier": "changelog",
+        "name": "Changelog",
+        "description": "Release notes grouped by version.",
+        "genre": "document template",
+        "inLanguage": [
+          "ko",
+          "zh-CN",
+          "en"
+        ],
+        "encodingFormat": [
+          "text/html",
+          "application/pdf"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-architecture",
+        "identifier": "diagram-architecture",
+        "name": "Architecture Diagram",
+        "description": "System components and the connections between them.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-architecture-board",
+        "identifier": "diagram-architecture-board",
+        "name": "Architecture Board Diagram",
+        "description": "Wide board view of a system, sized for slides.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-flowchart",
+        "identifier": "diagram-flowchart",
+        "name": "Flowchart Diagram",
+        "description": "Process and decision flow.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 4,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-quadrant",
+        "identifier": "diagram-quadrant",
+        "name": "Quadrant Diagram",
+        "description": "Two-axis positioning of options or competitors.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 5,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-bar-chart",
+        "identifier": "diagram-bar-chart",
+        "name": "Bar Chart Diagram",
+        "description": "Comparison across categories.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 6,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-line-chart",
+        "identifier": "diagram-line-chart",
+        "name": "Line Chart Diagram",
+        "description": "Trend across an ordered axis.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 7,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-donut-chart",
+        "identifier": "diagram-donut-chart",
+        "name": "Donut Chart Diagram",
+        "description": "Share of a whole.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 8,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-state-machine",
+        "identifier": "diagram-state-machine",
+        "name": "State Machine Diagram",
+        "description": "States and the transitions between them.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 9,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-timeline",
+        "identifier": "diagram-timeline",
+        "name": "Timeline Diagram",
+        "description": "Milestones along a time axis.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 10,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-swimlane",
+        "identifier": "diagram-swimlane",
+        "name": "Swimlane Diagram",
+        "description": "Process split across owners or teams.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 11,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-tree",
+        "identifier": "diagram-tree",
+        "name": "Tree Diagram",
+        "description": "Hierarchy or breakdown structure.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 12,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-layer-stack",
+        "identifier": "diagram-layer-stack",
+        "name": "Layer Stack Diagram",
+        "description": "Stacked layers of a system.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 13,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-venn",
+        "identifier": "diagram-venn",
+        "name": "Venn Diagram",
+        "description": "Overlap between sets.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 14,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-candlestick",
+        "identifier": "diagram-candlestick",
+        "name": "Candlestick Diagram",
+        "description": "Open-high-low-close price movement.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 15,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-waterfall",
+        "identifier": "diagram-waterfall",
+        "name": "Waterfall Diagram",
+        "description": "Cumulative contribution to a total.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 16,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-sequence",
+        "identifier": "diagram-sequence",
+        "name": "Sequence Diagram",
+        "description": "Messages exchanged between participants over time.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 17,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-class",
+        "identifier": "diagram-class",
+        "name": "Class Diagram",
+        "description": "Class structure and relationships.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    },
+    {
+      "@type": "ListItem",
+      "position": 18,
+      "item": {
+        "@type": "CreativeWork",
+        "@id": "https://kami.tw93.fun/#diagram-er",
+        "identifier": "diagram-er",
+        "name": "ER Diagram",
+        "description": "Entities and their relationships.",
+        "genre": "diagram template",
+        "encodingFormat": [
+          "image/svg+xml",
+          "text/html"
+        ]
+      }
+    }
+  ],
+  "about": {
+    "@type": "SoftwareApplication",
+    "@id": "https://kami.tw93.fun/#kami",
+    "name": "Kami",
+    "url": "https://kami.tw93.fun"
+  },
+  "mainEntityOfPage": "https://kami.tw93.fun/developers",
+  "keywords": [
+    "content-schema:changelog",
+    "content-schema:equity-report",
+    "content-schema:landing-page",
+    "content-schema:letter",
+    "content-schema:long-doc",
+    "content-schema:one-pager",
+    "content-schema:portfolio",
+    "content-schema:resume",
+    "content-schema:slides"
+  ]
+}

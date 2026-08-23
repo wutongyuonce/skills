@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Contact Kami: Support and Reporting Channels</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="How to reach the Kami maintainer: GitHub issues for bugs and template requests, plus the details to include so a report can be reproduced.">
+  <link rel="icon" href="assets/images/logo.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="./styles.css">
+  <link rel="canonical" href="https://kami.tw93.fun/contact">
+  <link rel="alternate" type="text/markdown" href="https://kami.tw93.fun/contact.md">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Contact Kami: Support and Reporting Channels">
+  <meta property="og:description" content="How to reach the Kami maintainer: GitHub issues for bugs and template requests, plus the details to include so a report can be reproduced.">
+  <meta property="og:url" content="https://kami.tw93.fun/contact">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ContactPage",
+    "name": "Contact Kami",
+    "url": "https://kami.tw93.fun/contact",
+    "inLanguage": "en",
+    "isPartOf": {"@type": "WebSite", "@id": "https://kami.tw93.fun/#website"},
+    "about": {"@type": "Organization", "@id": "https://kami.tw93.fun/#organization"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {"@type": "ListItem", "position": 1, "name": "Kami", "item": "https://kami.tw93.fun/"},
+      {"@type": "ListItem", "position": 2, "name": "Contact", "item": "https://kami.tw93.fun/contact"}
+    ]
+  }
+  </script>
+</head>
+<body>
+<main class="page">
+
+  <header class="hero doc">
+    <div class="eyebrow">
+      <span>Kami · Contact</span>
+      <span class="hero-links">
+        <a href="./">Home</a>
+        <a href="https://github.com/tw93/kami" target="_blank" rel="noopener">GitHub</a>
+      </span>
+    </div>
+    <h1>Contact</h1>
+    <p class="tagline">One maintainer, one queue. GitHub is the fastest way in, and a reproducible report is the fastest way through.</p>
+    <nav class="doc-nav" aria-label="Site sections">
+      <a href="./developers">Developers</a>
+      <a href="./about">About</a>
+      <a href="./contact" aria-current="page">Contact</a>
+      <a href="./privacy">Privacy</a>
+      <a href="./contact.md">This page as Markdown</a>
+    </nav>
+  </header>
+
+  <section class="prose">
+    <div class="section-head">
+      <p class="section-num">01 · Channels</p>
+      <h2 class="section-title">Where to write</h2>
+    </div>
+    <ul>
+      <li><strong>Bugs, template requests, and questions</strong>: open an issue at <a href="https://github.com/tw93/kami/issues" target="_blank" rel="noopener">github.com/tw93/kami/issues</a>. This is the primary channel and the one with public history, so a question answered there helps the next person.</li>
+      <li><strong>Fixes and new templates</strong>: pull requests are welcome at <a href="https://github.com/tw93/kami/pulls" target="_blank" rel="noopener">github.com/tw93/kami/pulls</a>. Run <code>python3 scripts/build.py --check</code> before opening one; it covers template lint, design-token sync, and public-fact drift.</li>
+      <li><strong>Anything that should not be public</strong>, including a security report: email the maintainer at <a href="mailto:hitw93@gmail.com">hitw93@gmail.com</a>, the same address published in the plugin manifests.</li>
+      <li><strong>Everything else</strong>: <a href="https://x.com/HiTw93" target="_blank" rel="noopener">@HiTw93</a> on X, or the maintainer's site at <a href="https://tw93.fun" target="_blank" rel="noopener">tw93.fun</a>.</li>
+    </ul>
+    <p>Kami is maintained by one person alongside other work, so replies are best-effort rather than guaranteed within any window. There is no paid support tier and no contract to sign; the trade is that everything is MIT licensed and you can fix it yourself if waiting does not suit.</p>
+  </section>
+
+  <section class="prose">
+    <div class="section-head">
+      <p class="section-num">02 · Reports</p>
+      <h2 class="section-title">What to include</h2>
+      <p class="section-lede">Most layout reports stall on missing context. These four lines usually unblock a fix.</p>
+    </div>
+    <ul>
+      <li>The template name, for example <code>resume-en</code> or <code>slides-weasy</code>, and the Kami version from the homepage badge or <code>VERSION</code>.</li>
+      <li>How it was invoked: the Claude Code plugin, the Codex plugin, a Claude Desktop upload, the MCP server, or a direct <code>scripts/build.py</code> run.</li>
+      <li>The rendered artifact, a PDF or a page PNG, rather than a description of it. Layout problems are visual and a screenshot settles most of them immediately.</li>
+      <li>The output of the relevant check, for example <code>python3 scripts/build.py --check-content content.json filled.html</code>, if the document verified clean but still looks wrong.</li>
+    </ul>
+    <p>For rendering failures, the exact error text matters: WeasyPrint, pypdf, and PyMuPDF are optional dependencies, and a missing one surfaces as an install hint rather than a crash. Pasting that hint is usually the whole diagnosis.</p>
+  </section>
+
+  <footer class="footer">
+    <div class="mark">
+      <svg width="56" height="56" viewBox="0 0 80 80" xmlns="http://www.w3.org/2000/svg" aria-label="Kami mark">
+        <rect x="6" y="6" width="68" height="68" rx="10" fill="#faf9f5" stroke="#1B365D" stroke-width="1.25"/>
+        <line x1="16" y1="26" x2="64" y2="26" stroke="#1B365D" stroke-width="1.25"/>
+        <text x="40" y="56" font-family="TsangerJinKai02, Georgia, serif" font-size="34" font-weight="500" fill="#141413" text-anchor="middle">紙</text>
+      </svg>
+      <div>
+        <p class="wm-name">Kami · 紙</p>
+        <p class="wm-sub">Good content deserves good paper.</p>
+      </div>
+    </div>
+    <div class="colophon">
+      <div><a href="./" style="color:var(--brand); text-decoration:none; font-weight:500;">Home</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">Developers</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">About</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">Privacy</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
+      <div style="margin-top:8px; color: var(--olive); font-family: var(--serif);">
+        MIT licensed. Runs where you install it.
+      </div>
+    </div>
+  </footer>
+
+</main>
+</body>
+</html>

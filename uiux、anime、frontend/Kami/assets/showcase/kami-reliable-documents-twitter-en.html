@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kami Reliable Documents Architecture</title>
+<style>
+  @font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/JetBrainsMono.woff2") format("woff2");
+    font-weight: 400;
+  }
+
+  :root {
+    --parchment: #f5f4ed;
+    --ivory: #faf9f5;
+    --near-black: #141413;
+    --olive: #504e49;
+    --stone: #6b6a64;
+    --brand: #1B365D;
+    --brand-tint: #EEF2F7;
+    --border: #e8e6dc;
+    --serif: Charter, Georgia, Palatino, "Times New Roman", serif;
+    --mono: "JetBrains Mono", "SF Mono", Consolas, monospace;
+  }
+
+  @page { size: 1600px 900px; margin: 0; }
+
+  * { box-sizing: border-box; }
+
+  html,
+  body {
+    width: 1600px;
+    height: 900px;
+    margin: 0;
+    overflow: hidden;
+  }
+
+  body {
+    position: relative;
+    background: var(--parchment);
+    color: var(--near-black);
+    font-family: var(--serif);
+  }
+
+  .page {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 62px 72px 46px;
+  }
+
+  .topline {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+  }
+
+  .wordmark,
+  .basis,
+  .eyebrow,
+  .hero-mark-label,
+  .footer {
+    font-family: var(--mono);
+  }
+
+  .wordmark {
+    color: var(--brand);
+    font-size: 14px;
+    letter-spacing: 0.24em;
+    font-weight: 600;
+  }
+
+  .basis {
+    color: var(--stone);
+    font-size: 11px;
+    letter-spacing: 0.18em;
+  }
+
+  .hero {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    padding-bottom: 24px;
+    border-bottom: 1px solid var(--brand);
+  }
+
+  .hero-copy { width: 1030px; }
+
+  .eyebrow {
+    margin: 0 0 11px;
+    color: var(--stone);
+    font-size: 12px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  h1 {
+    margin: 0;
+    font-size: 56px;
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -1.2px;
+  }
+
+  .subtitle {
+    margin: 13px 0 0;
+    color: var(--olive);
+    font-size: 20px;
+    line-height: 1.45;
+  }
+
+  .hero-mark {
+    width: 330px;
+    text-align: right;
+    color: var(--brand);
+  }
+
+  .hero-mark strong {
+    display: block;
+    font-size: 43px;
+    line-height: 0.92;
+    font-weight: 500;
+    letter-spacing: -0.5px;
+    text-transform: uppercase;
+  }
+
+  .hero-mark-label {
+    display: block;
+    margin-top: 13px;
+    color: var(--stone);
+    font-size: 10px;
+    letter-spacing: 0.16em;
+  }
+
+  .architecture {
+    position: relative;
+    height: 480px;
+    padding-top: 30px;
+  }
+
+  .architecture svg {
+    display: block;
+    width: 100%;
+    height: 430px;
+  }
+
+  .footer {
+    position: absolute;
+    left: 72px;
+    right: 72px;
+    bottom: 23px;
+    display: flex;
+    justify-content: space-between;
+    color: var(--stone);
+    font-size: 9px;
+    letter-spacing: 0.13em;
+  }
+</style>
+</head>
+<body>
+  <main class="page">
+    <div class="topline">
+      <div class="wordmark">KAMI · PAPER</div>
+      <div class="basis">SYSTEM ARCHITECTURE · DOCUMENT ENGINE</div>
+    </div>
+
+    <header class="hero">
+      <div class="hero-copy">
+        <p class="eyebrow">A document engine for people and agents</p>
+        <h1>From raw content to ship-ready documents</h1>
+        <p class="subtitle">Kami connects content contracts, editorial templates, rendering and quality control in one system.</p>
+      </div>
+      <div class="hero-mark">
+        <strong>Document</strong>
+        <strong>Engine</strong>
+        <span class="hero-mark-label">CONTENT · DESIGN · DELIVERY</span>
+      </div>
+    </header>
+
+    <section class="architecture" aria-label="Kami document production architecture">
+      <svg viewBox="0 0 1456 430" role="img" xmlns="http://www.w3.org/2000/svg">
+        <title>Kami document production architecture</title>
+        <desc>Raw material moves through a content contract, template system, unified render engine and quality checks to become a ship-ready document.</desc>
+
+        <text x="0" y="13" fill="#6b6a64" font-size="10" font-family="JetBrains Mono" letter-spacing="2.2">DOCUMENT PRODUCTION LINE</text>
+        <text x="1456" y="13" fill="#6b6a64" font-size="10" font-family="JetBrains Mono" text-anchor="end" letter-spacing="1.6">INPUT → CONTRACT → LAYOUT → RENDER → SHIP</text>
+
+        <line x1="188" y1="113" x2="254" y2="113" stroke="#504e49" stroke-width="1.4"/>
+        <path d="M246 109 L254 113 L246 117" fill="none" stroke="#504e49" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="494" y1="113" x2="560" y2="113" stroke="#1B365D" stroke-width="1.8"/>
+        <path d="M552 109 L560 113 L552 117" fill="none" stroke="#1B365D" stroke-width="1.8" stroke-linecap="round"/>
+        <line x1="800" y1="113" x2="866" y2="113" stroke="#504e49" stroke-width="1.4"/>
+        <path d="M858 109 L866 113 L858 117" fill="none" stroke="#504e49" stroke-width="1.4" stroke-linecap="round"/>
+        <line x1="1106" y1="113" x2="1172" y2="113" stroke="#504e49" stroke-width="1.4"/>
+        <path d="M1164 109 L1172 113 L1164 117" fill="none" stroke="#504e49" stroke-width="1.4" stroke-linecap="round"/>
+
+        <rect x="192" y="94" width="58" height="15" rx="2" fill="#f5f4ed"/>
+        <text x="221" y="104" fill="#504e49" font-size="8" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="1">DISTILL</text>
+        <rect x="498" y="94" width="58" height="15" rx="2" fill="#f5f4ed"/>
+        <text x="527" y="104" fill="#1B365D" font-size="8" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="1">VALIDATE</text>
+        <rect x="804" y="94" width="58" height="15" rx="2" fill="#f5f4ed"/>
+        <text x="833" y="104" fill="#504e49" font-size="8" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="1">RENDER</text>
+        <rect x="1110" y="94" width="58" height="15" rx="2" fill="#f5f4ed"/>
+        <text x="1139" y="104" fill="#504e49" font-size="8" font-family="JetBrains Mono" text-anchor="middle" letter-spacing="1">VERIFY</text>
+
+        <rect x="0" y="58" width="188" height="110" rx="7" fill="#E9E8E1" stroke="#6b6a64" stroke-width="1"/>
+        <text x="20" y="81" fill="#6b6a64" font-size="8" font-family="JetBrains Mono" letter-spacing="1.4">01 · MATERIALS</text>
+        <text x="20" y="111" fill="#141413" font-size="21" font-family="Charter, Georgia, serif" font-weight="500">Raw material</text>
+        <text x="20" y="140" fill="#504e49" font-size="11" font-family="JetBrains Mono">Brief · notes · data</text>
+        <text x="20" y="157" fill="#6b6a64" font-size="11" font-family="Charter, Georgia, serif">Goals, facts, brand, images</text>
+
+        <rect x="254" y="50" width="240" height="126" rx="7" fill="#EEF2F7" stroke="#1B365D" stroke-width="1.4"/>
+        <text x="276" y="76" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.4">02 · CONTENT IR</text>
+        <text x="276" y="108" fill="#141413" font-size="23" font-family="Charter, Georgia, serif" font-weight="500">Content contract</text>
+        <text x="276" y="139" fill="#1B365D" font-size="12" font-family="JetBrains Mono">9 TYPES · SCHEMA FIRST</text>
+        <text x="276" y="158" fill="#504e49" font-size="11" font-family="Charter, Georgia, serif">Required structure before layout</text>
+
+        <rect x="560" y="58" width="240" height="110" rx="7" fill="#faf9f5" stroke="#141413" stroke-width="1"/>
+        <text x="582" y="81" fill="#6b6a64" font-size="8" font-family="JetBrains Mono" letter-spacing="1.4">03 · TEMPLATE SYSTEM</text>
+        <text x="582" y="111" fill="#141413" font-size="21" font-family="Charter, Georgia, serif" font-weight="500">Templates &amp; diagrams</text>
+        <text x="582" y="140" fill="#504e49" font-size="11" font-family="JetBrains Mono">8 DOCS · 18 DIAGRAMS</text>
+        <text x="582" y="157" fill="#6b6a64" font-size="11" font-family="Charter, Georgia, serif">One system for layout and writing</text>
+
+        <rect x="866" y="58" width="240" height="110" rx="7" fill="#faf9f5" stroke="#141413" stroke-width="1"/>
+        <text x="888" y="81" fill="#6b6a64" font-size="8" font-family="JetBrains Mono" letter-spacing="1.4">04 · RENDER ENGINE</text>
+        <text x="888" y="111" fill="#141413" font-size="21" font-family="Charter, Georgia, serif" font-weight="500">Unified render</text>
+        <text x="888" y="140" fill="#504e49" font-size="11" font-family="JetBrains Mono">HTML · PDF · PNG · PPTX</text>
+        <text x="888" y="157" fill="#6b6a64" font-size="11" font-family="Charter, Georgia, serif">Fonts and metadata on one path</text>
+
+        <rect x="1172" y="58" width="284" height="110" rx="7" fill="#EEEDE6" stroke="#504e49" stroke-width="1"/>
+        <text x="1194" y="81" fill="#6b6a64" font-size="8" font-family="JetBrains Mono" letter-spacing="1.4">05 · SHIP</text>
+        <text x="1194" y="111" fill="#141413" font-size="21" font-family="Charter, Georgia, serif" font-weight="500">Ship-ready output</text>
+        <text x="1194" y="140" fill="#504e49" font-size="11" font-family="JetBrains Mono">READABLE · TRACEABLE</text>
+        <text x="1194" y="157" fill="#6b6a64" font-size="11" font-family="Charter, Georgia, serif">Ready to inspect and rebuild</text>
+
+        <text x="254" y="214" fill="#6b6a64" font-size="9" font-family="JetBrains Mono" letter-spacing="1.8">QUALITY CONTROL PLANE</text>
+        <text x="1456" y="214" fill="#6b6a64" font-size="9" font-family="JetBrains Mono" text-anchor="end" letter-spacing="1.2">EVERY FACT · EVERY PAGE</text>
+        <rect x="254" y="226" width="1202" height="73" rx="7" fill="#faf9f5" stroke="#e8e6dc" stroke-width="1"/>
+        <line x1="554" y1="238" x2="554" y2="287" stroke="#e8e6dc" stroke-width="1"/>
+        <line x1="854" y1="238" x2="854" y2="287" stroke="#e8e6dc" stroke-width="1"/>
+        <line x1="1154" y1="238" x2="1154" y2="287" stroke="#e8e6dc" stroke-width="1"/>
+
+        <text x="278" y="251" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">STRUCTURE</text>
+        <text x="278" y="277" fill="#141413" font-size="16" font-family="Charter, Georgia, serif" font-weight="500">Content structure</text>
+        <text x="578" y="251" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">COVERAGE</text>
+        <text x="578" y="277" fill="#141413" font-size="16" font-family="Charter, Georgia, serif" font-weight="500">Facts and assets retained</text>
+        <text x="878" y="251" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">VISUAL QA</text>
+        <text x="878" y="277" fill="#141413" font-size="16" font-family="Charter, Georgia, serif" font-weight="500">Layout, color, wrapping checked</text>
+        <text x="1178" y="251" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">MCP TOOLS</text>
+        <text x="1178" y="277" fill="#141413" font-size="16" font-family="Charter, Georgia, serif" font-weight="500">Find, render, check, capture</text>
+
+        <text x="0" y="340" fill="#6b6a64" font-size="9" font-family="JetBrains Mono" letter-spacing="1.8">ONE CONSTRAINT SYSTEM</text>
+        <text x="1456" y="340" fill="#6b6a64" font-size="9" font-family="JetBrains Mono" text-anchor="end" letter-spacing="1.2">CONTENT · DESIGN · DELIVERY</text>
+        <rect x="0" y="354" width="1456" height="64" rx="7" fill="#faf9f5" stroke="#e8e6dc" stroke-width="1"/>
+        <line x1="480" y1="366" x2="480" y2="406" stroke="#e8e6dc" stroke-width="1"/>
+        <line x1="960" y1="366" x2="960" y2="406" stroke="#e8e6dc" stroke-width="1"/>
+
+        <text x="24" y="378" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">CONTENT</text>
+        <text x="24" y="402" fill="#141413" font-size="17" font-family="Charter, Georgia, serif" font-weight="500">Contracts · structure, sources and coverage</text>
+        <text x="504" y="378" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">DESIGN</text>
+        <text x="504" y="402" fill="#141413" font-size="17" font-family="Charter, Georgia, serif" font-weight="500">Editorial system · templates, diagrams, visual language</text>
+        <text x="984" y="378" fill="#1B365D" font-size="8" font-family="JetBrains Mono" letter-spacing="1.2">DELIVERY</text>
+        <text x="984" y="402" fill="#141413" font-size="17" font-family="Charter, Georgia, serif" font-weight="500">Production tools · rendering, visual QA, MCP</text>
+      </svg>
+    </section>
+
+    <footer class="footer">
+      <span>GOOD CONTENT DESERVES GOOD PAPER</span>
+      <span>GITHUB.COM/TW93/KAMI</span>
+    </footer>
+  </main>
+</body>
+</html>

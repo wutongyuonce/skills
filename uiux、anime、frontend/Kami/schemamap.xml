@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemamap xmlns="https://specification.website/schemas/schemamap/0.1">
+  <resource>
+    <loc>https://kami.tw93.fun/developers</loc>
+    <jsonld>https://kami.tw93.fun/feeds/catalog.jsonld</jsonld>
+    <type>ItemList</type>
+    <type>CreativeWork</type>
+  </resource>
+</schemamap>
