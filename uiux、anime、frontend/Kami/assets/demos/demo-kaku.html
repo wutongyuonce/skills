@@ -108,12 +108,6 @@
     line-height: 1.5;
     max-width: 80%;
   }
-  .cover-line {
-    width: 80pt;
-    height: 2pt;
-    background: var(--brand);
-    margin: 18pt 0 4pt 0;
-  }
   .cover-meta {
     display: flex;
     justify-content: space-between;
@@ -173,8 +167,7 @@
   }
   .feature-card {
     background: var(--ivory);
-    border: 0.5pt solid var(--border);
-    border-radius: 8pt;
+    border-radius: 4pt;
     padding: 14pt 16pt;
     break-inside: avoid;
   }
@@ -197,7 +190,6 @@
   }
   .ai-mode {
     background: var(--ivory);
-    border-left: 3pt solid var(--brand);
     border-radius: 2pt;
     padding: 12pt 14pt;
     margin-bottom: 12pt;
@@ -329,13 +321,7 @@
     font-size: 32pt;
     font-weight: 500;
     color: var(--near-black);
-    margin-bottom: 12pt;
-  }
-  .contact-line {
-    width: 60pt;
-    height: 2pt;
-    background: var(--brand);
-    margin-bottom: 20pt;
+    margin-bottom: 32pt;
   }
   .contact-list {
     display: grid;
@@ -365,10 +351,7 @@
     margin-bottom: 14pt;
   }
   .about-metric {
-    background: var(--ivory);
-    border: 0.5pt solid var(--border);
-    border-radius: 8pt;
-    padding: 10pt 14pt;
+    padding: 6pt 8pt;
     text-align: center;
   }
   .about-metric-value {
@@ -393,8 +376,7 @@
   }
   .tool-card {
     background: var(--ivory);
-    border: 0.5pt solid var(--border);
-    border-radius: 8pt;
+    border-radius: 4pt;
     padding: 13pt 15pt;
     break-inside: avoid;
   }
@@ -444,15 +426,16 @@
   /* ════════════ OPT GRID ════════════ */
   .opt-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 12pt;
+    grid-template-columns: 1fr;
+    gap: 6pt;
     margin-bottom: 16pt;
   }
   .opt-card {
-    background: var(--ivory);
-    border: 0.5pt solid var(--border);
-    border-radius: 8pt;
-    padding: 13pt 15pt;
+    display: grid;
+    grid-template-columns: 120pt 1fr;
+    gap: 18pt;
+    align-items: start;
+    padding: 14pt 8pt;
     break-inside: avoid;
   }
   .opt-card h4 {
@@ -460,15 +443,14 @@
     font-size: 11pt;
     font-weight: 500;
     color: var(--near-black);
-    margin-bottom: 5pt;
+    margin: 0;
   }
-  .opt-card p { font-size: 9pt; line-height: 1.45; color: var(--charcoal); }
+  .opt-card p { font-size: 9.5pt; line-height: 1.55; color: var(--charcoal); margin: 0; }
 
   .contact-screenshot {
     margin-top: 16pt;
-    border-radius: 8pt;
+    border-radius: 4pt;
     overflow: hidden;
-    border: 0.5pt solid var(--border);
   }
   .contact-screenshot img {
     display: block;
@@ -507,7 +489,6 @@
   <div class="cover-center">
     <div class="cover-name">Kaku</div>
     <div class="cover-tagline">AI コーディング向けに設計した高速ターミナルエミュレータ。初期設定のまま使え、Lua で深く拡張できる、軽量で高性能な実装です。</div>
-    <div class="cover-line"></div>
   </div>
 
   <div class="cover-meta">
@@ -778,7 +759,6 @@
 <section class="contact">
   <div class="section-eyebrow">06 · GET KAKU</div>
   <div class="contact-title">Kaku はオープンソースです</div>
-  <div class="contact-line"></div>
   <div class="contact-list">
     <div><strong>GitHub</strong><a href="https://github.com/tw93/Kaku">github.com/tw93/Kaku</a></div>
     <div><strong>公式サイト</strong><a href="https://kaku.app">kaku.app</a></div>

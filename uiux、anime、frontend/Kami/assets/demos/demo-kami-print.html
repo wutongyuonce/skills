@@ -85,23 +85,12 @@
   }
   .title-block { flex: 1; }
   .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 7pt;
     font-size: 9pt;
     color: var(--brand);
     letter-spacing: 1.5pt;
     text-transform: uppercase;
     margin-bottom: 7pt;
     font-weight: 500;
-  }
-  .eyebrow::before {
-    content: "";
-    width: 8pt;
-    height: 1.5pt;
-    border-radius: 0.75pt;
-    background: var(--brand);
-    flex-shrink: 0;
   }
   h1 {
     font-family: var(--serif);
@@ -224,8 +213,7 @@
   .cmd {
     display: block;
     background: var(--ivory);
-    border: 0.5pt solid var(--border);
-    border-radius: 5pt;
+    border-radius: 4pt;
     padding: 9pt 12pt;
     font-family: var(--mono);
     font-size: 9pt;
@@ -241,8 +229,7 @@
   /* ========== Closing callout ========== */
   .callout {
     background: transparent;
-    border-left: 1.8pt solid var(--brand);
-    padding: 4pt 0 4pt 14pt;
+    padding: 4pt 0;
     margin-top: 18pt;
     font-size: 10pt;
     line-height: 1.55;

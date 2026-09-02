@@ -4,6 +4,14 @@
 
 Skills 是 AI Agent（如 Claude Code、Codex）的可复用指令模块。每个 skill 定义了特定的工作流程、约束条件和输出格式，让 AI 能够可靠地完成复杂任务——从代码审查、Bug 诊断到生成网页 PPT、研究分析等。
 
+## 仓库概览
+
+- 当前共收录 **53** 个 skill（不含仓库内部插件目录里的嵌套副本）
+- 分类包含：`engineering`、`productivity`、以及自定义 / 第三方整合 skill
+- 索引文档以 **仓库实际存在的 `SKILL.md`** 为准维护
+
+> 如果新增或移除了 skill，记得同步更新本 README，避免目录索引和实际仓库状态不一致。
+
 ## 工程类（源自 mattpocock/skills/engineering）
 
 这些 skill 来自 [mattpocock/skills](https://github.com/mattpocock/skills) 的 engineering 集合，覆盖日常编码工作的完整流程。
@@ -44,6 +52,8 @@ Skills 是 AI Agent（如 Claude Code、Codex）的可复用指令模块。每�
 | [blog-content-publisher](./blog-content-publisher/SKILL.md) | — | 发布和维护 Wutong-Yu Astro 博客内容 |
 | [code-review-skill](./code-review-skill/SKILL.md) | [GitHub](https://github.com/awesome-skills/code-review-skill) | 覆盖 20+ 语言/框架的全面代码审查指南（React、Vue、Angular、Rust、Go、Python 等） |
 | [convert-documents-to-markdown](./convert-documents-to-markdown/SKILL.md) | [GitHub](https://github.com/firecrawl/anydoc/tree/main/skills/convert-documents-to-markdown) | 将 Word/PPT/Excel/PDF/EPUB 等文档转换为 GitHub Flavored Markdown |
+| [dg-piagent](./dg-piagent/SKILL.md) | — | 面向 pi-agent / `@earendil-works/pi-coding-agent` SDK 的开发指南与接入评估 |
+| [ego-browser](./ego-browser/SKILL.md) | — | 基于 ego-browser 的浏览器自动化、网页测试、截图、表单填写与数据提取 |
 | [git-ship](./git-ship/SKILL.md) | [GitHub](https://github.com/oil-oil/git-ship) | 自动化完整 ship 流程：切分支 → commit → push → 建 PR → squash merge |
 | [github](./github/SKILL.md) | — | 通过 gh CLI 进行 GitHub 操作：issues、PR、CI、代码审查 |
 | [herdr](./herdr/SKILL.md) | [GitHub](https://github.com/herdrdev/herdr/tree/master/skills/herdr) | 控制 Herdr 终端复用器（工作区、标签、窗格） |

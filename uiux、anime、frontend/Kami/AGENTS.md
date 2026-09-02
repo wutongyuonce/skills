@@ -207,6 +207,10 @@ proof, not metadata proof. Claude Code: an isolated `HOME=/tmp/...` smoke with
   away, but Claude Desktop users download
   `releases/latest/download/kami.zip`, so name the channel that actually carries the fix
   and confirm that asset was refreshed before saying "fixed, please update".
+- A versioned release must come from a commit reachable from `origin/main` with a
+  successful exact-SHA `check.yml` run triggered by a `main` push. Published
+  same-version assets are immutable in practice: a rerun may reuse `kami.zip` only
+  when its entry names and payloads are identical, otherwise cut a new patch version.
 - If `python3 scripts/build.py --verify` fails only because the host Python lacks PPTX
   fallback dependencies such as `python-pptx`, verify `slides` and `slides-en` from a
   temporary venv instead of treating the environment miss as a source regression.

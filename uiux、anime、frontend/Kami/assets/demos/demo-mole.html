@@ -50,8 +50,8 @@
     line-height: 1.45;
   }
 
-  /* HEADER - quiet editorial opener: brand tick eyebrow + clean title,
-     anchored by one hairline rule. No full-height left bar. */
+  /* HEADER - quiet editorial opener: text eyebrow + clean title,
+     anchored by one structural hairline. */
   .header {
     margin-bottom: 14pt;
     padding-bottom: 11pt;
@@ -63,23 +63,12 @@
   }
   .title-block { flex: 1; }
   .eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 7pt;
     font-size: 9pt;
     color: var(--brand);
     letter-spacing: 1.5pt;
     text-transform: uppercase;
     margin-bottom: 7pt;
     font-weight: 500;
-  }
-  .eyebrow::before {
-    content: "";
-    width: 8pt;
-    height: 1.5pt;
-    border-radius: 0.75pt;
-    background: var(--brand);
-    flex-shrink: 0;
   }
   h1 {
     font-family: var(--serif);
@@ -195,27 +184,16 @@
   p { line-height: 1.45; }
 
   ul.dash {
-    list-style: none;
+    list-style: disc;
     margin: 4pt 0 0 0;
-    padding: 0;
+    padding-left: 16pt;
   }
   ul.dash li {
-    position: relative;
-    padding-left: 14pt;
     margin-bottom: 3.5pt;
     line-height: 1.4;
   }
   ul.dash li:last-child { margin-bottom: 0; }
-  ul.dash li::before {
-    content: "";
-    position: absolute;
-    left: 0;
-    top: 5pt;
-    width: 5pt;
-    height: 1.5pt;
-    border-radius: 0.75pt;
-    background: var(--brand);
-  }
+  ul.dash li::marker { color: var(--brand); }
   ul.dash li strong { color: var(--near-black); font-weight: 500; }
 
   .footer {

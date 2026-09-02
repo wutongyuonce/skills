@@ -2,7 +2,7 @@
   "name": "kami",
   "title": "Kami",
   "description": "Render and verify Kami documents locally: list templates and content schemas, render filled HTML to PDF, run the deterministic checks, and rasterize pages for a perceptual review pass.",
-  "version": "1.13.0",
+  "version": "1.14.0",
   "protocolVersion": "2025-06-18",
   "license": "MIT",
   "homepage": "https://kami.tw93.fun",
@@ -16,7 +16,7 @@
     {
       "registryType": "github",
       "identifier": "tw93/kami",
-      "version": "1.13.0",
+      "version": "1.14.0",
       "transport": {
         "type": "stdio"
       },
@@ -39,7 +39,7 @@
     },
     {
       "name": "kami_check",
-      "description": "Run Kami's deterministic checks for a file. HTML: placeholders + markdown residue (+ content coverage when a content IR JSON is given). PDF: markdown residue + orphans + density. JSON: content IR schema validation. Returns the legacy report plus stable rule IDs, findings, coverage status, and explicit degraded checks."
+      "description": "Run Kami's deterministic checks for a file. HTML: placeholders + strict mathematics + markdown residue (+ content coverage when a content IR JSON is given). PDF: markdown residue + orphans + density. JSON: content IR schema validation. Returns the legacy report plus stable rule IDs, findings, coverage status, and explicit degraded checks."
     },
     {
       "name": "kami_screenshot",

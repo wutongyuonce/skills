@@ -50,17 +50,17 @@ jobs:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ steps.tag.outputs.name }}
         run: |
-          python3 scripts/release_gate.py --tag "$TAG"
           SHA="$(git rev-parse HEAD)"
+          git fetch --no-tags origin main:refs/remotes/origin/main
           runs="$(gh run list --workflow=check.yml --commit "$SHA" --limit 20 \
-            --json headSha,status,conclusion)"
-          python3 -c 'import json,sys; sha=sys.argv[1]; runs=json.load(sys.stdin); sys.exit(0 if any(r["headSha"] == sha and r["status"] == "completed" and r["conclusion"] == "success" for r in runs) else 1)' \
-            "$SHA" <<<"$runs" || {
-              echo "ERROR: no successful completed check.yml run for $SHA"
-              exit 1
-            }
+            --json headSha,headBranch,event,status,conclusion)"
+          printf '%s\n' "$runs" > /tmp/kami-check-runs.json
+          python3 scripts/release_gate.py \
+            --tag "$TAG" \
+            --main-ref origin/main \
+            --checks-json /tmp/kami-check-runs.json
           echo "sha=$SHA" >> "$GITHUB_OUTPUT"
-          echo "OK: exact release SHA passed check.yml"
+          echo "OK: exact release SHA passed check.yml on main push"
 
       - name: Build and compare kami.zip
         env:
@@ -92,8 +92,23 @@ jobs:
             gh release create "$TAG" --verify-tag --title "$TAG" \
               --notes "Release notes pending. Edit on GitHub."
           fi
-          gh release upload "$TAG" /tmp/kami.zip --clobber
-          echo "OK: kami.zip attached to release $TAG"
+          asset_count="$(gh release view "$TAG" --json assets \
+            --jq '[.assets[] | select(.name == "kami.zip")] | length')"
+          if [[ "$asset_count" == "0" ]]; then
+            gh release upload "$TAG" /tmp/kami.zip
+            echo "OK: kami.zip attached to release $TAG"
+          elif [[ "$asset_count" == "1" ]]; then
+            mkdir -p /tmp/kami-published
+            gh release download "$TAG" --pattern kami.zip --dir /tmp/kami-published
+            python3 scripts/release_gate.py \
+              --tag "$TAG" \
+              --tracked-archive /tmp/kami.zip \
+              --candidate-archive /tmp/kami-published/kami.zip
+            echo "OK: existing kami.zip already matches this release"
+          else
+            echo "ERROR: release $TAG has $asset_count kami.zip assets"
+            exit 1
+          fi
 
       - name: Add and verify release reactions
         env:

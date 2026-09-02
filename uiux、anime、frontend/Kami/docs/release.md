@@ -29,39 +29,44 @@ screenshots. Everyday template, script, and site work does not need it.
 - `bash scripts/package-skill.sh` writes the tracked `dist/kami.zip` with a top-level
   `kami/` skill folder, and its audit gate excludes large TsangerJinKai / Source Han
   Serif K fonts plus showcase, demo, and example assets.
-- Commit `dist/kami.zip` with the release change, and upload it to the latest GitHub
-  release asset when refreshing the Claude Desktop package.
-- Verify a refreshed asset by content, not by page text: download the uploaded
+- Commit `dist/kami.zip` with the release change. Any changed package gets a new
+  version tag; do not replace a published version with different payloads.
+- Verify the published asset by content, not by page text: download the uploaded
   `kami.zip` and compare ZIP entry names plus per-entry SHA-256 digests against local
   `dist/kami.zip`. File size or container SHA alone proves nothing.
 - README and public site download links point at
-  `https://github.com/tw93/kami/releases/latest/download/kami.zip`. For small packaging
-  or documentation fixes, refresh that asset instead of cutting a new tag.
+  `https://github.com/tw93/kami/releases/latest/download/kami.zip`. Even small package
+  changes require a new patch version so update checks and downloaded contents agree.
 - Confirm remote CI is green on the exact commit about to be tagged, and read the
   `headSha` back rather than trusting the newest row:
 
   ```bash
-  gh run list --workflow=check.yml --limit 1 --json headSha,status,conclusion
+  gh run list --workflow=check.yml --limit 20 \
+    --json headSha,headBranch,event,status,conclusion
   ```
 
   A full local pass is not the verdict. V1.11.0 shipped while CI had been red for
   seven consecutive runs, because a test read `assets/examples/one-pager.pdf`, which
   is gitignored build output: it passed on any machine that had run a build and
   failed on every fresh checkout. Local green means "my working copy is fine", CI
-  green means "a clean checkout is fine", and only the second one is what a user
-  downloads. Poll the structured status; piping `gh run watch` into `tail` swallows
+  green means "a clean checkout is fine", and only a successful `push` run on `main`
+  proves the tag candidate entered the release branch. Poll the structured status;
+  piping `gh run watch` into `tail` swallows
   the exit code and reports an unfinished or failed run as passing.
-- The release workflow enforces the same contract before it can create or overwrite
-  an asset: `TAG == V$(cat VERSION)`, the tag resolves to the checked-out commit, an
-  exact-SHA `check.yml` run is complete and successful, and the rebuilt archive has
-  the same entry names and per-entry SHA-256 payloads as tracked `dist/kami.zip`.
+- The release workflow enforces the same contract before it can create an asset:
+  `TAG == V$(cat VERSION)`, the tag resolves to the checked-out commit, the commit is
+  reachable from `origin/main`, an exact-SHA `check.yml` run from a `main` push is
+  complete and successful, and the rebuilt archive has the same entry names and
+  per-entry SHA-256 payloads as tracked `dist/kami.zip`.
   Immediately before upload, it also confirms the remote tag still resolves to the
   reviewed SHA. Keep these as hard gates; a manual dispatch is not an override.
 - Create a version tag only when the maintainer explicitly asks for a versioned
   release, and tag the commit that already contains the final refreshed
   `dist/kami.zip`. Never tag a source-only commit and refresh the archive afterward.
 - On tag push, `.github/workflows/release.yml` builds and attaches `dist/kami.zip`,
-  creates the release if missing, and adds and verifies the house-style reactions. Do not
+  creates the release if missing, refuses to replace a different same-version asset,
+  and adds and verifies the house-style reactions. An idempotent rerun may keep an
+  existing asset only when its entry names and payloads are identical. Do not
   `gh release create` by hand: let CI create the placeholder, then set the real title
   and notes with
   `gh release edit V<x> --title "V<x> <Codename>" --notes-file <file>`.

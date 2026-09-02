@@ -17,9 +17,12 @@ import json
 import os
 import re
 import shutil
+import stat
 import subprocess
 import sys
 import tempfile
+import time
+import tracemalloc
 import warnings
 import zipfile
 from pathlib import Path
@@ -215,6 +218,11 @@ PACKAGE_REQUIRED_ENTRIES = {
     "references/design.md",
     "scripts/build.py",
     "scripts/ensure-fonts.sh",
+    "scripts/ensure_mathjax.sh",
+    "scripts/math_render.py",
+    "scripts/mathjax_svg.js",
+    "scripts/mathjax-runtime/package.json",
+    "scripts/mathjax-runtime/package-lock.json",
     "scripts/site_facts.py",
 }
 
@@ -762,26 +770,359 @@ def test_font_probe_rejects_empty_and_truncated_bundles() -> None:
           str(report))
 
 
-def test_brand_left_rule_uses_one_of_three_weights() -> None:
-    """The brand left rule is one gesture at three weights, picked by role.
-
-    design.md «The brand left rule» assigns 2.5pt to a structural divide, 2pt
-    to an aside, and 1.4pt to the edge of a filled block. A fourth value is not
-    a new idea, it is drift: the same `.callout` shipping at 1.8pt in one-pager
-    and 2pt in long-doc is what teaches a reader of these templates that the
-    number is theirs to pick, and inventing rules is exactly the drift the
-    generated documents show.
-    """
-    allowed = {"2.5", "2", "1.4"}
-    pattern = re.compile(r"border-left:\s*([\d.]+)pt solid var\(--brand\)")
+def test_print_surfaces_have_no_ornamental_brand_lines() -> None:
+    """Print hierarchy comes from type, spacing, labels, and fill, not ticks."""
+    patterns = {
+        "brand side rule": re.compile(
+            r"border-left:\s*[\d.]+(?:pt|px)\s+solid\s+var\(--brand\)"
+        ),
+        "eyebrow tick": re.compile(
+            r"\.(?:eyebrow|ticker-eyebrow|cover-eyebrow)::before"
+        ),
+        "short cover or contact rule": re.compile(
+            r"(?:class=[\"'](?:cover-line|contact-line)[\"']|"
+            r"\.(?:cover-line|contact-line)\s*\{)"
+        ),
+    }
     offenders: list[str] = []
-    for path in sorted(TEMPLATES.glob("*.html")):
-        for weight in pattern.findall(path.read_text(encoding="utf-8")):
-            if weight not in allowed:
-                offenders.append(f"{path.name}: {weight}pt")
-    check("brand left rule uses one of the three registered weights",
+    sources = list(TEMPLATES.glob("*.html")) + list((REPO_ROOT / "assets" / "demos").glob("*.html"))
+    for path in sorted(sources):
+        text = path.read_text(encoding="utf-8")
+        for label, pattern in patterns.items():
+            if pattern.search(text):
+                offenders.append(f"{path.name}: {label}")
+
+    for name in ("slides.py", "slides-en.py"):
+        text = (TEMPLATES / name).read_text(encoding="utf-8")
+        if "def add_line(" in text:
+            offenders.append(f"{name}: generic decorative add_line helper")
+
+    check("print surfaces contain no ornamental brand lines",
           not offenders,
           f"offenders: {', '.join(offenders)}")
+
+
+def test_shipped_surfaces_keep_subtractive_defaults() -> None:
+    """A default surface stays flat, small-radius, and free of filler motion."""
+    offenders: list[str] = []
+
+    print_sources = [
+        path for path in TEMPLATES.glob("*.html")
+        if not path.name.startswith("landing-page")
+    ] + list((REPO_ROOT / "assets" / "demos").glob("*.html"))
+    large_print_radius = re.compile(
+        r"border-radius:\s*(?:[789]|[1-9][0-9])(?:\.[0-9]+)?pt"
+    )
+    for path in sorted(print_sources):
+        if large_print_radius.search(path.read_text(encoding="utf-8")):
+            offenders.append(f"{path.name}: screen-sized print radius")
+
+    landing_forbidden = (
+        "filter: blur",
+        "linear-gradient(",
+        ".gallery-frame::after",
+    )
+    default_surface_selectors = (
+        ".hero",
+        ".section-head",
+        ".demo-card",
+        ".price-card",
+        ".gallery-caption",
+    )
+    for path in sorted(TEMPLATES.glob("landing-page*.html")):
+        text = path.read_text(encoding="utf-8")
+        for token in landing_forbidden:
+            if token in text:
+                offenders.append(f"{path.name}: {token}")
+        for selector in default_surface_selectors:
+            match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", text, re.DOTALL)
+            if match and "box-shadow" in match.group(1):
+                offenders.append(f"{path.name}: {selector} shadow")
+
+    public_pages = [
+        REPO_ROOT / "index.html",
+        REPO_ROOT / "index-zh.html",
+        REPO_ROOT / "index-tw.html",
+        REPO_ROOT / "index-ja.html",
+        REPO_ROOT / "index-ko.html",
+    ]
+    public_forbidden = (
+        "border-left: 1.4pt solid var(--brand)",
+        "box-shadow: 0 4px 24px",
+        'class="dash demo"',
+        'class="tag brush"',
+        'class="shadow-row"',
+    )
+    for path in public_pages:
+        text = path.read_text(encoding="utf-8")
+        for token in public_forbidden:
+            if token in text:
+                offenders.append(f"{path.name}: {token}")
+
+    site_css = (REPO_ROOT / "styles.css").read_text(encoding="utf-8")
+    for token in ("@keyframes fadeIn", "ul.dash", ".tag.brush", ".shadow-row"):
+        if token in site_css:
+            offenders.append(f"styles.css: {token}")
+
+    for selector in (".family", ".comp", ".chart-card", ".quote"):
+        match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", site_css, re.DOTALL)
+        block = match.group(1) if match else ""
+        if "box-shadow" in block:
+            offenders.append(f"styles.css: {selector} shadow")
+        if selector in {".family", ".comp", ".chart-card"} and re.search(
+                r"\bborder:\s*1px", block):
+            offenders.append(f"styles.css: {selector} stacked border")
+        if selector == ".quote" and "border-left" in block:
+            offenders.append("styles.css: quote side rule")
+
+    check("shipped surfaces keep subtractive visual defaults",
+          not offenders,
+          f"offenders: {', '.join(offenders)}")
+
+
+def test_print_radius_guidance_matches_shipped_range() -> None:
+    """The quick reference must describe the same restrained range as templates."""
+    cheatsheet = (REPO_ROOT / "CHEATSHEET.md").read_text(encoding="utf-8")
+    design = (REPO_ROOT / "references" / "design.md").read_text(encoding="utf-8")
+    check("print radius guidance matches shipped 2-6pt range",
+          "within `2-6pt`" in cheatsheet
+          and "within 2-6pt" in design
+          and "Do not invent intermediate steps" not in cheatsheet,
+          "radius guidance drifted from shipped template values")
+
+
+def test_public_site_typography_contract_matches_templates() -> None:
+    """Public prose must teach the one-serif contract templates actually ship."""
+    pages = [
+        REPO_ROOT / "index.html",
+        REPO_ROOT / "index-zh.html",
+        REPO_ROOT / "index-tw.html",
+        REPO_ROOT / "index-ja.html",
+        REPO_ROOT / "index-ko.html",
+    ]
+    stale = (
+        "Chinese uses serif headlines and sans body",
+        "中文标题用 serif、正文用 sans",
+        "中文標題用 serif、正文用 sans",
+        "중문은 제목에 세리프, 본문에 산세리프",
+    )
+    offenders = [
+        path.name for path in pages
+        if any(token in path.read_text(encoding="utf-8") for token in stale)
+    ]
+    design = (REPO_ROOT / "references" / "design.md").read_text(encoding="utf-8")
+    check("public typography contract matches one-serif templates",
+          not offenders
+          and "One serif family per page for headlines and body" in design,
+          f"offenders: {', '.join(offenders)}")
+
+
+def test_landing_page_ctas_stack_at_320px() -> None:
+    """Localized double CTAs must fit the smallest supported viewport."""
+    offenders = []
+    for path in sorted(TEMPLATES.glob("landing-page*.html")):
+        text = path.read_text(encoding="utf-8")
+        if not (
+            "@media (max-width: 360px)" in text
+            and ".hero-cta { flex-direction: column; align-items: stretch" in text
+            and ".btn-ghost { width: 100%; }" in text
+        ):
+            offenders.append(path.name)
+    check("landing page CTAs stack at 320px",
+          not offenders,
+          f"offenders: {', '.join(offenders)}")
+
+
+def test_public_site_og_dimensions_match_showcase_image() -> None:
+    """Social metadata must describe the image bytes platforms will fetch."""
+    image = (REPO_ROOT / "assets" / "showcase" / "kami-landing.png").read_bytes()
+    valid_png = image[:8] == b"\x89PNG\r\n\x1a\n" and image[12:16] == b"IHDR"
+    width = int.from_bytes(image[16:20], "big") if valid_png else 0
+    height = int.from_bytes(image[20:24], "big") if valid_png else 0
+    offenders = []
+    for name in ("index.html", "index-zh.html", "index-tw.html", "index-ja.html", "index-ko.html"):
+        text = (REPO_ROOT / name).read_text(encoding="utf-8")
+        declared_width = re.search(r'og:image:width" content="(\d+)"', text)
+        declared_height = re.search(r'og:image:height" content="(\d+)"', text)
+        if not (
+            declared_width and int(declared_width.group(1)) == width
+            and declared_height and int(declared_height.group(1)) == height
+        ):
+            offenders.append(name)
+    check("public OG dimensions match the showcase PNG",
+          valid_png and not offenders,
+          f"image={width}x{height} offenders={', '.join(offenders)}")
+
+
+def test_public_site_teaches_registered_tints_and_exact_radii() -> None:
+    """Visible examples must describe tokens, not obsolete alpha recipes."""
+    pages = [
+        REPO_ROOT / "index.html",
+        REPO_ROOT / "index-zh.html",
+        REPO_ROOT / "index-tw.html",
+        REPO_ROOT / "index-ja.html",
+        REPO_ROOT / "index-ko.html",
+    ]
+    stale_tint_labels = (
+        'class="opacity">0.18',
+        'class="tag calm">Light 0.08',
+        'class="tag standard">Standard 0.18',
+        'class="tag calm">极淡 0.08',
+        'class="tag standard">标准 0.18',
+        'class="tag calm">極淡 0.08',
+        'class="tag standard">標準 0.18',
+        "equivalent solid hex",
+        "等效实色",
+        "等效實色",
+        "등가 솔리드 hex",
+    )
+    offenders: list[str] = []
+    for path in pages:
+        text = path.read_text(encoding="utf-8")
+        for token in stale_tint_labels:
+            if token in text:
+                offenders.append(f"{path.name}: {token}")
+        for radius in ("2", "4"):
+            if f'class="box" style="border-radius:{radius}px"' in text:
+                offenders.append(f"{path.name}: {radius}px print radius")
+            if f'class="box" style="border-radius:{radius}pt"' not in text:
+                offenders.append(f"{path.name}: missing {radius}pt print radius")
+
+    check("public site teaches registered tints and exact print radii",
+          not offenders,
+          f"offenders: {', '.join(offenders)}")
+
+
+def test_reviewed_demo_details_keep_quiet_hierarchy() -> None:
+    """Small editorial cues should not turn back into colored or framed UI."""
+    def css_block(text: str, selector: str) -> str:
+        match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", text, re.DOTALL)
+        return match.group(1) if match else ""
+
+    offenders: list[str] = []
+    resume_surfaces = [
+        TEMPLATES / "resume.html",
+        TEMPLATES / "resume-en.html",
+        TEMPLATES / "resume-ko.html",
+        REPO_ROOT / "assets" / "demos" / "demo-musk-resume.html",
+        REPO_ROOT / "assets" / "demos" / "demo-resume-ko.html",
+    ]
+    for path in resume_surfaces:
+        text = path.read_text(encoding="utf-8")
+        highlight = css_block(text, ".os-highlight")
+        label = css_block(text, ".os-highlight .tag")
+        if "background: var(--ivory)" not in highlight:
+            offenders.append(f"{path.name}: chromatic highlight fill")
+        if "background: transparent" not in label or "color: var(--brand)" not in label:
+            offenders.append(f"{path.name}: filled highlight label")
+
+    print_demo = (REPO_ROOT / "assets" / "demos" / "demo-kami-print.html").read_text(
+        encoding="utf-8"
+    )
+    command = css_block(print_demo, ".cmd")
+    if re.search(r"(?:^|[;\n])\s*border\s*:", command):
+        offenders.append("demo-kami-print.html: framed command block")
+    if "border-radius: 4pt" not in command:
+        offenders.append("demo-kami-print.html: command block radius")
+
+    slides_demo = (REPO_ROOT / "assets" / "demos" / "demo-agent-slides.html").read_text(
+        encoding="utf-8"
+    )
+    suffix = css_block(slides_demo, ".metric .metric-suffix")
+    if '<span class="metric-suffix">×</span>' not in slides_demo:
+        offenders.append("demo-agent-slides.html: multiplier markup")
+    if "font-size: 0.58em" not in suffix or "vertical-align: 0.08em" not in suffix:
+        offenders.append("demo-agent-slides.html: multiplier optics")
+
+    check("reviewed demo details keep quiet hierarchy",
+          not offenders,
+          f"offenders: {', '.join(offenders)}")
+
+
+def test_table_components_keep_one_quiet_rule_system() -> None:
+    """Tables should read as content first, with rules acting as quiet guides."""
+    def css_block(text: str, selector: str) -> str:
+        match = re.search(re.escape(selector) + r"\s*\{([^}]*)\}", text, re.DOTALL)
+        return match.group(1) if match else ""
+
+    def vertical_padding(block: str) -> float:
+        match = re.search(r"padding:\s*([\d.]+)pt", block)
+        return float(match.group(1)) if match else -1
+
+    documents = []
+    offenders: list[str] = []
+    for path in sorted(TEMPLATES.glob("*.html")):
+        text = path.read_text(encoding="utf-8")
+        if ".kami-table" not in text:
+            continue
+        documents.append(path)
+        header = css_block(text, "table th, .kami-table th")
+        body = css_block(text, "table td, .kami-table td")
+        compact_header = css_block(text, "table.compact th, .kami-table.compact th")
+        compact_body = css_block(text, "table.compact td, .kami-table.compact td")
+        total = css_block(text, "table .total td, .kami-table .total td")
+
+        if "border-bottom: 0.6pt solid var(--border)" not in header:
+            offenders.append(f"{path.name}: header rule")
+        if "border-bottom: 0.25pt solid var(--border)" not in body:
+            offenders.append(f"{path.name}: body rule")
+        if "border-top: 0.6pt solid var(--border)" not in total:
+            offenders.append(f"{path.name}: total rule")
+        if "var(--brand)" in "\n".join((header, body, total)):
+            offenders.append(f"{path.name}: accent-colored rule")
+
+        if path.name.startswith("one-pager"):
+            header_floor, body_floor = 5.0, 4.0
+        elif path.name.startswith("resume"):
+            header_floor, body_floor = 5.0, 4.0
+        else:
+            header_floor, body_floor = 6.0, 5.0
+        if vertical_padding(header) < header_floor:
+            offenders.append(f"{path.name}: header padding")
+        if vertical_padding(body) < body_floor:
+            offenders.append(f"{path.name}: body padding")
+        if vertical_padding(compact_header) < 3.0:
+            offenders.append(f"{path.name}: compact header padding")
+        if vertical_padding(compact_body) < 2.5:
+            offenders.append(f"{path.name}: compact body padding")
+
+    check("all document families ship the shared table component",
+          len(documents) == 18,
+          f"found {len(documents)}: {', '.join(path.name for path in documents)}")
+    check("document tables use neutral hairlines and readable row padding",
+          not offenders,
+          f"offenders: {', '.join(offenders)}")
+
+    slide_paths = [
+        TEMPLATES / "slides-weasy.html",
+        TEMPLATES / "slides-weasy-en.html",
+        TEMPLATES / "slides-weasy-ko.html",
+        TEMPLATES / "marp" / "slides-marp.css",
+        TEMPLATES / "marp" / "slides-marp-en.css",
+    ]
+    slide_offenders = []
+    for path in slide_paths:
+        text = path.read_text(encoding="utf-8")
+        body = css_block(text, "table.data td")
+        first = css_block(text, "table.data td:first-child")
+        if "border-bottom: 0.25pt solid var(--border)" not in body:
+            slide_offenders.append(f"{path.name}: body rule")
+        if "color: var(--dark-warm)" not in first or "var(--brand)" in first:
+            slide_offenders.append(f"{path.name}: first-column color")
+        if vertical_padding(body) < 8.0:
+            slide_offenders.append(f"{path.name}: row padding")
+    check("slide data tables use the same quiet neutral system",
+          not slide_offenders,
+          f"offenders: {', '.join(slide_offenders)}")
+
+    default_stripes = []
+    for path in sorted(TEMPLATES.glob("equity-report*.html")):
+        text = path.read_text(encoding="utf-8")
+        if re.search(r'<table[^>]*class="[^"]*striped', text):
+            default_stripes.append(path.name)
+    check("equity report tables do not enable striping by default",
+          not default_stripes,
+          f"offenders: {', '.join(default_stripes)}")
 
 
 def test_documented_snippets_answer_to_template_rules() -> None:
@@ -1828,6 +2169,494 @@ def test_highlight_with_language() -> None:
           "<pre" in out and "</code>" in out)
 
 
+def test_math_render_finds_standard_delimiters_only_in_text() -> None:
+    from math_render import _latex_spans
+
+    source = (
+        r'<p data-formula="\(attribute\)">'
+        r'Inline \(x^2\), display \[E = mc^2\], '
+        r'escaped \\(literal\\).</p>'
+        r'<code>\(code\)</code><pre>\[pre\]</pre>'
+        r'<script>const formula = "\(script\)";</script>'
+    )
+    spans, issues = _latex_spans(source)
+    check("math parser accepts standard inline and display delimiters",
+          [(span.tex, span.display) for span in spans]
+          == [("x^2", False), ("E = mc^2", True)],
+          f"spans={spans} issues={issues}")
+    check("math parser ignores attributes, escaped delimiters, code, pre, and script",
+          not issues, str(issues))
+
+
+def test_math_check_rejects_raw_unmatched_and_legacy_sources() -> None:
+    from math_render import check_latex_html
+
+    cases = [
+        r"<p>\(x^2\)</p>",
+        r"<p>\[x^2</p>",
+        r"<p>x^2\)</p>",
+        '<span class="latex-inline" data-latex="x^2"></span>',
+        '<span class="math latex-display extra" data-latex="x^2"></span>',
+    ]
+    findings = [check_latex_html(case) for case in cases]
+    rendered = (
+        '<span class="latex-inline-svg"><mjx-container>'
+        '<svg><text>done</text></svg></mjx-container></span>'
+    )
+    check("math check rejects raw, unmatched, and legacy formula sources",
+          all(findings), repr(findings))
+    check("math check accepts rendered MathJax SVG",
+          check_latex_html(rendered) == [],
+          str(check_latex_html(rendered)))
+
+
+def test_math_render_replaces_delimiters_and_preserves_other_html() -> None:
+    import math_render as math_mod
+
+    source = r'<p>Before \(x &lt; y\) after.</p><code>\(code\)</code>'
+    original_renderer = math_mod._render_svg
+    seen = []
+    try:
+        def fake_renderer(formulas):
+            seen.extend(formulas)
+            return [
+                '<mjx-container><svg role="img"><path d="M0 0"/></svg></mjx-container>'
+                for _ in formulas
+            ]
+        math_mod._render_svg = fake_renderer
+        rendered = math_mod.render_latex_in_html(source)
+    finally:
+        math_mod._render_svg = original_renderer
+    check("math render decodes entities and sends the standard delimiter source",
+          seen == [{"tex": "x < y", "display": False}], repr(seen))
+    check("math render replaces only the formula text node",
+          "latex-inline-svg" in rendered
+          and r"\(x &lt; y\)" not in rendered
+          and r"<code>\(code\)</code>" in rendered
+          and rendered.startswith("<p>Before "),
+          rendered[:500])
+
+
+def test_math_parser_decodes_entity_delimiters_and_ignores_metadata() -> None:
+    from math_render import _latex_spans, check_latex_html
+
+    source = (
+        r"<title>Analysis \(x^2\)</title>"
+        r"<p>&#92;(x^2&#92;)</p>"
+    )
+    spans, issues = _latex_spans(source)
+    check("math parser decodes HTML entities before delimiter scanning",
+          [(span.tex, span.display) for span in spans] == [("x^2", False)]
+          and source[spans[0].start:spans[0].end] == "&#92;(x^2&#92;)",
+          f"spans={spans} issues={issues}")
+    check("math parser treats title metadata as literal text",
+          not issues and not check_latex_html(r"<title>Analysis \(x^2\)</title>"),
+          str(issues))
+
+
+def test_math_parser_fails_closed_on_malformed_ignored_regions() -> None:
+    from math_render import check_latex_html
+
+    malformed = [
+        r"<pre>literal </code> \(x^2\)</pre>",
+        r'<script/>const formula = "\(x^2\)";',
+        r"<pre>literal <p>Formula: \(x^2\)</p>",
+    ]
+    legacy_example = (
+        '<pre><code>class="latex-inline"</code></pre>'
+        '<!-- class="latex-display" -->'
+    )
+    check("math parser rejects ambiguous ignored-tag structure",
+          all(check_latex_html(source) for source in malformed),
+          repr([check_latex_html(source) for source in malformed]))
+    check("legacy placeholder examples inside literal regions stay literal",
+          check_latex_html(legacy_example) == [],
+          str(check_latex_html(legacy_example)))
+
+
+def test_math_parser_accepts_optional_option_end_tags() -> None:
+    from math_render import _latex_spans
+
+    source = (
+        r"<select><option>A<option>B</select>"
+        r"<datalist><option>C<option>D</datalist>"
+        r"<p>\(x^2\)</p>"
+    )
+    spans, issues = _latex_spans(source)
+    check("math parser follows optional HTML option end-tag rules",
+          [(span.tex, span.display) for span in spans] == [("x^2", False)]
+          and not issues,
+          f"spans={spans} issues={issues}")
+
+
+def test_math_render_real_runtime_is_strict_and_safe() -> None:
+    from math_render import MathRenderError, probe_mathjax, render_latex_in_html
+
+    status = probe_mathjax()
+    if status["status"] != "available":
+        skip("MathJax strict and safe end-to-end render",
+             status.get("detail", "locked runtime unavailable"),
+             ci_required=True)
+        return
+
+    rendered = render_latex_in_html(
+        r"<p>Inline \(x^2 + \frac{1}{2}\).</p><p>\[E = mc^2\]</p>"
+    )
+    safe_words = render_latex_in_html(
+        r"<p>\(\text{src = x, href=1}, x &lt; y\)</p>"
+    )
+    rejected = 0
+    for source in (
+        r"<p>\(\frac{1\)</p>",
+        r"<p>\(\href{javascript:alert(1)}{x}\)</p>",
+        r"<p>\(\class{evil}{x}\)</p>",
+        r"<p>\(\color{red}{x}\)</p>",
+    ):
+        try:
+            render_latex_in_html(source)
+        except MathRenderError:
+            rejected += 1
+    check("locked MathJax renders valid inline and display formulas end to end",
+          rendered.count("<mjx-container") == 2
+          and "latex-inline-svg" in rendered
+          and "latex-display-svg" in rendered,
+          rendered[:500])
+    check("invalid TeX and author-controlled markup or color fail closed",
+          rejected == 4, f"rejected={rejected}")
+    check("rendered SVG contains no active link, source, script, or event attribute",
+          not re.search(
+              r"<\s*(?:script|foreignObject)\b|(?:href|src|on[a-z]+)\s*=",
+              rendered,
+              re.IGNORECASE,
+          ),
+          rendered[:500])
+    check("SVG safety scan parses attributes rather than formula text substrings",
+          "<mjx-container" in safe_words,
+          safe_words[:500])
+
+
+def test_math_svg_safety_parser_rejects_malformed_structure() -> None:
+    from math_render import _SvgSafetyParser
+
+    parser = _SvgSafetyParser()
+    parser.feed("<mjx-container><svg></mjx-container>")
+    parser.close()
+    check("SVG safety scan rejects mismatched or unclosed renderer markup",
+          parser.malformed or bool(parser._stack),
+          f"malformed={parser.malformed} stack={parser._stack}")
+
+
+def test_math_cli_failure_preserves_source_and_success_is_atomic() -> None:
+    from math_render import probe_mathjax
+
+    status = probe_mathjax()
+    if status["status"] != "available":
+        skip("MathJax in-place atomic CLI",
+             status.get("detail", "locked runtime unavailable"),
+             ci_required=True)
+        return
+    script = REPO_ROOT / "scripts" / "math_render.py"
+    with tempfile.TemporaryDirectory() as d:
+        path = Path(d) / "filled.html"
+        invalid = b"<p>\\(\\frac{1\\)</p>"
+        path.write_bytes(invalid)
+        path.chmod(0o640)
+        failed = subprocess.run(
+            [sys.executable, str(script), "--in-place", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        unchanged = path.read_bytes() == invalid
+        path.write_text(r"<p>Energy: \(E = mc^2\).</p>", encoding="utf-8")
+        path.chmod(0o640)
+        succeeded = subprocess.run(
+            [sys.executable, str(script), "--in-place", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=60,
+        )
+        checked = subprocess.run(
+            [sys.executable, str(script), "--check", str(path)],
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+        output = path.read_text(encoding="utf-8")
+        mode = stat.S_IMODE(path.stat().st_mode)
+    check("failed strict in-place render preserves the original source bytes",
+          failed.returncode == 1 and unchanged,
+          (failed.stdout + failed.stderr)[:500])
+    check("successful in-place render is check-clean and preserves file mode",
+          succeeded.returncode == 0
+          and checked.returncode == 0
+          and "<mjx-container" in output
+          and mode == 0o640,
+          (succeeded.stdout + checked.stdout + checked.stderr)[:500])
+
+
+def test_math_render_enforces_formula_count_limit_before_node() -> None:
+    from math_render import MathRenderError, _latex_spans, render_latex_in_html
+
+    source = "<p>" + r"\(x\)" * 50_000 + "</p>"
+    tracemalloc.start()
+    try:
+        render_latex_in_html(source)
+    except MathRenderError as exc:
+        rejected = "formula safety limit" in str(exc)
+    else:
+        rejected = False
+    _current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    check("math renderer bounds formula count before allocating every span",
+          rejected and peak < 5 * 1024 * 1024,
+          f"rejected={rejected} peak={peak} bytes")
+
+    fragmented = r"<p>x\)</p>" * 10_000
+    tracemalloc.start()
+    try:
+        _latex_spans(fragmented)
+    except MathRenderError as exc:
+        fragmented_rejected = "TeX delimiters exceed" in str(exc)
+    else:
+        fragmented_rejected = False
+    _current, fragmented_peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    check("math renderer shares the delimiter budget across text nodes",
+          fragmented_rejected and fragmented_peak < 8 * 1024 * 1024,
+          f"rejected={fragmented_rejected} peak={fragmented_peak} bytes")
+
+
+def test_math_delimiter_scan_is_linear_for_long_backslash_runs() -> None:
+    from math_render import _latex_spans
+
+    source = "<p>" + "\\" * 200_000 + "literal</p>"
+    started = time.monotonic()
+    spans, issues = _latex_spans(source)
+    elapsed = time.monotonic() - started
+    check("math delimiter scan stays linear on adversarial backslash runs",
+          not spans and not issues and elapsed < 1.0,
+          f"elapsed={elapsed:.3f}s spans={len(spans)} issues={issues[:2]}")
+
+
+def test_math_no_formula_text_avoids_boundary_map_allocation() -> None:
+    from math_render import _latex_spans
+
+    source = "<p>" + "ordinary text " * 100_000 + "</p>"
+    tracemalloc.start()
+    spans, issues = _latex_spans(source)
+    _current, peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    check("math parser avoids per-character boundary maps without delimiters",
+          not spans and not issues and peak < 8 * 1024 * 1024,
+          f"peak={peak} bytes spans={len(spans)} issues={issues[:2]}")
+
+    source = "<p>" + "a" * 1_000_000 + r"\(x^2\)</p>"
+    tracemalloc.start()
+    spans, issues = _latex_spans(source)
+    _current, tail_peak = tracemalloc.get_traced_memory()
+    tracemalloc.stop()
+    check("math parser maps only formula boundaries in long text nodes",
+          [(span.tex, span.display) for span in spans] == [("x^2", False)]
+          and not issues
+          and tail_peak < 8 * 1024 * 1024,
+          f"peak={tail_peak} bytes spans={len(spans)} issues={issues[:2]}")
+
+
+def test_mathjax_probe_and_install_ignore_polluted_node_options() -> None:
+    from math_render import probe_mathjax
+
+    status = probe_mathjax()
+    if status["status"] != "available":
+        skip("MathJax polluted NODE_OPTIONS handling",
+             status.get("detail", "locked runtime unavailable"),
+             ci_required=True)
+        return
+    original = os.environ.get("NODE_OPTIONS")
+    try:
+        os.environ["NODE_OPTIONS"] = "--definitely-invalid-kami-option"
+        polluted_probe = probe_mathjax()
+        environment = os.environ.copy()
+        installed = subprocess.run(
+            ["bash", str(REPO_ROOT / "scripts" / "ensure_mathjax.sh")],
+            cwd=REPO_ROOT,
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=30,
+        )
+    finally:
+        if original is None:
+            os.environ.pop("NODE_OPTIONS", None)
+        else:
+            os.environ["NODE_OPTIONS"] = original
+    check("doctor probe and installer ignore inherited NODE_OPTIONS",
+          polluted_probe["status"] == "available" and installed.returncode == 0,
+          f"probe={polluted_probe} install={(installed.stdout + installed.stderr)[:300]}")
+
+
+def test_mathjax_runtime_rejects_unsupported_node_21() -> None:
+    import math_render as math_mod
+
+    manifest = json.loads(
+        (REPO_ROOT / "scripts" / "mathjax-runtime" / "package.json")
+        .read_text(encoding="utf-8")
+    )
+    with tempfile.TemporaryDirectory() as d:
+        fake_bin = Path(d) / "bin"
+        fake_bin.mkdir()
+        node = fake_bin / "node"
+        npm = fake_bin / "npm"
+        node.write_text("#!/bin/sh\nprintf '21\\n'\n", encoding="utf-8")
+        npm.write_text("#!/bin/sh\nexit 0\n", encoding="utf-8")
+        node.chmod(0o755)
+        npm.chmod(0o755)
+        environment = os.environ.copy()
+        environment["PATH"] = f"{fake_bin}:/usr/bin:/bin"
+        result = subprocess.run(
+            ["bash", str(REPO_ROOT / "scripts" / "ensure_mathjax.sh")],
+            cwd=REPO_ROOT,
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        original_path = os.environ.get("PATH")
+        try:
+            os.environ["PATH"] = environment["PATH"]
+            math_mod._validated_node.cache_clear()
+            probe = math_mod.probe_mathjax()
+        finally:
+            if original_path is None:
+                os.environ.pop("PATH", None)
+            else:
+                os.environ["PATH"] = original_path
+            math_mod._validated_node.cache_clear()
+    check("MathJax runtime manifest and installer reject unsupported Node 21",
+          manifest.get("engines", {}).get("node") == "20 || >=22"
+          and result.returncode == 1
+          and "Node.js 20 or Node.js 22+" in result.stderr
+          and probe.get("status") == "missing"
+          and "Node.js 20 or Node.js 22+" in probe.get("detail", ""),
+          f"manifest={manifest.get('engines')} result={result.returncode} "
+          f"stderr={result.stderr[:300]} probe={probe}")
+
+
+def test_mathjax_installer_reclaims_dead_owner_lock() -> None:
+    with tempfile.TemporaryDirectory() as d:
+        temp_root = Path(d)
+        fake_bin = temp_root / "bin"
+        fake_bin.mkdir()
+        node = fake_bin / "node"
+        npm = fake_bin / "npm"
+        node.write_text(
+            "#!/bin/sh\n"
+            "if [ \"$1\" = \"-p\" ]; then\n"
+            "  case \"$2\" in *process.versions*) printf '22\\n' ;; *) printf '4.1.3\\n' ;; esac\n"
+            "  exit 0\n"
+            "fi\n"
+            "if [ \"$1\" = \"-\" ]; then exit 0; fi\n"
+            "case \"$*\" in\n"
+            "  *--probe*) test -d \"$HOME/.cache/kami/mathjax/4.1.3/node_modules\" ;;\n"
+            "  *) exit 1 ;;\n"
+            "esac\n",
+            encoding="utf-8",
+        )
+        npm.write_text(
+            "#!/bin/sh\nmkdir -p node_modules\n",
+            encoding="utf-8",
+        )
+        node.chmod(0o755)
+        npm.chmod(0o755)
+        math_parent = temp_root / ".cache" / "kami" / "mathjax"
+        lock = math_parent / ".install-4.1.3.lock"
+        stale = math_parent / ".install-4.1.3-stale"
+        lock.mkdir(parents=True)
+        stale.mkdir()
+        (stale / "partial").write_text("partial", encoding="utf-8")
+        (lock / "pid").write_text("99999999\n", encoding="utf-8")
+        (lock / "staging").write_text(f"{stale}\n", encoding="utf-8")
+        environment = os.environ.copy()
+        environment["HOME"] = str(temp_root)
+        environment["PATH"] = f"{fake_bin}:/usr/bin:/bin"
+        environment.pop("XDG_CACHE_HOME", None)
+        result = subprocess.run(
+            ["bash", str(REPO_ROOT / "scripts" / "ensure_mathjax.sh")],
+            cwd=REPO_ROOT,
+            env=environment,
+            capture_output=True,
+            text=True,
+            timeout=10,
+        )
+        target = math_parent / "4.1.3" / "node_modules"
+        recovered = (
+            result.returncode == 0
+            and target.is_dir()
+            and not lock.exists()
+            and not stale.exists()
+        )
+        truncated_results = []
+        for owner_text in ("", "99999999"):
+            shutil.rmtree(math_parent / "4.1.3")
+            lock.mkdir()
+            (lock / "pid").write_text(owner_text, encoding="utf-8")
+            truncated = subprocess.run(
+                ["bash", str(REPO_ROOT / "scripts" / "ensure_mathjax.sh")],
+                cwd=REPO_ROOT,
+                env=environment,
+                capture_output=True,
+                text=True,
+                timeout=10,
+            )
+            truncated_results.append(
+                truncated.returncode == 0
+                and target.is_dir()
+                and not lock.exists()
+            )
+        recovered = recovered and all(truncated_results)
+    check("MathJax installer reclaims a dead owner's lock and controlled staging",
+          recovered,
+          f"initial={(result.stdout + result.stderr)[:300]} "
+          f"truncated={truncated_results}")
+
+
+def test_mathjax_cache_survives_weasyprint_runtime_configuration() -> None:
+    from math_render import probe_mathjax
+
+    status = probe_mathjax()
+    if status["status"] != "available":
+        skip("MathJax cache after WeasyPrint configuration",
+             status.get("detail", "locked runtime unavailable"),
+             ci_required=True)
+        return
+    environment = os.environ.copy()
+    environment.pop("XDG_CACHE_HOME", None)
+    environment.pop("NODE_OPTIONS", None)
+    code = (
+        "import json, sys;"
+        "sys.path.insert(0, 'scripts');"
+        "from optional_deps import require_weasyprint_html;"
+        "from math_render import probe_mathjax;"
+        "require_weasyprint_html();"
+        "print(json.dumps(probe_mathjax()))"
+    )
+    result = subprocess.run(
+        [sys.executable, "-c", code],
+        cwd=REPO_ROOT,
+        env=environment,
+        capture_output=True,
+        text=True,
+        timeout=30,
+    )
+    try:
+        configured = json.loads(result.stdout)
+    except json.JSONDecodeError:
+        configured = {}
+    check("WeasyPrint initialization does not redirect the MathJax cache",
+          result.returncode == 0 and configured.get("status") == "available",
+          (result.stdout + result.stderr)[:500])
+
+
 def test_highlight_without_language() -> None:
     html = '<pre><code>def foo():\n    pass</code></pre>'
     out = highlight_code_blocks(html)
@@ -2070,6 +2899,47 @@ def test_release_gate_resolves_only_the_tag_namespace() -> None:
           str(calls))
 
 
+def test_release_gate_requires_main_push_provenance() -> None:
+    from release_gate import check_run_issues
+
+    pr_run = [{
+        "headSha": "candidate",
+        "headBranch": "feature/release",
+        "event": "pull_request",
+        "status": "completed",
+        "conclusion": "success",
+    }]
+    main_run = [{
+        "headSha": "candidate",
+        "headBranch": "main",
+        "event": "push",
+        "status": "completed",
+        "conclusion": "success",
+    }]
+    check("release gate rejects successful PR-only checks",
+          bool(check_run_issues(pr_run, "candidate")), str(pr_run))
+    check("release gate accepts exact-SHA checks from a main push",
+          check_run_issues(main_run, "candidate") == [], str(main_run))
+
+
+def test_release_gate_requires_mainline_reachability() -> None:
+    import release_gate as release_gate_mod
+
+    original_git = release_gate_mod._git
+    original_run = release_gate_mod.subprocess.run
+    try:
+        release_gate_mod._git = lambda *args: "main-sha"
+        release_gate_mod.subprocess.run = lambda *args, **kwargs: subprocess.CompletedProcess(
+            args=args, returncode=1, stdout="", stderr="")
+        issues = release_gate_mod.mainline_issues("tag-sha", "origin/main")
+    finally:
+        release_gate_mod._git = original_git
+        release_gate_mod.subprocess.run = original_run
+    check("release gate rejects commits outside origin/main",
+          len(issues) == 1 and "not reachable from origin/main" in issues[0],
+          str(issues))
+
+
 def test_release_gate_compares_zip_payloads_not_container_bytes() -> None:
     from release_gate import archive_payload_issues
 
@@ -2116,6 +2986,21 @@ def test_release_workflow_reads_back_required_reactions() -> None:
           and "release reactions missing" in workflow
           and all(workflow.count(reaction) >= 2 for reaction in expected),
           "release workflow lacks a final reaction-set assertion")
+
+
+def test_release_workflow_preserves_published_version_payloads() -> None:
+    workflow = (REPO_ROOT / ".github" / "workflows" / "release.yml").read_text(
+        encoding="utf-8")
+    check("release workflow requires main push provenance",
+          "--json headSha,headBranch,event,status,conclusion" in workflow
+          and "--main-ref origin/main" in workflow
+          and "--checks-json /tmp/kami-check-runs.json" in workflow,
+          "release workflow can accept non-main CI")
+    check("release workflow refuses same-version payload replacement",
+          "--clobber" not in workflow
+          and "gh release download" in workflow
+          and "existing kami.zip already matches this release" in workflow,
+          "release workflow can overwrite a published archive")
 
 
 def test_release_note_help_matches_placeholder_flow() -> None:
@@ -2866,7 +3751,7 @@ def test_skill_routes_visual_repairs_and_generated_assets_without_losing_contrac
 def test_visual_checklist_and_output_dir() -> None:
     from visual import REVIEW_CHECKLIST, visual_output_dir
     check("visual checklist has stable size and no em dash",
-          len(REVIEW_CHECKLIST) == 8 and all("\u2014" not in line for line in REVIEW_CHECKLIST))
+          len(REVIEW_CHECKLIST) == 10 and all("\u2014" not in line for line in REVIEW_CHECKLIST))
     out = visual_output_dir(Path("/tmp/docs/report.pdf"))
     check("visual output dir sits next to the pdf",
           out == Path("/tmp/docs/report-visual"), str(out))
@@ -3558,7 +4443,8 @@ def test_mcp_server_stdio_protocol() -> None:
           isinstance(doctor.get("ok"), bool)
           and len(doctor.get("dependencies", [])) >= 3
           and len(doctor.get("fonts", [])) >= 3
-          and "pdf_visual_review" in doctor.get("capabilities", {}),
+          and "pdf_visual_review" in doctor.get("capabilities", {})
+          and "strict_math" in doctor.get("capabilities", {}),
           doctor_body[:300])
     check("mcp unknown tool returns a JSON-RPC error",
           "error" in replies.get(5, {}), json.dumps(replies.get(5, {}))[:200])
@@ -3575,8 +4461,13 @@ def test_mcp_check_returns_stable_findings_and_coverage() -> None:
     with tempfile.TemporaryDirectory() as d:
         clean = Path(d) / "clean.html"
         broken = Path(d) / "broken.html"
+        math_broken = Path(d) / "math-broken.html"
         clean.write_text("<html><body><p>Ready</p></body></html>", encoding="utf-8")
         broken.write_text("<html><body><p>{{ missing }}</p></body></html>", encoding="utf-8")
+        math_broken.write_text(
+            r"<html><body><p>\(x^2\)</p></body></html>",
+            encoding="utf-8",
+        )
         invalid_content = Path(d) / "invalid-content.json"
         invalid_content.write_text(
             json.dumps({"type": "letter", "lang": "en", "content": {}}),
@@ -3602,6 +4493,7 @@ def test_mcp_check_returns_stable_findings_and_coverage() -> None:
         }), encoding="utf-8")
         clean_result = tool_check({"path": str(clean)})
         broken_result = tool_check({"path": str(broken)})
+        math_broken_result = tool_check({"path": str(math_broken)})
         invalid_content_result = tool_check({
             "path": str(clean), "content": str(invalid_content),
         })
@@ -3610,7 +4502,7 @@ def test_mcp_check_returns_stable_findings_and_coverage() -> None:
         })
 
     check("MCP check registry carries unique stable rule IDs",
-          CHECK_REGISTRY and clean_result["ruleset_version"] == 2
+          CHECK_REGISTRY and clean_result["ruleset_version"] == 3
           and len(CHECK_REGISTRY) == len(set(CHECK_REGISTRY))
           and all({"scope", "severity", "required_engine", "explanation"} <= set(rule)
                   for rule in CHECK_REGISTRY.values()),
@@ -3620,7 +4512,7 @@ def test_mcp_check_returns_stable_findings_and_coverage() -> None:
           and clean_result["degraded"] is False
           and clean_result["findings"] == []
           and [item["id"] for item in clean_result["coverage"]]
-          == ["html.placeholders", "html.markdown-residue"]
+          == ["html.placeholders", "html.math", "html.markdown-residue"]
           and clean_result["report"],
           json.dumps(clean_result)[:500])
     check("MCP failed check returns a stable finding and legacy report",
@@ -3629,6 +4521,11 @@ def test_mcp_check_returns_stable_findings_and_coverage() -> None:
           and broken_result["findings"][0]["status"] == "failed"
           and "placeholder" in broken_result["report"].lower(),
           json.dumps(broken_result)[:500])
+    check("MCP HTML check rejects unrendered standard LaTeX",
+          math_broken_result["ok"] is False
+          and [finding["id"] for finding in math_broken_result["findings"]]
+          == ["html.math"],
+          json.dumps(math_broken_result)[:500])
     invalid_ids = [item["id"] for item in invalid_content_result["findings"]]
     invalid_coverage = {
         item["id"]: item for item in invalid_content_result["coverage"]

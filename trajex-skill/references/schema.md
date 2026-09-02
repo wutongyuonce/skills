@@ -127,9 +127,12 @@ Session summary rows.
 | --- | --- |
 | `id` | Summary ID |
 | `session_id` | FK to `sessions.id` |
+| `agent_id` | Owning subagent ID; null for the main session |
 | `timestamp` | Summary timestamp |
 | `source` | Summary kind, such as `away_summary`; not provider source |
 | `content` | Summary text |
+| `visibility` | `visible`, `inactive`, or `hidden`; query helpers hide inactive rows by default |
+| `input_tokens`, `output_tokens` | Summary generation usage when the provider records it |
 
 ### `subagents`
 
@@ -203,8 +206,11 @@ Indexer progress and sentinel state.
 | Column | Meaning |
 | --- | --- |
 | `jsonl_path` | Source path or synthetic sentinel key |
-| `mtime` | Last indexed mtime |
-| `lines_processed` | Stored line-count component of the `mtime:lines` cursor. Claude uses it for incremental resume; Codex and Pi currently record it for compatibility/inspection but full-replay the file. |
+| `mtime` | Numeric first cursor component retained for compatibility, ordering, and sentinel timestamps |
+| `lines_processed` | Numeric second cursor component. Claude uses it for incremental resume; Codex and Pi record it for compatibility/inspection but full-replay the file. |
+| `cursor` | Provider cursor preserved verbatim. Old rows with `NULL` here fall back to `mtime:lines`; current shared persistence still requires the first two cursor segments to be numeric. |
+
+Codex and Pi write `mtime:lines:size:ctime:inode`; their legacy two-part cursors are replayed once before the stronger snapshot is stored.
 
 Sentinel keys include `__last_build__`, `__app_heartbeat__`,
 `__app_last_successful_build__`, `__indexer_owner_app__`, and

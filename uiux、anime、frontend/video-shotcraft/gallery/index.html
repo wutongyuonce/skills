@@ -5,12 +5,12 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="google-site-verification" content="Qu8vMAC99goV9xnwf_0ZlGGimtmj24TWFNVUiTz2mhM">
-  <meta name="description" content="video-shotcraft is an AI agent skill for Claude Code &amp; Codex that makes cinematic product promo videos with Remotion. 152 shot recipe cards organized by function, tuned demos, and a production-ready template.">
+  <meta name="description" content="video-shotcraft is an AI agent skill for Claude Code &amp; Codex that makes cinematic product promo videos with Remotion. 155 shot recipe cards organized by function, tuned demos, and a production-ready template.">
   <link rel="canonical" href="https://vincentwei1021.github.io/video-shotcraft/">
   <meta property="og:type" content="website">
   <meta property="og:site_name" content="video-shotcraft">
   <meta property="og:title" content="video-shotcraft — AI Video Skill for Claude Code &amp; Codex">
-  <meta property="og:description" content="An agent skill for crafting cinematic product videos with Remotion: 152 shot recipe cards, 209 motion previews, and a production-ready promo template.">
+  <meta property="og:description" content="An agent skill for crafting cinematic product videos with Remotion: 155 shot recipe cards, 212 motion previews, and a production-ready promo template.">
   <meta property="og:url" content="https://vincentwei1021.github.io/video-shotcraft/">
   <meta property="og:image" content="https://vincentwei1021.github.io/video-shotcraft/og-image.jpg?v=20260726b">
   <meta property="og:image:width" content="1280">
@@ -18,7 +18,7 @@
   <meta property="og:image:alt" content="video-shotcraft Gallery — shot recipes and motion samples">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="video-shotcraft — AI Video Skill for Claude Code &amp; Codex">
-  <meta name="twitter:description" content="An agent skill for crafting cinematic product videos with Remotion: 152 shot recipe cards, 209 motion previews, and a production-ready promo template.">
+  <meta name="twitter:description" content="An agent skill for crafting cinematic product videos with Remotion: 155 shot recipe cards, 212 motion previews, and a production-ready promo template.">
   <meta name="twitter:image" content="https://vincentwei1021.github.io/video-shotcraft/og-image.jpg?v=20260726b">
   <link rel="icon" href="./logo-mark.svg" type="image/svg+xml">
   <title>video-shotcraft — AI Video Skill for Claude Code &amp; Codex | Cinematic Product Videos with Remotion</title>
@@ -27,7 +27,7 @@
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": "video-shotcraft",
-    "description": "An AI agent skill for Claude Code and Codex that crafts cinematic product promo videos with Remotion: 152 shot recipe cards organized by function, 209 styles, 209 motion previews, and a production-ready 36.2-second video template.",
+    "description": "An AI agent skill for Claude Code and Codex that crafts cinematic product promo videos with Remotion: 155 shot recipe cards organized by function, 212 styles, 212 motion previews, and a production-ready 36.2-second video template.",
     "url": "https://vincentwei1021.github.io/video-shotcraft/",
     "sameAs": ["https://github.com/Vincentwei1021/video-shotcraft"],
     "applicationCategory": "MultimediaApplication",
@@ -132,26 +132,61 @@
       height: 42px;
       object-fit: contain;
     }
-    .language-switch {
+    /* 单键切换，标签写"点了会变成什么"，与 library/showcase 顶栏同一套交互 */
+    .language-toggle {
       display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
       border: 1px solid var(--line);
       border-radius: 999px;
-      overflow: hidden;
+      padding: 0.38rem 0.85rem;
       backdrop-filter: blur(8px);
       -webkit-backdrop-filter: blur(8px);
       background: rgba(14, 14, 12, 0.35);
-    }
-    .language-switch button {
-      border: 0;
-      background: transparent;
       color: var(--muted);
       font: inherit;
       font-size: 0.8rem;
-      padding: 0.38rem 0.85rem;
       white-space: nowrap;
       cursor: pointer;
+      transition: color 150ms ease, border-color 150ms ease;
     }
-    .language-switch button.is-active { color: var(--text); font-weight: 700; background: rgba(240, 237, 229, 0.1); }
+    .language-toggle:hover { color: var(--text); border-color: rgba(211, 146, 60, 0.65); }
+    /* 图标外壳必须自己是 flex：默认 block 的话 svg 会贴在行高盒顶部，
+       比文字中线高约 2px（线上实测 36.3 vs 38.6） */
+    .language-toggle-icon {
+      display: inline-flex;
+      align-items: center;
+    }
+    .language-toggle svg {
+      width: 15px;
+      height: 15px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.6;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+    .topbar-nav {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.55rem;
+    }
+    .topbar-nav-link {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0.38rem 0.95rem;
+      color: var(--muted);
+      background: rgba(14, 14, 12, 0.35);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      font-size: 0.8rem;
+      text-decoration: none;
+      white-space: nowrap;
+      transition: color 150ms ease, border-color 150ms ease;
+    }
+    .topbar-nav-link:hover { color: var(--text); border-color: rgba(211, 146, 60, 0.65); }
 
     /* ---- hero ---- */
     .hero {
@@ -383,15 +418,20 @@
       <img class="brand-mark" src="./logo-mark-reverse.svg" alt="" width="24" height="24" aria-hidden="true">
       <span>VIDEO SHOTCRAFT</span>
     </a>
-    <nav class="language-switch" id="languageSwitch" aria-label="Language">
-      <button type="button" data-language="zh" aria-pressed="false">中文</button>
-      <button type="button" data-language="en" aria-pressed="true">EN</button>
+    <nav class="topbar-nav" aria-label="Site">
+      <a class="topbar-nav-link" href="./showcase.html" data-l10n="navShowcase">Showcase</a>
+      <button class="language-toggle" id="languageToggle" type="button" aria-label="Switch to Chinese">
+        <span class="language-toggle-icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" focusable="false"><circle cx="12" cy="12" r="9.2"/><path d="M2.8 12h18.4M12 2.8c2.5 2.6 3.8 5.7 3.8 9.2S14.5 18.6 12 21.2c-2.5-2.6-3.8-5.7-3.8-9.2S9.5 5.4 12 2.8Z"/></svg>
+        </span>
+        <span id="languageToggleLabel">中文</span>
+      </button>
     </nav>
   </header>
 
   <main class="hero">
     <p class="hero-kicker" data-l10n="kicker">An agent skill for Claude Code &amp; Codex</p>
-    <h1 data-l10n="heroTitle">152 cinematic shot recipes.<br><em>One prompt</em> to a finished promo.</h1>
+    <h1 data-l10n="heroTitle">155 cinematic shot recipes.<br><em>One prompt</em> to a finished promo.</h1>
     <p class="hero-sub" data-l10n="heroSub">Every motion you see behind this page is a tuned, ready-to-use shot recipe card — your agent picks the shots, animates real product screenshots with Remotion, syncs the beats, and delivers the film.</p>
     <div class="hero-actions">
       <a class="button-primary" href="./library.html" data-l10n="ctaLibrary">Browse all motions</a>
@@ -403,9 +443,9 @@
       </a>
     </div>
     <ul class="hero-stats" aria-label="Library statistics">
-      <li><strong id="statCards">152</strong><span data-l10n="statCards">recipe cards</span></li>
-      <li><strong id="statStyles">209</strong><span data-l10n="statStyles">styles</span></li>
-      <li><strong id="statSamples">209</strong><span data-l10n="statSamples">motion previews</span></li>
+      <li><strong id="statCards">155</strong><span data-l10n="statCards">recipe cards</span></li>
+      <li><strong id="statStyles">212</strong><span data-l10n="statStyles">styles</span></li>
+      <li><strong id="statSamples">212</strong><span data-l10n="statSamples">motion previews</span></li>
       <li><strong>36.2s</strong><span data-l10n="statTemplate">ready template</span></li>
     </ul>
   </main>
@@ -418,7 +458,7 @@
     const L10N = {
       en: {
         kicker: 'An agent skill for Claude Code & Codex',
-        heroTitle: '152 cinematic shot recipes.<br><em>One prompt</em> to a finished promo.',
+        heroTitle: '155 cinematic shot recipes.<br><em>One prompt</em> to a finished promo.',
         heroSub: 'Every motion you see behind this page is a tuned, ready-to-use shot recipe card — your agent picks the shots, animates real product screenshots with Remotion, syncs the beats, and delivers the film.',
         ctaLibrary: 'Browse all motions',
         ctaStar: 'Star on GitHub',
@@ -427,10 +467,11 @@
         statSamples: 'motion previews',
         statTemplate: 'ready template',
         footer: 'Apache-2.0 · Built with Remotion · ',
+        navShowcase: 'Showcase',
       },
       zh: {
         kicker: '一个 Claude Code / Codex 的 agent skill',
-        heroTitle: '152 张镜头配方卡<br>宣传片<em>一键直出</em>',
+        heroTitle: '155 张镜头配方卡<br>宣传片<em>一键直出</em>',
         heroSub: '页面背后滚动的每个动效，都是一张调校好、即取即用的镜头配方卡。agent 负责选镜头、给真实产品截图做动画、卡上节奏，直接交付成片。',
         ctaLibrary: '浏览全部动效',
         ctaStar: '收藏 GitHub',
@@ -439,6 +480,7 @@
         statSamples: '动态样片',
         statTemplate: '现成模板',
         footer: 'Apache-2.0 · 基于 Remotion 构建 · ',
+        navShowcase: '社区作品展示',
       },
     };
 
@@ -454,17 +496,13 @@
       document.querySelectorAll('[data-l10n]').forEach((node) => {
         node.innerHTML = t(node.dataset.l10n);
       });
-      document.querySelectorAll('#languageSwitch [data-language]').forEach((button) => {
-        const active = button.dataset.language === state.language;
-        button.classList.toggle('is-active', active);
-        button.setAttribute('aria-pressed', String(active));
-      });
+      document.querySelector('#languageToggleLabel').textContent = state.language === 'zh' ? 'EN' : '中文';
+      document.querySelector('#languageToggle')
+        .setAttribute('aria-label', state.language === 'zh' ? '切换到英文' : 'Switch to Chinese');
     }
 
-    document.querySelector('#languageSwitch').addEventListener('click', (event) => {
-      const button = event.target.closest('[data-language]');
-      if (!button || button.dataset.language === state.language) return;
-      state.language = button.dataset.language;
+    document.querySelector('#languageToggle').addEventListener('click', () => {
+      state.language = state.language === 'zh' ? 'en' : 'zh';
       try { localStorage.setItem('video-shot-gallery-language', state.language); } catch {}
       applyLanguage();
     });

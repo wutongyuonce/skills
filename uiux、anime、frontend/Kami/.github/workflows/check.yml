@@ -60,6 +60,16 @@ jobs:
         # the fonts.
         run: python3 -m pip install weasyprint pypdf pymupdf Pygments python-pptx
 
+      - name: Set up Node.js for strict mathematics
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: npm
+          cache-dependency-path: scripts/mathjax-runtime/package-lock.json
+
+      - name: Install locked MathJax runtime
+        run: bash scripts/ensure_mathjax.sh
+
       - name: Run full test suite with render dependencies
         run: python3 scripts/tests/test_build.py
 

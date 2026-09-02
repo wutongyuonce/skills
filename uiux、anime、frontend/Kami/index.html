@@ -49,12 +49,14 @@
     "operatingSystem": "Any",
     "author": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun",
       "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
     },
     "sameAs": [
       "https://github.com/tw93/kami",
+      "https://faberon.io/projects/kami",
       "https://kami.tw93.fun/"
     ],
     "publisher": {
@@ -77,7 +79,7 @@
         "name": "What is Kami?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "A constraint-based design system for AI-generated documents. One accent color, serif-led hierarchy, warm parchment canvas. It also doubles as a visual brief for image renderers."
+          "text": "Kami is a constraint-based design system that gives AI-generated documents a consistent editorial language through one accent color, serif-led hierarchy, and a warm parchment canvas, and can also guide image renderers such as Claude Design or GPT Canvas."
         }
       },
       {
@@ -85,15 +87,15 @@
         "name": "What can Kami produce?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Eight document templates: one-pagers, long documents, letters, portfolios, resumes, slides, equity reports, and changelogs, plus a landing-page system (EN + CN + KO). Plus 18 inline SVG diagram types. Outputs are HTML exportable to PDF, PNG, or editable PPTX slide decks."
+          "text": "Kami includes eight document templates, a multilingual landing-page system, and 18 inline SVG diagram types. Documents export to PDF or PNG, and slides also have an editable PPTX path."
         }
       },
       {
         "@type": "Question",
-        "name": "How do I set up Kami?",
+        "name": "Can Kami match my brand?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "Claude Code (v2.1.142+): /plugin marketplace add tw93/kami && /plugin install kami@kami. Codex plugin marketplace: codex plugin marketplace add tw93/kami && codex plugin add kami@kami. Generic agents that read ~/.agents: npx skills add tw93/kami/plugins/kami -a universal -g -y. Claude Desktop: download the release asset kami.zip from GitHub Releases, not the Source code ZIP, and upload it in Skills settings."
+          "text": "Yes, share your brand colors, fonts, and layout preferences or provide a brand profile, and your brief will override Kami's defaults."
         }
       },
       {
@@ -101,7 +103,7 @@
         "name": "What languages does Kami support?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "English, Chinese, Japanese, and Korean. Each uses a dedicated serif font: Charter, TsangerJinKai02, YuMincho, and Source Han Serif K respectively, with per-language typographic tuning."
+          "text": "Kami supports English, Chinese, Japanese, and Korean with Charter, TsangerJinKai02, YuMincho, and Source Han Serif K respectively, plus per-language tuning for spacing, line height, and type size, while Japanese and Korean remain best-effort CJK paths with visual QA before delivery."
         }
       }
     ]
@@ -121,6 +123,7 @@
     "email": "hitw93@gmail.com",
     "founder": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun"
     },
@@ -186,7 +189,7 @@
   <!-- ============ HERO ============ -->
   <header class="hero">
     <div class="eyebrow">
-      <span>Design System · v1.13.0<span class="eyebrow-date"> · 2026.08</span></span>
+      <span>Design System · v1.14.0<span class="eyebrow-date"> · 2026.08</span></span>
       <span class="hero-links">
         <nav class="lang-switch" aria-label="Language" data-lang-switch>
           <button class="lang-trigger" type="button" aria-expanded="false" data-lang-trigger>English</button>
@@ -284,15 +287,19 @@
       <h2 class="section-title">Install &amp; Invoke</h2>
       <p class="section-lede">Tell Claude what you need, for example "build me a resume", "make a one-pager for my startup", or "design a slide deck for my talk". The skill auto-triggers, no slash command needed.</p>
     </div>
-<pre class="code"><span class="c"># Claude Code (v2.1.142+)</span>
+<pre class="code code-wrap"><span class="c"># Claude Code (v2.1.142+)</span>
 /plugin marketplace add tw93/kami
 /plugin install kami@kami
 
-<span class="c"># Codex plugin marketplace</span>
+<span class="c"># Codex (CLI / Desktop)</span>
 codex plugin marketplace add tw93/kami
-codex plugin add kami@kami</pre>
-    <p class="section-lede" style="font-size:14px;">Generic agents that read from <code>~/.agents/</code>: <code>npx skills add tw93/kami/plugins/kami -a universal -g -y</code>. The plugin path exposes the generated lightweight skill bundle; a bare <code>tw93/kami</code> installs only SKILL.md.</p>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop: download the release asset <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>, not GitHub's Source code ZIP, then upload it in Customize &gt; Skills &gt; "+" &gt; Create skill.</p>
+codex plugin add kami@kami
+
+<span class="c"># Universal agents</span>
+npx skills add tw93/kami/plugins/kami -a universal -g -y
+
+<span class="c"># Claude Desktop</span>
+Download <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none;">kami.zip</a>, then upload it in Customize &gt; Skills &gt; "+" &gt; Create skill</pre>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -306,11 +313,11 @@ codex plugin add kami@kami</pre>
       <li><span class="n">1</span><p>Page background is parchment <code>#f5f4ed</code>, never pure white</p></li>
       <li><span class="n">2</span><p>Accent color is ink blue <code>#1B365D</code> only; no second chromatic hue</p></li>
       <li><span class="n">3</span><p>All grays are warm, yellow-brown undertone; no cool blue-grays</p></li>
-      <li><span class="n">4</span><p>English uses serif for headlines and body; Chinese uses serif headlines and sans body</p></li>
+      <li><span class="n">4</span><p>One serif family carries headlines and body; add a distinct sans only for real UI chrome</p></li>
       <li><span class="n">5</span><p>Serif body at 400, headings at 500. Avoid synthetic bold</p></li>
       <li><span class="n">6</span><p>Three line-height bands: tight titles 1.1-1.3 / dense 1.4-1.45 / reading 1.5-1.55</p></li>
       <li><span class="n">7</span><p>Tag backgrounds must be solid hex; no rgba, WeasyPrint double-rectangle bug</p></li>
-      <li><span class="n">8</span><p>Shadows: ring or whisper only, no hard drop shadows</p></li>
+      <li><span class="n">8</span><p>Keep surfaces flat by default; reserve a whisper shadow for real floating elements</p></li>
     </ol>
   </section>
 
@@ -332,7 +339,7 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">Brand</h3>
     <div class="swatches">
-      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">Primary color · CTA · quote bar · section overline</p><span class="hex">#1B365D</span></div></div>
+      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">Primary color · CTA · labels · section overline</p><span class="hex">#1B365D</span></div></div>
       <div class="swatch"><div class="chip" style="background:#2D5A8A"></div><div class="info"><p class="name">Ink Light</p><p class="role">Links on dark surfaces · lighter variant</p><span class="hex">#2D5A8A</span></div></div>
       <div class="swatch"><div class="chip" style="background:#30302e"></div><div class="info"><p class="name" style="color:var(--deep-dark)">Dark Surface</p><p class="role">Dark theme container · warm charcoal</p><span class="hex">#30302E</span></div></div>
       <div class="swatch"><div class="chip" style="background:#b53333"></div><div class="info"><p class="name">Error</p><p class="role">Error state, deep warm red</p><span class="hex">#B53333</span></div></div>
@@ -346,14 +353,11 @@ codex plugin add kami@kami</pre>
       <div class="swatch"><div class="chip" style="background:#6b6a64"></div><div class="info"><p class="name">Stone</p><span class="hex">#6b6a64</span></div></div>
     </div>
 
-    <h3 class="subhead">Tag Tints: rgba to solid hex</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">Solid hex equivalents of ink blue <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#1B365D</code> on parchment. Tags use solid hex instead of <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">rgba()</code> to avoid a WeasyPrint double-rectangle rendering bug.</p>
+    <h3 class="subhead">Tag Tints</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">Use one of two registered solid tints. <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#EEF2F7</code> recedes; <code style="font-family:var(--mono);font-size:12px;background:#E4ECF5;color:var(--brand);padding:1px 5px;border-radius:2px">#E4ECF5</code> is the default. Solid hex avoids WeasyPrint's double-rectangle rendering bug.</p>
     <div class="tint-strip">
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">0.08</p><span class="hex">#EEF2F7</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.14</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.18</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D0DCE9">Tag sample</span><p class="opacity">0.22</p><span class="hex">#D0DCE9</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D6E1EE">Tag sample</span><p class="opacity">0.30</p><span class="hex">#D6E1EE</span></div>
+      <div class="tint"><span class="flag">Recede</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">Quiet</p><span class="hex">#EEF2F7</span></div>
+      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">Default</p><span class="hex">#E4ECF5</span></div>
     </div>
   </section>
 
@@ -362,7 +366,7 @@ codex plugin add kami@kami</pre>
     <div class="section-head">
       <p class="section-num">04 · Typography</p>
       <h2 class="section-title">Type System</h2>
-      <p class="section-lede">Serif carries hierarchy, sans carries function. Serif body at 400, headings at 500.</p>
+      <p class="section-lede">One serif family carries hierarchy and body; mono is reserved for code and technical labels.</p>
     </div>
 
     <div class="family-grid">
@@ -414,7 +418,7 @@ codex plugin add kami@kami</pre>
       </div>
       <div class="type-row">
         <div class="type-label">Label</div>
-        <div class="type-sample label">Design System · v1.13.0</div>
+        <div class="type-sample label">Design System · v1.14.0</div>
         <div class="type-specs"><b>7.5-8 pt</b><br>weight 600<br>line 1.35</div>
       </div>
     </div>
@@ -441,31 +445,13 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">Radii</h3>
     <div class="radii">
-      <div class="radius"><div class="box" style="border-radius:4px"></div><div class="r"><b>4</b> pt</div><div class="label">Tight</div></div>
-      <div class="radius"><div class="box" style="border-radius:6px"></div><div class="r"><b>6</b> pt</div><div class="label">Code block</div></div>
-      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> pt</div><div class="label">Default card</div></div>
-      <div class="radius"><div class="box" style="border-radius:12px"></div><div class="r"><b>12</b> pt</div><div class="label">Container</div></div>
-      <div class="radius"><div class="box" style="border-radius:16px"></div><div class="r"><b>16</b> pt</div><div class="label">Feature card</div></div>
-      <div class="radius"><div class="box" style="border-radius:24px"></div><div class="r"><b>24</b> pt</div><div class="label">Large container</div></div>
-      <div class="radius"><div class="box" style="border-radius:32px"></div><div class="r"><b>32</b> pt</div><div class="label">Hero</div></div>
+      <div class="radius"><div class="box" style="border-radius:2pt"></div><div class="r"><b>2</b> pt</div><div class="label">Print chip</div></div>
+      <div class="radius"><div class="box" style="border-radius:4pt"></div><div class="r"><b>4</b> pt</div><div class="label">Print block</div></div>
+      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> px</div><div class="label">Screen block</div></div>
     </div>
 
-    <h3 class="subhead">Depth: Three Shadow Methods</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 12px; line-height: 1.55;">Kami avoids traditional hard shadows. Depth comes from ring shadows, whisper shadows, and light-dark alternation.</p>
-    <div class="shadow-row">
-      <div class="shadow-demo sd-ring">
-        <p class="t">Ring Shadow</p>
-        <p class="s">0 0 0 1pt var(--ring-warm)<br>&nbsp;<br>Buttons · card hover</p>
-      </div>
-      <div class="shadow-demo sd-whisper">
-        <p class="t">Whisper Shadow</p>
-        <p class="s">0 4pt 24pt rgba(0,0,0,0.05)<br>&nbsp;<br>Gentle elevation · feature cards</p>
-      </div>
-      <div class="shadow-demo sd-alt">
-        <p class="t">Light ⇌ Dark</p>
-        <p class="s">parchment ⇌ deep-dark<br>&nbsp;<br>Section-level · strongest contrast</p>
-      </div>
-    </div>
+    <h3 class="subhead">Depth</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0; line-height: 1.55;">Flat is the default. Use whitespace, one quiet fill, or one neutral hairline. Reserve a whisper shadow for a real screenshot, popover, or other surface that actually floats.</p>
   </section>
 
   <!-- ============ 06 COMPONENTS ============ -->
@@ -479,7 +465,7 @@ codex plugin add kami@kami</pre>
     <div class="comp-grid">
       <div class="comp">
         <h3>Buttons</h3>
-        <p class="hint">ring shadow instead of hard drop · 8pt radius</p>
+        <p class="hint">fill + border · no shadow · 8px radius</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap;">
           <span class="btn btn-primary">Primary CTA</span>
           <span class="btn btn-secondary">Secondary</span>
@@ -487,17 +473,16 @@ codex plugin add kami@kami</pre>
         </div>
       </div>
       <div class="comp">
-        <h3>Tags, three levels</h3>
-        <p class="hint">solid hex · pick from weak to strong</p>
+        <h3>Tags, two levels</h3>
+        <p class="hint">solid hex · receded or default</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <span class="tag calm">Light 0.08</span>
-          <span class="tag standard">Standard 0.18</span>
-          <span class="tag brush">Brush gradient</span>
+          <span class="tag calm">Quiet fill</span>
+          <span class="tag standard">Default tag</span>
         </div>
       </div>
       <div class="comp">
         <h3>Quote</h3>
-        <p class="hint">left 2pt brand solid + olive text</p>
+        <p class="hint">olive text + italic · no side rule</p>
         <blockquote class="quote">A thousand no's for every yes, prefer clarity over decoration.</blockquote>
       </div>
       <div class="comp">
@@ -517,9 +502,9 @@ codex plugin add kami@kami</pre>
         </div>
       </div>
       <div class="comp">
-        <h3>Dash List</h3>
-        <p class="hint">dash instead of bullet · editorial tone</p>
-        <ul class="dash demo">
+        <h3>Plain List</h3>
+        <p class="hint">spacing carries rhythm · no marker</p>
+        <ul class="plain-list demo">
           <li>Warm parchment, never pure white</li>
           <li>Ink blue accent, no second color</li>
           <li>Serif carries authority</li>
@@ -535,9 +520,9 @@ document = <span class="k">serif</span> × hierarchy + generous_space
 beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
       <div class="comp">
-        <h3>Featured Card</h3>
-        <p class="hint">whisper shadow + 16pt radius</p>
-        <div class="demo" style="background:var(--ivory); border-radius:16px; padding:18px 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); border: 1px solid var(--border-cream);">
+        <h3>Quiet Card</h3>
+        <p class="hint">one ivory fill + 8px radius · no border or shadow</p>
+        <div class="demo" style="background:var(--ivory); border-radius:8px; padding:18px 20px;">
           <p style="font-family:var(--serif); font-weight:500; font-size:15px; margin:0 0 6px; color:var(--near-black);">Tesla Company Profile · One-Pager</p>
           <p style="font-size:12px; color:var(--olive); margin:0 0 10px; line-height:1.5;">Single A4 page · 4 metric cards + 3 body sections + timeline</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -660,11 +645,11 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       <tr><td class="task">Large headline</td><td class="how">serif <code>500</code>, size by hierarchy, line-height <code>1.10-1.30</code></td></tr>
       <tr><td class="task">Reading body</td><td class="how">serif <code>400</code>, <code>9.5-10 pt</code>, line-height <code>1.55</code></td></tr>
       <tr><td class="task">Emphasize a number</td><td class="how"><code>color: var(--brand)</code>, not bold</td></tr>
-      <tr><td class="task">Separate two sections</td><td class="how"><code>2.5pt</code> brand left bar, or <code>0.5pt</code> warm-gray dashed</td></tr>
-      <tr><td class="task">Quote someone</td><td class="how">Left <code>2pt</code> brand solid + olive text</td></tr>
+      <tr><td class="task">Separate two sections</td><td class="how">Whitespace first; one <code>0.5pt</code> neutral full-width hairline only when the boundary must be explicit</td></tr>
+      <tr><td class="task">Quote someone</td><td class="how">Olive text + italic or indentation; no side rule</td></tr>
       <tr><td class="task">Show code</td><td class="how">Ivory bg + <code>4pt</code> radius + mono font, no border</td></tr>
       <tr><td class="task">Primary vs secondary</td><td class="how">Primary: brand fill + ivory text; Secondary: warm-sand + charcoal</td></tr>
-      <tr><td class="task">Mark a special card</td><td class="how"><code>border-left: 1.4pt solid var(--brand)</code>, one edge only</td></tr>
+      <tr><td class="task">Mark a special card</td><td class="how">Use a stronger label or one quiet fill; do not add an accent edge</td></tr>
       <tr><td class="task">Begin a section</td><td class="how">Serif <code>500</code> · <code>15pt</code> · size-led hierarchy, no decoration needed</td></tr>
       <tr><td class="task">Document cover</td><td class="how">Single page, Display size + right-aligned author/date + generous whitespace</td></tr>
       <tr><td class="task">Show key figures</td><td class="how">Baseline row, transparent, no container + serif number, ink blue + sans label</td></tr>
@@ -691,21 +676,21 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
         <p class="anti-topic">Tag tints</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">Never</span><span><code>rgba(27,54,93,0.18)</code> for tags. WeasyPrint renders padding and glyph areas at different opacity, creating double rectangles.</span></p>
-          <p class="anti-line instead"><span class="cue">Instead</span><span>The tint lookup table's equivalent solid hex <code>#E4ECF5</code>. The rendering stays clean and the color remains stable.</span></p>
+          <p class="anti-line instead"><span class="cue">Instead</span><span>Use the registered default tag token <code>#E4ECF5</code>. The rendering stays clean and the color remains stable.</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">Synthetic bold</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">Never</span><span>Headlines at <code>font-weight: 600</code> or heavier synthetic bold. It blurs strokes and degrades typographic quality.</span></p>
-          <p class="anti-line instead"><span class="cue">Instead</span><span>Body 400, headings 500 (real W05). For more presence, use size or a brand left bar, never synthetic bold.</span></p>
+          <p class="anti-line instead"><span class="cue">Instead</span><span>Body 400, headings 500 (real W05). For more presence, use size, spacing, or ink-blue text, never synthetic bold.</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">Shadows</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">Never</span><span>Hard drop shadow <code>0 2px 8px rgba(0,0,0,0.3)</code>. Visually heavy and likely to print as dark blobs.</span></p>
-          <p class="anti-line instead"><span class="cue">Instead</span><span>Ring shadow <code>0 0 0 1pt</code> or whisper <code>rgba 0.05</code>, or simply alternate light and dark sections.</span></p>
+          <p class="anti-line instead"><span class="cue">Instead</span><span>Keep the surface flat. Use whitespace, one quiet fill, or a neutral hairline; reserve a whisper shadow for real floating UI or screenshots.</span></p>
         </div>
       </div>
     </div>
@@ -732,19 +717,19 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     <dl class="faq">
       <div class="faq-pair">
         <dt>What is Kami?</dt>
-        <dd>A constraint-based design system for AI-generated documents. One accent color, serif-led hierarchy, warm parchment canvas. Give any LLM agent a brief, get a composed layout back. It also doubles as a visual brief you can hand to image renderers like Claude Design or GPT Canvas.</dd>
+        <dd>Kami is a constraint-based design system that gives AI-generated documents a consistent editorial language through one accent color, serif-led hierarchy, and a warm parchment canvas, and can also guide image renderers such as Claude Design or GPT Canvas.</dd>
       </div>
       <div class="faq-pair">
         <dt>What can it produce?</dt>
-        <dd>Eight document templates: one-pagers, long documents, letters, portfolios, resumes, slides, equity reports, and changelogs, plus a landing-page system (EN + CN + KO). Plus 18 inline SVG diagram types for visual explanations. Outputs are HTML that can be exported to PDF, PNG, or editable PPTX slide decks.</dd>
+        <dd>Kami includes eight document templates, a multilingual landing-page system, and 18 inline SVG diagram types. Documents export to PDF or PNG, and slides also have an editable PPTX path.</dd>
       </div>
       <div class="faq-pair">
-        <dt>How do I set it up?</dt>
-        <dd>Claude Code (v2.1.142+): <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin marketplace add tw93/kami</code> then <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin install kami@kami</code>. Codex: <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin marketplace add tw93/kami</code> then <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin add kami@kami</code>. Generic agents that read <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">~/.agents</code>: <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami/plugins/kami -a universal -g -y</code>. Claude Desktop: download the release asset kami.zip from GitHub Releases, not the Source code ZIP, and upload it in Customize &gt; Skills. No slash command needed, the skill auto-triggers from natural requests.</dd>
+        <dt>Can Kami match my brand?</dt>
+        <dd>Yes, share your brand colors, fonts, and layout preferences or provide a brand profile, and your brief will override Kami's defaults.</dd>
       </div>
       <div class="faq-pair">
         <dt>What languages does it support?</dt>
-        <dd>English, Chinese, Japanese, and Korean. Each language uses a dedicated serif font: Charter for English, TsangerJinKai02 for Chinese, YuMincho for Japanese, Source Han Serif K for Korean. Letter-spacing, line-height, and font sizes are tuned per language for print quality. Japanese and Korean are best-effort CJK paths with visual QA before delivery.</dd>
+        <dd>Kami supports English, Chinese, Japanese, and Korean with Charter, TsangerJinKai02, YuMincho, and Source Han Serif K respectively, plus per-language tuning for spacing, line height, and type size, while Japanese and Korean remain best-effort CJK paths with visual QA before delivery.</dd>
       </div>
     </dl>
   </section>
@@ -763,7 +748,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
     </div>
     <div class="colophon">
-      <div><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">Developers</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">About</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">Contact</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">Privacy</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
+      <div class="footer-links"><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">Developers</a><a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">About</a><a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">Contact</a><a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">Privacy</a><a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
       <div style="margin-top:6px;">One-Pager · Long Doc · Letter · Portfolio · Resume · Slides</div>
       <div style="margin-top:8px; color: var(--olive); font-family: var(--serif);">
         Serif carries authority, sans function, warm grays rhythm, ink blue focus.

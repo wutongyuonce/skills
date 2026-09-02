@@ -116,12 +116,7 @@
     color: var(--olive);
     line-height: 1.45;
     max-width: 34ch;
-  }
-  .cover .line {
-    width: 60pt;
-    height: 2pt;
-    background: var(--brand);
-    margin: 20pt 0 16pt 0;
+    margin-bottom: 36pt;
   }
   .cover .meta {
     font-family: var(--sans);
@@ -194,11 +189,10 @@
   }
   ul.pts li .hl { color: var(--brand); font-weight: 500; }
 
-  /* kami-native callout: transparent + single brand left bar */
+  /* kami-native callout: typography and breathing room, no ornament */
   .callout {
     background: transparent;
-    border-left: 2pt solid var(--brand);
-    padding: 8pt 0 8pt 16pt;
+    padding: 8pt 0;
     font-family: var(--serif);
     font-size: 14pt;
     line-height: 1.5;
@@ -232,6 +226,15 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: -0.3pt;
   }
+  .metric .metric-suffix {
+    display: inline-block;
+    margin-left: 0.06em;
+    font-size: 0.58em;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    vertical-align: 0.08em;
+  }
   .metric .l {
     font-family: var(--sans);
     font-size: 10pt;
@@ -264,12 +267,7 @@
     color: var(--olive);
     max-width: 44ch;
     line-height: 1.45;
-  }
-  .ending .line {
-    width: 60pt;
-    height: 1.5pt;
-    background: var(--brand);
-    margin: 22pt auto;
+    margin-top: 22pt;
   }
 
   /* --- Code Card --- */
@@ -297,7 +295,6 @@
     <div class="mark">Keynote · 2026</div>
     <h1>Things you don't know about Agents</h1>
     <div class="sub">Loops, harness, context, memory: what actually moves the needle in production.</div>
-    <div class="line"></div>
     <div class="meta">kami slides demo · A4 landscape · 8 slides</div>
   </div>
   <div class="cover-visual">
@@ -486,7 +483,7 @@
       <div class="l">harness layers that matter: verify, bound, feedback, fallback</div>
     </div>
     <div class="metric">
-      <div class="v">10×</div>
+      <div class="v">10<span class="metric-suffix">×</span></div>
       <div class="l">velocity gains trace to execution discipline, not model swaps</div>
     </div>
   </div>
@@ -623,7 +620,6 @@
 <!-- ═══════════ 07 · Closing ═══════════ -->
 <section class="slide ending">
   <h1>Protocol first.<br>Then parallelism.</h1>
-  <div class="line"></div>
   <div class="sub">Fix your evals before you tweak the Agent. Most apparent model failures are infrastructure noise.</div>
   <div class="page-num">08</div>
   <div class="footer-mark">End of Deck</div>

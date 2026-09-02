@@ -86,23 +86,12 @@
   }
   .ticker-block { flex: 1; }
   .ticker-eyebrow {
-    display: inline-flex;
-    align-items: center;
-    gap: 7pt;
     font-size: 9pt;
     color: var(--brand);
     letter-spacing: 1.5pt;
     text-transform: uppercase;
     font-weight: 500;
     margin-bottom: 4pt;
-  }
-  .ticker-eyebrow::before {
-    content: "";
-    width: 8pt;
-    height: 1.5pt;
-    border-radius: 0.75pt;
-    background: var(--brand);
-    flex-shrink: 0;
   }
   .ticker-name {
     font-family: var(--serif);
@@ -211,25 +200,24 @@
     text-align: left;
     font-weight: 500;
     color: var(--dark-warm);
-    padding: 5pt 8pt;
-    border-bottom: 1pt solid var(--border);
+    padding: 6pt 8pt;
+    border-bottom: 0.6pt solid var(--border);
     background: transparent;
   }
   table td {
     padding: 5pt 8pt;
-    border-bottom: 0.3pt solid var(--border-soft);
+    border-bottom: 0.25pt solid var(--border);
     vertical-align: top;
   }
   table.financial td:not(:first-child) { text-align: right; font-variant-numeric: tabular-nums; }
   table.financial th:not(:first-child) { text-align: right; }
   table.striped tbody tr:nth-child(even) td { background: var(--ivory); }
-  table.compact th { padding: 4pt 6pt; font-size: 8.5pt; }
-  table.compact td { padding: 3pt 6pt; font-size: 8.5pt; line-height: 1.4; }
+  table.compact th { padding: 3pt 6pt; font-size: 8.5pt; }
+  table.compact td { padding: 2.5pt 6pt; font-size: 8.5pt; line-height: 1.4; }
 
   /* ========== CALLOUT ========== */
   .callout {
     background: var(--ivory);
-    border-left: 2pt solid var(--brand);
     padding: 8pt 12pt;
     border-radius: 3pt;
     margin: 8pt 0;
@@ -480,7 +468,7 @@
 
 <!-- ========== 财务概览 ========== -->
 <h2>财务概览</h2>
-<table class="financial striped">
+<table class="financial">
   <thead>
     <tr>
       <th>指标</th>
@@ -521,7 +509,7 @@
 <!-- ========== 竞争格局 ========== -->
 <h2>竞争格局</h2>
 
-<table class="financial compact striped">
+<table class="financial compact">
   <thead>
     <tr>
       <th>公司</th>

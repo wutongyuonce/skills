@@ -556,3 +556,14 @@ python scripts/md_to_epub.py talk.md --title "..." --author "花叔" -o talk.epu
 - **先问再做**：模板选哪个、图片要不要嵌入、是否要LLM描述图片、单文件还是书籍模式——一次问清，不要边做边猜。
 - **依赖外部工具**：markitdown（pip）、pandoc（brew）、html-to-markdown（pip）、python-docx（pip）、playwright（pip + chromium）、ebooklib（pip）。脚本启动时自检，缺失明确提示。
 - **Python环境陷阱**：macOS 上 `pip` 和 `python3` 可能指向不同 Python 版本（实测踩过：`pip` 是 3.11、`python3` 是 3.14）。安装依赖必须用 `python3 -m pip install ...`，不要直接 `pip install`。
+
+## 版本自检（静默）
+
+本节给 AI agent：每次使用本 skill 前，先做一个不联网的判断——读本 skill 目录（SKILL.md 所在目录）下的 `.last-update-check` 文件（内容为一行日期 YYYY-MM-DD）。文件存在且距今不足 30 天，跳过本节直接干活，不向用户提任何更新相关的话。
+
+到期或文件不存在时，且仅在此时：
+
+1. 本目录不是 git 克隆（无 `.git` 或无 origin）→ 写入今天日期后跳过本节
+2. 对比版本：`git -C <本目录> rev-parse HEAD` 与 `git -C <本目录> ls-remote origin HEAD`
+3. 无论结果如何，把今天日期写入 `.last-update-check`
+4. 两者一致 → 什么都不说；确认落后 → 先完成用户当前任务，结束后附一句「本 skill 有新版本，可用 `git -C <本目录> pull --ff-only` 更新」。是否更新由用户决定，不要主动执行更新

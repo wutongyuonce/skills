@@ -38,12 +38,14 @@
     "operatingSystem": "Any",
     "author": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun",
       "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
     },
     "sameAs": [
       "https://github.com/tw93/kami",
+      "https://faberon.io/projects/kami",
       "https://kami.tw93.fun/"
     ],
     "publisher": {
@@ -64,22 +66,22 @@
       {
         "@type": "Question",
         "name": "Kami 是什麼？",
-        "acceptedAnswer": { "@type": "Answer", "text": "一個面向 AI agent 的文件設計系統。一種強調色、襯線層級、暖色羊皮紙畫布。給任何 LLM agent 一段描述，就能得到穩定的排版輸出。也可以作為視覺設計簡報給到圖像渲染工具。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "Kami 是一套面向 AI Agent 的文件設計系統，以單一強調色、襯線層級和暖色羊皮紙畫布維持穩定排版，也能作為視覺簡報交給 Claude Design 或 GPT Canvas 等圖像工具。" }
       },
       {
         "@type": "Question",
         "name": "Kami 能生成什麼？",
-        "acceptedAnswer": { "@type": "Answer", "text": "八種文件範本：一頁紙、長文件、信件、作品集、履歷、簡報、個股研報、更新日誌，外加一套落地頁系統（中、英、韓文）。另有 18 種內聯 SVG 圖表。輸出為 HTML，可匯出為 PDF、PNG 或可編輯的 PPTX 簡報。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "Kami 提供八種文件範本、中英韓落地頁系統和 18 種內聯 SVG 圖表，文件可匯出為 PDF 或 PNG，簡報另有可編輯的 PPTX 輸出。" }
       },
       {
         "@type": "Question",
-        "name": "怎麼安裝 Kami？",
-        "acceptedAnswer": { "@type": "Answer", "text": "Claude Code（v2.1.142+）：/plugin marketplace add tw93/kami && /plugin install kami@kami。Codex 外掛市場：codex plugin marketplace add tw93/kami && codex plugin add kami@kami。讀取 ~/.agents 的通用 agent：npx skills add tw93/kami/plugins/kami -a universal -g -y。Claude Desktop：從 GitHub Releases 下載 release asset kami.zip，不要下載 Source code 壓縮包，然後在 Skills 設定中上傳即可。" }
+        "name": "可以換成自己的品牌風格嗎？",
+        "acceptedAnswer": { "@type": "Answer", "text": "可以，直接告訴 Agent 你的品牌色、字體與版式偏好，或提供品牌設定，Kami 的預設樣式始終以當前要求為準。" }
       },
       {
         "@type": "Question",
         "name": "Kami 支援哪些語言？",
-        "acceptedAnswer": { "@type": "Answer", "text": "英文、中文、日文、韓文。每種語言使用專屬襯線字體：英文 Charter，中文 TsangerJinKai02，日文 YuMincho，韓文 Source Han Serif K。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "支援英文、中文、日文和韓文，分別使用 Charter、TsangerJinKai02、YuMincho 和 Source Han Serif K，並針對各語言調整字距、行高與字號；日文和韓文為盡力適配，交付前會做視覺檢查。" }
       }
     ]
   }
@@ -98,6 +100,7 @@
     "email": "hitw93@gmail.com",
     "founder": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun"
     },
@@ -163,7 +166,7 @@
   <!-- ============ HERO ============ -->
   <header class="hero">
     <div class="eyebrow">
-      <span>Design System · v1.13.0<span class="eyebrow-date"> · 2026.08</span></span>
+      <span>Design System · v1.14.0<span class="eyebrow-date"> · 2026.08</span></span>
       <span class="hero-links">
         <nav class="lang-switch" aria-label="Language" data-lang-switch>
           <button class="lang-trigger" type="button" aria-expanded="false" data-lang-trigger>繁體中文</button>
@@ -261,15 +264,19 @@
       <h2 class="section-title">安裝與調用</h2>
       <p class="section-lede">直接告訴 Claude 你要什麼，比如「幫我排版一份白皮書」「做一份履歷」「幫我做一份作品集」，skill 會自動觸發，無需斜線命令。</p>
     </div>
-<pre class="code"><span class="c"># Claude Code (v2.1.142+)</span>
+<pre class="code code-wrap"><span class="c"># Claude Code (v2.1.142+)</span>
 /plugin marketplace add tw93/kami
 /plugin install kami@kami
 
-<span class="c"># Codex plugin marketplace</span>
+<span class="c"># Codex (CLI / Desktop)</span>
 codex plugin marketplace add tw93/kami
-codex plugin add kami@kami</pre>
-    <p class="section-lede" style="font-size:14px;">讀取 <code>~/.agents/</code> 的通用 agent：<code>npx skills add tw93/kami/plugins/kami -a universal -g -y</code>。這個 plugin 路徑暴露生成好的輕量 skill 套件；直接用 <code>tw93/kami</code> 只會裝到 SKILL.md。</p>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop：下載 release asset <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a>，不要下載 GitHub 的 Source code 壓縮包，然後在 Customize &gt; Skills &gt; "+" &gt; Create skill 中直接上傳。</p>
+codex plugin add kami@kami
+
+<span class="c"># 通用 Agent</span>
+npx skills add tw93/kami/plugins/kami -a universal -g -y
+
+<span class="c"># Claude Desktop</span>
+下載 <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none;">kami.zip</a>，在 Customize &gt; Skills &gt; "+" &gt; Create skill 中上傳</pre>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -283,11 +290,11 @@ codex plugin add kami@kami</pre>
       <li><span class="n">1</span><p>頁面背景 parchment <code>#f5f4ed</code>，不用純白</p></li>
       <li><span class="n">2</span><p>強調色只有油墨藍 <code>#1B365D</code>，不引入第二種彩色</p></li>
       <li><span class="n">3</span><p>所有灰色暖調 (yellow-brown undertone)，禁止冷藍灰</p></li>
-      <li><span class="n">4</span><p>英文 serif 通吃標題和正文，中文標題用 serif、正文用 sans</p></li>
+      <li><span class="n">4</span><p>一頁只用一套 serif 承擔標題和正文，只有真正的 UI 元素才另用 sans</p></li>
       <li><span class="n">5</span><p>Serif 正文 400，標題 500，不用合成 bold</p></li>
       <li><span class="n">6</span><p>行距三檔：緊湊標題 1.1-1.3 / 密排 1.4-1.45 / 閱讀 1.5-1.55</p></li>
       <li><span class="n">7</span><p>Tag 背景必須實色 hex，禁止 rgba（WeasyPrint 雙層矩形 bug）</p></li>
-      <li><span class="n">8</span><p>陰影只用 ring 或 whisper shadow，不用硬 drop shadow</p></li>
+      <li><span class="n">8</span><p>預設保持平面；只給真正浮起的截圖、彈層或懸浮介面保留極輕陰影</p></li>
     </ol>
   </section>
 
@@ -309,7 +316,7 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">主調 · Brand</h3>
     <div class="swatches">
-      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">主色 · CTA · quote 豎線 · 章節標題</p><span class="hex">#1B365D</span></div></div>
+      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">主色 · CTA · 標籤 · 章節標題</p><span class="hex">#1B365D</span></div></div>
       <div class="swatch"><div class="chip" style="background:#2D5A8A"></div><div class="info"><p class="name">Ink Light</p><p class="role">深色底上的連結 · 亮變體</p><span class="hex">#2D5A8A</span></div></div>
       <div class="swatch"><div class="chip" style="background:#30302e"></div><div class="info"><p class="name" style="color:var(--deep-dark)">Dark Surface</p><p class="role">深色主題容器 · 暖炭灰</p><span class="hex">#30302E</span></div></div>
       <div class="swatch"><div class="chip" style="background:#b53333"></div><div class="info"><p class="name">Error</p><p class="role">錯誤，深暖紅，不刺眼</p><span class="hex">#B53333</span></div></div>
@@ -323,14 +330,11 @@ codex plugin add kami@kami</pre>
       <div class="swatch"><div class="chip" style="background:#6b6a64"></div><div class="info"><p class="name">Stone</p><span class="hex">#6b6a64</span></div></div>
     </div>
 
-    <h3 class="subhead">Tag Tints · rgba → 實色對照</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">這裡列的是油墨藍 <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#1B365D</code> 疊加在 parchment 上的等效實色；Tag 背景不使用 <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">rgba()</code>，避免 WeasyPrint 的雙層矩形問題。</p>
+    <h3 class="subhead">標籤底色</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">只用兩檔登記過的實色。<code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#EEF2F7</code> 用於弱化，<code style="font-family:var(--mono);font-size:12px;background:#E4ECF5;color:var(--brand);padding:1px 5px;border-radius:2px">#E4ECF5</code> 是預設值。實色也能避開 WeasyPrint 的雙層矩形問題。</p>
     <div class="tint-strip">
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">0.08</p><span class="hex">#EEF2F7</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.14</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.18</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D0DCE9">Tag sample</span><p class="opacity">0.22</p><span class="hex">#D0DCE9</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D6E1EE">Tag sample</span><p class="opacity">0.30</p><span class="hex">#D6E1EE</span></div>
+      <div class="tint"><span class="flag">弱化</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">Quiet</p><span class="hex">#EEF2F7</span></div>
+      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">預設</p><span class="hex">#E4ECF5</span></div>
     </div>
   </section>
 
@@ -339,15 +343,15 @@ codex plugin add kami@kami</pre>
     <div class="section-head">
       <p class="section-num">04 · Typography</p>
       <h2 class="section-title">字體系統</h2>
-      <p class="section-lede">Serif 承擔層級，sans 承擔功能；serif 正文 400，標題 500。</p>
+      <p class="section-lede">一套 serif 同時承擔層級和正文，mono 只用於程式碼與技術標籤。</p>
     </div>
 
     <div class="family-grid">
       <div class="family serif">
         <p class="glyph">紙 Aa</p>
-        <p class="role">Serif · 標題</p>
+        <p class="role">Serif · 標題 + 正文</p>
         <p class="name">TsangerJinKai02 / Charter</p>
-        <p class="use">承擔標題、引語與數字強調，中文取倉耳今楷，英文取 Charter。</p>
+        <p class="use">承擔標題、正文、引語與數字強調，中文取倉耳今楷，英文取 Charter。</p>
       </div>
       <div class="family mono">
         <p class="glyph">&lt;/&gt;</p>
@@ -402,7 +406,7 @@ codex plugin add kami@kami</pre>
       </div>
       <div class="type-row">
         <div class="type-label">Label</div>
-        <div class="type-sample label">Design System · v1.13.0</div>
+        <div class="type-sample label">Design System · v1.14.0</div>
         <div class="type-specs"><b>7.5-8 pt</b><br>weight 600<br>line 1.35</div>
       </div>
 
@@ -432,31 +436,13 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">圓角尺度 · Radii</h3>
     <div class="radii">
-      <div class="radius"><div class="box" style="border-radius:4px"></div><div class="r"><b>4</b> pt</div><div class="label">極緊</div></div>
-      <div class="radius"><div class="box" style="border-radius:6px"></div><div class="r"><b>6</b> pt</div><div class="label">代碼塊</div></div>
-      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> pt</div><div class="label">預設卡片</div></div>
-      <div class="radius"><div class="box" style="border-radius:12px"></div><div class="r"><b>12</b> pt</div><div class="label">容器</div></div>
-      <div class="radius"><div class="box" style="border-radius:16px"></div><div class="r"><b>16</b> pt</div><div class="label">特色卡片</div></div>
-      <div class="radius"><div class="box" style="border-radius:24px"></div><div class="r"><b>24</b> pt</div><div class="label">大容器</div></div>
-      <div class="radius"><div class="box" style="border-radius:32px"></div><div class="r"><b>32</b> pt</div><div class="label">Hero</div></div>
+      <div class="radius"><div class="box" style="border-radius:2pt"></div><div class="r"><b>2</b> pt</div><div class="label">印刷標籤</div></div>
+      <div class="radius"><div class="box" style="border-radius:4pt"></div><div class="r"><b>4</b> pt</div><div class="label">印刷區塊</div></div>
+      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> px</div><div class="label">螢幕區塊</div></div>
     </div>
 
-    <h3 class="subhead">深度 · 陰影三法</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 12px; line-height: 1.55;">Kami 不用傳統硬陰影，深度交給 ring shadow、whisper shadow 與明暗交替。</p>
-    <div class="shadow-row">
-      <div class="shadow-demo sd-ring">
-        <p class="t">Ring Shadow</p>
-        <p class="s">0 0 0 1pt var(--ring-warm)<br>&nbsp;<br>按鈕 · 卡片 hover</p>
-      </div>
-      <div class="shadow-demo sd-whisper">
-        <p class="t">Whisper Shadow</p>
-        <p class="s">0 4pt 24pt rgba(0,0,0,0.05)<br>&nbsp;<br>極輕浮起 · 特色卡</p>
-      </div>
-      <div class="shadow-demo sd-alt">
-        <p class="t">Light ⇌ Dark</p>
-        <p class="s">parchment ⇌ deep-dark<br>&nbsp;<br>section 級別 · 對比最明顯</p>
-      </div>
-    </div>
+    <h3 class="subhead">深度</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0; line-height: 1.55;">預設保持平面。優先用留白、一種安靜的底色，或一條中性細線建立層級；只有真正浮起的截圖、彈層和懸浮介面才使用極輕陰影。</p>
   </section>
 
   <!-- ============ 06 COMPONENTS ============ -->
@@ -471,7 +457,7 @@ codex plugin add kami@kami</pre>
 
       <div class="comp">
         <h3>Buttons</h3>
-        <p class="hint">ring shadow 替代硬投影 · 8pt 圓角</p>
+        <p class="hint">填色 + 邊框 · 無陰影 · 8px 圓角</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap;">
           <span class="btn btn-primary">Primary CTA</span>
           <span class="btn btn-secondary">Secondary</span>
@@ -480,18 +466,17 @@ codex plugin add kami@kami</pre>
       </div>
 
       <div class="comp">
-        <h3>Tags · 三檔</h3>
-        <p class="hint">實色 hex · 從弱到強選</p>
+        <h3>Tags · 兩檔</h3>
+        <p class="hint">實色 hex · 弱化或預設</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <span class="tag calm">極淡 0.08</span>
-          <span class="tag standard">標準 0.18</span>
-          <span class="tag brush">筆刷漸變</span>
+          <span class="tag calm">弱填充</span>
+          <span class="tag standard">預設標籤</span>
         </div>
       </div>
 
       <div class="comp">
         <h3>Quote</h3>
-        <p class="hint">左 2pt 品牌實線 + olive 色</p>
+        <p class="hint">olive 色 + 斜體 · 無側邊線</p>
         <blockquote class="quote">一千個 no 換一個 yes，寧可清淡，不可濃豔。</blockquote>
       </div>
 
@@ -514,9 +499,9 @@ codex plugin add kami@kami</pre>
       </div>
 
       <div class="comp">
-        <h3>Dash List</h3>
-        <p class="hint">短橫線代替圓點 · 更書卷氣</p>
-        <ul class="dash demo">
+        <h3>純文字列表</h3>
+        <p class="hint">用間距形成節奏 · 不加符號</p>
+        <ul class="plain-list demo">
           <li>暖米紙底，不用純白</li>
           <li>油墨藍點綴，不引第二色</li>
           <li>Serif 承擔權威</li>
@@ -534,9 +519,9 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
 
       <div class="comp">
-        <h3>Featured Card</h3>
-        <p class="hint">whisper shadow + 16pt 圓角</p>
-        <div class="demo" style="background:var(--ivory); border-radius:16px; padding:18px 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); border: 1px solid var(--border-cream);">
+        <h3>安靜卡片</h3>
+        <p class="hint">一種 ivory 填色 + 8px 圓角 · 無邊框和陰影</p>
+        <div class="demo" style="background:var(--ivory); border-radius:8px; padding:18px 20px;">
           <p style="font-family:var(--serif); font-weight:500; font-size:15px; margin:0 0 6px; color:var(--near-black);">Tesla 公司介紹 · One-Pager</p>
           <p style="font-size:12px; color:var(--olive); margin:0 0 10px; line-height:1.5;">單頁 A4 · 中文版 · 4 張指標卡 + 3 段正文 + 時間線</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -664,11 +649,11 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       <tr><td class="task">大標題</td><td class="how">serif <code>500</code>，字號按層級，line-height <code>1.10-1.30</code></td></tr>
       <tr><td class="task">正文閱讀</td><td class="how">sans <code>400</code>，<code>9.5-10 pt</code>，line-height <code>1.55</code></td></tr>
       <tr><td class="task">強調一個數字</td><td class="how"><code>color: var(--brand)</code>，不要粗體</td></tr>
-      <tr><td class="task">分隔兩段內容</td><td class="how"><code>2.5pt</code> 品牌色左側豎線，或 <code>0.5pt</code> 暖灰虛線</td></tr>
-      <tr><td class="task">引用某人的話</td><td class="how">左 <code>2pt</code> 品牌色實線 + olive 色</td></tr>
+      <tr><td class="task">分隔兩段內容</td><td class="how">先用留白；只有邊界必須明確時，才用一條 <code>0.5pt</code> 中性全寬細線</td></tr>
+      <tr><td class="task">引用某人的話</td><td class="how">olive 色 + 斜體或縮排，不加側邊線</td></tr>
       <tr><td class="task">展示代碼</td><td class="how">ivory 底 + <code>4pt</code> 圓角 + mono 字體，無邊框</td></tr>
       <tr><td class="task">區分主次按鈕</td><td class="how">Primary 品牌色填充 + ivory 字；Secondary warm-sand + charcoal</td></tr>
-      <tr><td class="task">標註某張特殊卡片</td><td class="how"><code>border-left: 1.4pt solid var(--brand)</code>，只標一條邊</td></tr>
+      <tr><td class="task">標註某張特殊卡片</td><td class="how">用更明確的標籤或一種安靜的填色，不加強調邊</td></tr>
       <tr><td class="task">章節開始</td><td class="how">serif <code>500</code> · <code>15pt</code> · 純字號層級，無額外裝飾</td></tr>
       <tr><td class="task">文件封面</td><td class="how">單頁 Display 字號 + 右對齊作者/日期 + 大量留白</td></tr>
       <tr><td class="task">展示關鍵數字</td><td class="how">基線一行排開，透明不做容器 + serif 大數字（油墨藍） + sans 小標籤</td></tr>
@@ -695,21 +680,21 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
         <p class="anti-topic">Tag 著色</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">忌</span><span>Tag 用 <code>rgba(27,54,93,0.18)</code>，WeasyPrint 會讓 padding 區與字形區透明度疊加，形成雙層矩形。</span></p>
-          <p class="anti-line instead"><span class="cue">宜</span><span>查 tint 對照表，改用等效實色 <code>#E4ECF5</code>，顏色穩定，PDF 也乾淨。</span></p>
+          <p class="anti-line instead"><span class="cue">宜</span><span>直接使用登記過的預設標籤色 <code>#E4ECF5</code>，顏色穩定，PDF 也乾淨。</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">合成粗體</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">忌</span><span>標題用 <code>font-weight: 600</code> 或更粗的合成 bold，筆畫容易變糊，版面也會顯得粗重。</span></p>
-          <p class="anti-line instead"><span class="cue">宜</span><span>正文 400，標題 500（真實 W05 字重）；需要更強存在感時，用字號或品牌色左側豎線，不靠合成粗體。</span></p>
+          <p class="anti-line instead"><span class="cue">宜</span><span>正文 400，標題 500（真實 W05 字重）；需要更強存在感時，用字號、間距或油墨藍文字，不靠合成粗體。</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">陰影</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">忌</span><span>box-shadow 硬投影 <code>0 2px 8px rgba(0,0,0,0.3)</code> 觀感偏硬，印刷時也容易發黑。</span></p>
-          <p class="anti-line instead"><span class="cue">宜</span><span>用 ring shadow (<code>0 0 0 1pt</code>)、whisper (<code>rgba 0.05</code>)，或直接用明暗交替建立層次。</span></p>
+          <p class="anti-line instead"><span class="cue">宜</span><span>預設保持平面，用留白、一種安靜填色或中性細線建立層級；極輕陰影只留給真正浮起的介面和截圖。</span></p>
         </div>
       </div>
     </div>
@@ -736,19 +721,19 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     <dl class="faq">
       <div class="faq-pair">
         <dt>Kami 是什麼？</dt>
-        <dd>一個面向 AI agent 的文件設計系統。一種強調色、襯線層級、暖色羊皮紙畫布。給任何 LLM agent 一段描述，就能得到穩定的排版輸出。也可以作為視覺設計簡報給到 Claude Design 或 GPT Canvas 這類圖像渲染工具。</dd>
+        <dd>Kami 是一套面向 AI Agent 的文件設計系統，以單一強調色、襯線層級和暖色羊皮紙畫布維持穩定排版，也能作為視覺簡報交給 Claude Design 或 GPT Canvas 等圖像工具。</dd>
       </div>
       <div class="faq-pair">
         <dt>能生成什麼？</dt>
-        <dd>八種文件範本：一頁紙、長文件、信件、作品集、履歷、簡報、個股研報、更新日誌，外加一套落地頁系統（中、英、韓文）。另有 18 種內聯 SVG 圖表用於視覺化說明。輸出為 HTML，可匯出為 PDF、PNG 或可編輯的 PPTX 簡報。</dd>
+        <dd>Kami 提供八種文件範本、中英韓落地頁系統和 18 種內聯 SVG 圖表，文件可匯出為 PDF 或 PNG，簡報另有可編輯的 PPTX 輸出。</dd>
       </div>
       <div class="faq-pair">
-        <dt>怎麼安裝？</dt>
-        <dd>Claude Code（v2.1.142+）：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin marketplace add tw93/kami</code>，然後 <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin install kami@kami</code>。Codex：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin marketplace add tw93/kami</code>，然後 <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin add kami@kami</code>。讀取 <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">~/.agents</code> 的通用 agent：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami/plugins/kami -a universal -g -y</code>。Claude Desktop：從 GitHub Releases 下載 release asset kami.zip，不要下載 Source code 壓縮包，然後在自訂 &gt; Skills 中上傳即可。</dd>
+        <dt>可以換成自己的品牌風格嗎？</dt>
+        <dd>可以，直接告訴 Agent 你的品牌色、字體與版式偏好，或提供品牌設定，Kami 的預設樣式始終以當前要求為準。</dd>
       </div>
       <div class="faq-pair">
         <dt>支援哪些語言？</dt>
-        <dd>英文、中文、日文、韓文。每種語言使用專屬襯線字體：英文用 Charter，中文用 TsangerJinKai02，日文用 YuMincho，韓文用 Source Han Serif K。字距、行高、字號都按語言做了印刷級調優。日文與韓文為最佳努力的 CJK 路徑，交付前會做視覺 QA。</dd>
+        <dd>支援英文、中文、日文和韓文，分別使用 Charter、TsangerJinKai02、YuMincho 和 Source Han Serif K，並針對各語言調整字距、行高與字號；日文和韓文為盡力適配，交付前會做視覺檢查。</dd>
       </div>
     </dl>
   </section>
@@ -767,7 +752,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
     </div>
     <div class="colophon">
-      <div><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">開發者</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">關於</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">聯絡</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">隱私</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
+      <div class="footer-links"><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">開發者</a><a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">關於</a><a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">聯絡</a><a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">隱私</a><a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
       <div style="margin-top:6px;">One-Pager · Long Doc · Letter · 作品集 · Resume · Slides</div>
       <div style="margin-top:8px; color: var(--olive); font-family: var(--serif);">
         Serif 承擔權威，sans 承擔功能，暖灰承擔節奏，油墨藍承擔焦點。

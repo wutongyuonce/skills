@@ -5,6 +5,9 @@
 ## Author
 - Name: Tw93
 - Site: https://tw93.fun
+- Stable entity ID: https://tw93.fun/#person
+
+Canonical product facts: https://faberon.io/projects/kami
 
 ## What is Kami
 Kami is a layout design system for the AI era. Give Claude (or any LLM) a brief, and it produces polished documents: one-pagers, resumes, portfolios, slides, long docs, letters, equity reports, and changelogs. The system uses a warm parchment canvas (#f5f4ed), ink-blue accent (#1B365D), and Charter/TsangerJinKai serif fonts. Parchment is the default canvas; an opt-in white-paper variant renders any document on a white background for home or office printers while keeping the warmth in cards and tables.

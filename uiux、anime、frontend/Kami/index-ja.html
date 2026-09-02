@@ -38,12 +38,14 @@
     "operatingSystem": "Any",
     "author": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun",
       "sameAs": ["https://github.com/tw93", "https://twitter.com/HiTw93", "https://tw93.fun", "https://weekly.tw93.fun", "https://yobi.tw93.fun"]
     },
     "sameAs": [
       "https://github.com/tw93/kami",
+      "https://faberon.io/projects/kami",
       "https://kami.tw93.fun/"
     ],
     "publisher": {
@@ -64,22 +66,22 @@
       {
         "@type": "Question",
         "name": "Kamiとは？",
-        "acceptedAnswer": { "@type": "Answer", "text": "AIエージェント向けのドキュメントデザインシステムです。単一アクセントカラー、serif階層、あたたかなパーチメントキャンバスで安定したレイアウトを出力します。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "Kamiは、単一のアクセントカラー、serif中心の階層、あたたかなパーチメントキャンバスでAI生成ドキュメントに一貫したレイアウトを与え、Claude DesignやGPT Canvasなどの画像レンダラー向けビジュアルブリーフとしても使えるデザインシステムです。" }
       },
       {
         "@type": "Question",
         "name": "どんなドキュメントを作れますか？",
-        "acceptedAnswer": { "@type": "Answer", "text": "8種類のドキュメントテンプレート：ワンページャー、長文ドキュメント、レター、ポートフォリオ、履歴書、スライド、個別株レポート、変更履歴に加え、ランディングページシステム（EN + CN + KO）。さらに18種のインラインSVG図表。HTML出力でPDF、PNG、編集可能なPPTXスライドに変換可能です。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "Kamiには8種類のドキュメントテンプレート、多言語ランディングページ、18種類のインラインSVG図表があり、ドキュメントはPDFまたはPNGに書き出せ、スライドは編集可能なPPTXにも対応します。" }
       },
       {
         "@type": "Question",
-        "name": "セットアップ方法は？",
-        "acceptedAnswer": { "@type": "Answer", "text": "Claude Code（v2.1.142+）：/plugin marketplace add tw93/kami && /plugin install kami@kami。Codex plugin marketplace：codex plugin marketplace add tw93/kami && codex plugin add kami@kami。~/.agents を読む汎用エージェント：npx skills add tw93/kami/plugins/kami -a universal -g -y。Claude Desktop：GitHub Releases からリリースアセットの kami.zip をダウンロードします。Source code ZIP ではありません。Skills 設定でアップロードします。" }
+        "name": "ブランドのスタイルに合わせられますか？",
+        "acceptedAnswer": { "@type": "Answer", "text": "はい、ブランドカラー、フォント、レイアウトの希望をエージェントに伝えるかブランドプロファイルを用意すれば、明示した要件がKamiのデフォルトより優先されます。" }
       },
       {
         "@type": "Question",
         "name": "対応言語は？",
-        "acceptedAnswer": { "@type": "Answer", "text": "英語、中国語、日本語、韓国語。各言語に専用のserifフォント：英語はCharter、中国語はTsangerJinKai02、日本語はYuMincho、韓国語はSource Han Serif Kを使用します。" }
+        "acceptedAnswer": { "@type": "Answer", "text": "英語、中国語、日本語、韓国語に対応し、それぞれCharter、TsangerJinKai02、YuMincho、Source Han Serif Kを使用して字間、行高、フォントサイズを調整し、日本語と韓国語はベストエフォート対応として納品前にビジュアルQAを行います。" }
       }
     ]
   }
@@ -98,6 +100,7 @@
     "email": "hitw93@gmail.com",
     "founder": {
       "@type": "Person",
+      "@id": "https://tw93.fun/#person",
       "name": "Tw93",
       "url": "https://tw93.fun"
     },
@@ -163,7 +166,7 @@
   <!-- ============ HERO ============ -->
   <header class="hero">
     <div class="eyebrow">
-      <span>Design System · v1.13.0<span class="eyebrow-date"> · 2026.08</span></span>
+      <span>Design System · v1.14.0<span class="eyebrow-date"> · 2026.08</span></span>
       <span class="hero-links">
         <nav class="lang-switch" aria-label="Language" data-lang-switch>
           <button class="lang-trigger" type="button" aria-expanded="false" data-lang-trigger>日本語</button>
@@ -262,15 +265,19 @@
       <h2 class="section-title">インストールと呼び出し</h2>
       <p class="section-lede">「履歴書を作って」「スタートアップ紹介の一枚資料を作って」「登壇用スライドを作って」のように要件を伝えるだけで、skill が自動起動します。スラッシュコマンドは不要です。</p>
     </div>
-<pre class="code"><span class="c"># Claude Code (v2.1.142+)</span>
+<pre class="code code-wrap"><span class="c"># Claude Code (v2.1.142+)</span>
 /plugin marketplace add tw93/kami
 /plugin install kami@kami
 
-<span class="c"># Codex plugin marketplace</span>
+<span class="c"># Codex (CLI / Desktop)</span>
 codex plugin marketplace add tw93/kami
-codex plugin add kami@kami</pre>
-    <p class="section-lede" style="font-size:14px;"><code>~/.agents/</code> を読む汎用エージェント：<code>npx skills add tw93/kami/plugins/kami -a universal -g -y</code>。この plugin パスは生成済みの軽量 skill パッケージを公開します。単に <code>tw93/kami</code> を指定すると SKILL.md しかインストールされません。</p>
-    <p class="section-lede" style="font-size:14px;">Claude Desktop の場合はリリースアセットの <a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none; font-weight:500;">kami.zip</a> をダウンロードします。GitHub の Source code ZIP ではありません。Customize &gt; Skills &gt; "+" &gt; Create skill からそのままアップロードします。</p>
+codex plugin add kami@kami
+
+<span class="c"># 汎用エージェント</span>
+npx skills add tw93/kami/plugins/kami -a universal -g -y
+
+<span class="c"># Claude Desktop</span>
+<a href="https://github.com/tw93/kami/releases/latest/download/kami.zip" style="color:var(--brand); text-decoration:none;">kami.zip</a>をダウンロードし、Customize &gt; Skills &gt; "+" &gt; Create skillからアップロード</pre>
   </section>
 
   <!-- ============ 02 MANIFESTO ============ -->
@@ -284,11 +291,11 @@ codex plugin add kami@kami</pre>
       <li><span class="n">1</span><p>ページ背景は parchment <code>#f5f4ed</code>、純白は使わない</p></li>
       <li><span class="n">2</span><p>強調色は ink blue <code>#1B365D</code> のみ、第二の彩色は入れない</p></li>
       <li><span class="n">3</span><p>グレーはすべて暖色寄り、冷たいブルーグレーは禁止</p></li>
-      <li><span class="n">4</span><p>英語は見出しと本文を serif、中国語は見出しを serif、本文は読みやすい本文体</p></li>
+      <li><span class="n">4</span><p>見出しと本文は一つの serif で統一し、本物の UI 要素にだけ別の sans を使う</p></li>
       <li><span class="n">5</span><p>serif 本文 400、見出し 500、合成ボールドは使わない</p></li>
       <li><span class="n">6</span><p>行間は 2 段階、見出し 1.1-1.3 / 本文 1.4-1.45</p></li>
       <li><span class="n">7</span><p>タグ背景は hex の実色のみ、rgba は使わない。WeasyPrint で二重矩形が出るためです</p></li>
-      <li><span class="n">8</span><p>影は ring か whisper のみ、強い drop shadow は使わない</p></li>
+      <li><span class="n">8</span><p>面は原則フラットにし、実際に浮くスクリーンショットやポップオーバーだけにごく薄い影を使う</p></li>
     </ol>
   </section>
 
@@ -310,7 +317,7 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">Brand</h3>
     <div class="swatches">
-      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">Primary color · CTA · quote bar · section overline</p><span class="hex">#1B365D</span></div></div>
+      <div class="swatch brand"><div class="chip" style="background:#1B365D"></div><div class="info"><p class="name">Ink Blue</p><p class="role">Primary color · CTA · labels · section overline</p><span class="hex">#1B365D</span></div></div>
       <div class="swatch"><div class="chip" style="background:#2D5A8A"></div><div class="info"><p class="name">Ink Light</p><p class="role">Links on dark surfaces · lighter variant</p><span class="hex">#2D5A8A</span></div></div>
       <div class="swatch"><div class="chip" style="background:#30302e"></div><div class="info"><p class="name" style="color:var(--deep-dark)">Dark Surface</p><p class="role">Dark theme container · warm charcoal</p><span class="hex">#30302E</span></div></div>
       <div class="swatch"><div class="chip" style="background:#b53333"></div><div class="info"><p class="name">Error</p><p class="role">Error state, deep warm red</p><span class="hex">#B53333</span></div></div>
@@ -324,14 +331,11 @@ codex plugin add kami@kami</pre>
       <div class="swatch"><div class="chip" style="background:#6b6a64"></div><div class="info"><p class="name">Stone</p><span class="hex">#6b6a64</span></div></div>
     </div>
 
-    <h3 class="subhead">Tag Tints: rgba から実色 hex へ</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">下記は ink blue <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#1B365D</code> を parchment 上に重ねたときの等価な実色 hex です。タグ背景は <code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">rgba()</code> を避け、WeasyPrint の二重矩形を防ぎます。</p>
+    <h3 class="subhead">タグの背景色</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0 0 16px; line-height: 1.55;">登録済みの実色は 2 段階だけです。<code style="font-family:var(--mono);font-size:12px;background:#EEF2F7;color:var(--brand);padding:1px 5px;border-radius:2px">#EEF2F7</code> は控えめ、<code style="font-family:var(--mono);font-size:12px;background:#E4ECF5;color:var(--brand);padding:1px 5px;border-radius:2px">#E4ECF5</code> は既定。実色は WeasyPrint の二重矩形も防ぎます。</p>
     <div class="tint-strip">
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">0.08</p><span class="hex">#EEF2F7</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.14</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">0.18</p><span class="hex">#E4ECF5</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D0DCE9">Tag sample</span><p class="opacity">0.22</p><span class="hex">#D0DCE9</span></div>
-      <div class="tint"><span class="flag">&nbsp;</span><span class="sample" style="background:#D6E1EE">Tag sample</span><p class="opacity">0.30</p><span class="hex">#D6E1EE</span></div>
+      <div class="tint"><span class="flag">Recede</span><span class="sample" style="background:#EEF2F7">Tag sample</span><p class="opacity">Quiet</p><span class="hex">#EEF2F7</span></div>
+      <div class="tint default"><span class="flag">Default</span><span class="sample" style="background:#E4ECF5">Tag sample</span><p class="opacity">既定</p><span class="hex">#E4ECF5</span></div>
     </div>
   </section>
 
@@ -340,7 +344,7 @@ codex plugin add kami@kami</pre>
     <div class="section-head">
       <p class="section-num">04 · Typography</p>
       <h2 class="section-title">タイポグラフィ体系</h2>
-      <p class="section-lede">階層は serif、機能要素は sans。serif は本文 400、見出し 500 を基本にします。</p>
+      <p class="section-lede">一つの serif で階層と本文を担い、mono はコードと技術ラベルだけに使います。</p>
     </div>
 
     <div class="family-grid">
@@ -392,7 +396,7 @@ codex plugin add kami@kami</pre>
       </div>
       <div class="type-row">
         <div class="type-label">Label</div>
-        <div class="type-sample label">Design System · v1.13.0</div>
+        <div class="type-sample label">Design System · v1.14.0</div>
         <div class="type-specs"><b>7.5-8 pt</b><br>weight 600<br>line 1.35</div>
       </div>
     </div>
@@ -419,31 +423,13 @@ codex plugin add kami@kami</pre>
 
     <h3 class="subhead">Radii</h3>
     <div class="radii">
-      <div class="radius"><div class="box" style="border-radius:4px"></div><div class="r"><b>4</b> pt</div><div class="label">Tight</div></div>
-      <div class="radius"><div class="box" style="border-radius:6px"></div><div class="r"><b>6</b> pt</div><div class="label">Code block</div></div>
-      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> pt</div><div class="label">Default card</div></div>
-      <div class="radius"><div class="box" style="border-radius:12px"></div><div class="r"><b>12</b> pt</div><div class="label">Container</div></div>
-      <div class="radius"><div class="box" style="border-radius:16px"></div><div class="r"><b>16</b> pt</div><div class="label">Feature card</div></div>
-      <div class="radius"><div class="box" style="border-radius:24px"></div><div class="r"><b>24</b> pt</div><div class="label">Large container</div></div>
-      <div class="radius"><div class="box" style="border-radius:32px"></div><div class="r"><b>32</b> pt</div><div class="label">Hero</div></div>
+      <div class="radius"><div class="box" style="border-radius:2pt"></div><div class="r"><b>2</b> pt</div><div class="label">印刷タグ</div></div>
+      <div class="radius"><div class="box" style="border-radius:4pt"></div><div class="r"><b>4</b> pt</div><div class="label">印刷ブロック</div></div>
+      <div class="radius"><div class="box" style="border-radius:8px"></div><div class="r"><b>8</b> px</div><div class="label">画面ブロック</div></div>
     </div>
 
-    <h3 class="subhead">奥行き: 3 つの影の方法</h3>
-    <p style="font-size:14px; color: var(--olive); margin: 0 0 12px; line-height: 1.55;">Kami は強い影を使いません。奥行きは ring shadow、whisper shadow、明暗切り替えで作ります。</p>
-    <div class="shadow-row">
-      <div class="shadow-demo sd-ring">
-        <p class="t">Ring Shadow</p>
-        <p class="s">0 0 0 1pt var(--ring-warm)<br>&nbsp;<br>ボタン・カード hover</p>
-      </div>
-      <div class="shadow-demo sd-whisper">
-        <p class="t">Whisper Shadow</p>
-        <p class="s">0 4pt 24pt rgba(0,0,0,0.05)<br>&nbsp;<br>軽い浮き上がり・特集カード</p>
-      </div>
-      <div class="shadow-demo sd-alt">
-        <p class="t">Light ⇌ Dark</p>
-        <p class="s">parchment ⇌ deep-dark<br>&nbsp;<br>セクション単位・最も強い対比</p>
-      </div>
-    </div>
+    <h3 class="subhead">奥行き</h3>
+    <p style="font-size:14px; color: var(--olive); margin: 0; line-height: 1.55;">面は原則フラットです。余白、ひとつの静かな塗り、必要な場合だけ中立色の細線を使います。ごく薄い影は、実際に浮くスクリーンショットやポップオーバーに限ります。</p>
   </section>
 
   <!-- ============ 06 COMPONENTS ============ -->
@@ -457,7 +443,7 @@ codex plugin add kami@kami</pre>
     <div class="comp-grid">
       <div class="comp">
         <h3>Buttons</h3>
-        <p class="hint">強い drop shadow ではなく ring shadow ・角丸 8pt</p>
+        <p class="hint">塗り + 枠線 ・影なし ・角丸 8px</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap;">
           <span class="btn btn-primary">主要 CTA</span>
           <span class="btn btn-secondary">副次 CTA</span>
@@ -465,17 +451,16 @@ codex plugin add kami@kami</pre>
         </div>
       </div>
       <div class="comp">
-        <h3>タグ（3 段階）</h3>
-        <p class="hint">実色 hex ・弱から強へ選択</p>
+        <h3>タグ（2 段階）</h3>
+        <p class="hint">実色 hex ・控えめまたは既定</p>
         <div class="demo" style="display:flex; gap:10px; flex-wrap:wrap; align-items:center;">
-          <span class="tag calm">Light 0.08</span>
-          <span class="tag standard">Standard 0.18</span>
-          <span class="tag brush">Brush gradient</span>
+          <span class="tag calm">控えめな塗り</span>
+          <span class="tag standard">既定タグ</span>
         </div>
       </div>
       <div class="comp">
         <h3>引用</h3>
-        <p class="hint">左 2pt のブランド実線 + olive テキスト</p>
+        <p class="hint">olive テキスト + 斜体 ・側線なし</p>
         <blockquote class="quote">装飾より明快さを優先する。ひとつの Yes のために多くの No を選ぶ。</blockquote>
       </div>
       <div class="comp">
@@ -495,9 +480,9 @@ codex plugin add kami@kami</pre>
         </div>
       </div>
       <div class="comp">
-        <h3>Dash List</h3>
-        <p class="hint">丸点ではなくダッシュ ・ 編集文体</p>
-        <ul class="dash demo">
+        <h3>プレーンリスト</h3>
+        <p class="hint">余白でリズムを作る ・記号なし</p>
+        <ul class="plain-list demo">
           <li>紙色は暖色、純白は使わない</li>
           <li>強調色は ink blue だけ、第二色は入れない</li>
           <li>階層は serif で担保する</li>
@@ -513,9 +498,9 @@ document = <span class="k">serif</span> × hierarchy + generous_space
 beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
       <div class="comp">
-        <h3>特集カード</h3>
-        <p class="hint">whisper shadow + 16pt 角丸</p>
-        <div class="demo" style="background:var(--ivory); border-radius:16px; padding:18px 20px; box-shadow: 0 4px 24px rgba(0,0,0,0.05); border: 1px solid var(--border-cream);">
+        <h3>静かなカード</h3>
+        <p class="hint">ivory の塗りひとつ + 8px 角丸 ・枠線と影なし</p>
+        <div class="demo" style="background:var(--ivory); border-radius:8px; padding:18px 20px;">
           <p style="font-family:var(--serif); font-weight:500; font-size:15px; margin:0 0 6px; color:var(--near-black);">Tesla 企業紹介 · One-Pager</p>
           <p style="font-size:12px; color:var(--olive); margin:0 0 10px; line-height:1.5;">A4 1ページ ・ 指標カード 4 枚 + 本文 3 セクション + タイムライン</p>
           <div style="display:flex; gap:8px; flex-wrap:wrap;">
@@ -638,11 +623,11 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       <tr><td class="task">大きな見出し</td><td class="how">serif <code>500</code>、サイズで階層化、行間 <code>1.10-1.30</code></td></tr>
       <tr><td class="task">本文（可読重視）</td><td class="how">serif <code>400</code>、<code>9.5-10 pt</code>、行間 <code>1.55</code></td></tr>
       <tr><td class="task">数値を強調</td><td class="how"><code>color: var(--brand)</code> を使い、太字には頼らない</td></tr>
-      <tr><td class="task">セクション分離</td><td class="how">左 <code>2.5pt</code> の brand 実線、または <code>0.5pt</code> 暖色破線</td></tr>
-      <tr><td class="task">引用を置く</td><td class="how">左 <code>2pt</code> brand 実線 + olive テキスト</td></tr>
+      <tr><td class="task">セクション分離</td><td class="how">まず余白。境界を明示する必要がある場合だけ <code>0.5pt</code> の中立色の全幅細線</td></tr>
+      <tr><td class="task">引用を置く</td><td class="how">olive テキスト + 斜体または字下げ。側線は使わない</td></tr>
       <tr><td class="task">コードを載せる</td><td class="how">ivory 背景 + <code>4pt</code> 角丸 + mono 書体、枠線なし</td></tr>
       <tr><td class="task">主ボタンと副ボタン</td><td class="how">主: brand 塗り + ivory 文字、副: warm-sand + charcoal</td></tr>
-      <tr><td class="task">特別カードを示す</td><td class="how"><code>border-left: 1.4pt solid var(--brand)</code>、一辺のみ</td></tr>
+      <tr><td class="task">特別カードを示す</td><td class="how">明確なラベルか静かな塗りをひとつ使い、強調線は足さない</td></tr>
       <tr><td class="task">セクション開始</td><td class="how">serif <code>500</code> ・ <code>15pt</code> ・サイズ主導の階層、装飾は不要</td></tr>
       <tr><td class="task">表紙を作る</td><td class="how">1 ページ構成、Display サイズ + 右寄せの著者/日付 + 広い余白</td></tr>
       <tr><td class="task">重要な数値を見せる</td><td class="how">ベースライン揃えの一行、透明・コンテナなし + serif 大数字 + sans 小ラベル</td></tr>
@@ -669,21 +654,21 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
         <p class="anti-topic">タグの色</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">避ける</span><span>タグへの <code>rgba(27,54,93,0.18)</code>。WeasyPrint で文字領域と余白領域の不透明度がずれ、二重矩形が出ます。</span></p>
-          <p class="anti-line instead"><span class="cue">推奨</span><span>tint 対照表の実色 hex <code>#E4ECF5</code>。描画が安定し、色ぶれを防げます。</span></p>
+          <p class="anti-line instead"><span class="cue">推奨</span><span>登録済みの既定タグ色 <code>#E4ECF5</code>。描画が安定し、色ぶれを防げます。</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">合成ボールド</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">避ける</span><span>見出しへの <code>font-weight: 600</code> 以上の合成ボールド。線が潰れて可読性と品位が落ちます。</span></p>
-          <p class="anti-line instead"><span class="cue">推奨</span><span>本文 400、見出し 500（実フォント W05）。強調が必要ならサイズや左バーで対応します。</span></p>
+          <p class="anti-line instead"><span class="cue">推奨</span><span>本文 400、見出し 500（実フォント W05）。強調が必要ならサイズ、余白、ink blue の文字で対応します。</span></p>
         </div>
       </div>
       <div class="anti-row">
         <p class="anti-topic">シャドウ</p>
         <div class="anti-pair">
           <p class="anti-line never"><span class="cue">避ける</span><span>強い drop shadow <code>0 2px 8px rgba(0,0,0,0.3)</code>。重く見え、印刷時に黒く潰れやすい。</span></p>
-          <p class="anti-line instead"><span class="cue">推奨</span><span>ring shadow <code>0 0 0 1pt</code> か whisper <code>rgba 0.05</code>。あるいは明暗の切り替えで階層を作ります。</span></p>
+          <p class="anti-line instead"><span class="cue">推奨</span><span>面は原則フラットにし、余白、静かな塗り、中立色の細線で階層を作ります。ごく薄い影は実際に浮く UI やスクリーンショットだけに使います。</span></p>
         </div>
       </div>
     </div>
@@ -710,19 +695,19 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
     <dl class="faq">
       <div class="faq-pair">
         <dt>Kamiとは？</dt>
-        <dd>AIエージェント向けのドキュメントデザインシステムです。単一アクセントカラー、serif階層、あたたかなパーチメントキャンバス。LLMエージェントに指示を出すだけで安定したレイアウトが返ってきます。Claude DesignやGPT Canvasなどの画像レンダラーへのビジュアルブリーフとしても使えます。</dd>
+        <dd>Kamiは、単一のアクセントカラー、serif中心の階層、あたたかなパーチメントキャンバスでAI生成ドキュメントに一貫したレイアウトを与え、Claude DesignやGPT Canvasなどの画像レンダラー向けビジュアルブリーフとしても使えるデザインシステムです。</dd>
       </div>
       <div class="faq-pair">
         <dt>どんなドキュメントを作れますか？</dt>
-        <dd>8種類のドキュメントテンプレート：ワンページャー、長文ドキュメント、レター、ポートフォリオ、履歴書、スライド、個別株レポート、変更履歴に加え、ランディングページシステム（EN + CN + KO）。さらに18種のインラインSVG図表で視覚的な説明も可能です。出力はHTMLで、PDF、PNG、編集可能なPPTXスライドに変換できます。</dd>
+        <dd>Kamiには8種類のドキュメントテンプレート、多言語ランディングページ、18種類のインラインSVG図表があり、ドキュメントはPDFまたはPNGに書き出せ、スライドは編集可能なPPTXにも対応します。</dd>
       </div>
       <div class="faq-pair">
-        <dt>セットアップ方法は？</dt>
-        <dd>Claude Code（v2.1.142+）：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin marketplace add tw93/kami</code> の後に <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">/plugin install kami@kami</code>。Codex：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin marketplace add tw93/kami</code> の後に <code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">codex plugin add kami@kami</code>。<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">~/.agents</code> を読む汎用エージェント：<code style="font-family:var(--mono); font-size:0.9em; color:var(--brand);">npx skills add tw93/kami/plugins/kami -a universal -g -y</code>。Claude Desktop：GitHub Releases からリリースアセットの kami.zip をダウンロードします。Source code ZIP ではありません。カスタマイズ &gt; スキルでアップロード。</dd>
+        <dt>ブランドのスタイルに合わせられますか？</dt>
+        <dd>はい、ブランドカラー、フォント、レイアウトの希望をエージェントに伝えるかブランドプロファイルを用意すれば、明示した要件がKamiのデフォルトより優先されます。</dd>
       </div>
       <div class="faq-pair">
         <dt>対応言語は？</dt>
-        <dd>英語、中国語、日本語、韓国語。各言語に専用のserifフォントを使用：英語はCharter、中国語はTsangerJinKai02、日本語はYuMincho、韓国語はSource Han Serif K。字間、行高、フォントサイズは言語ごとに印刷品質レベルで調整されています。</dd>
+        <dd>英語、中国語、日本語、韓国語に対応し、それぞれCharter、TsangerJinKai02、YuMincho、Source Han Serif Kを使用して字間、行高、フォントサイズを調整し、日本語と韓国語はベストエフォート対応として納品前にビジュアルQAを行います。</dd>
       </div>
     </dl>
   </section>
@@ -741,7 +726,7 @@ beauty   = constraints × <span class="k">intention</span> ÷ noise</pre>
       </div>
     </div>
     <div class="colophon">
-      <div><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">開発者</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">このサイトについて</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">お問い合わせ</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">プライバシー</a>&nbsp;&nbsp;·&nbsp;&nbsp;<a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
+      <div class="footer-links"><a href="./developers" style="color:var(--brand); text-decoration:none; font-weight:500;">開発者</a><a href="./about" style="color:var(--brand); text-decoration:none; font-weight:500;">このサイトについて</a><a href="./contact" style="color:var(--brand); text-decoration:none; font-weight:500;">お問い合わせ</a><a href="./privacy" style="color:var(--brand); text-decoration:none; font-weight:500;">プライバシー</a><a href="https://github.com/tw93/kami" style="color:var(--brand); text-decoration:none; font-weight:500;">GitHub</a></div>
       <div style="margin-top:6px;">One-Pager · Long Doc · Letter · Portfolio · Resume · Slides</div>
       <div style="margin-top:8px; color: var(--olive); font-family: var(--serif);">
         Serif が階層を担い、sans が機能を担い、暖色グレーがリズムを作り、ink blue が焦点を作ります。
