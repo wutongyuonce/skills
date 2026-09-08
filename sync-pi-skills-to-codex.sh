@@ -85,10 +85,21 @@ while IFS= read -r -d '' skill_md; do
 
   dest_path="$dest_root/$link_name"
 
+  # Case-insensitive match: on case-insensitive filesystems two source skills
+  # whose directory basenames differ only by case collide on one dest entry.
+  # If the existing link already targets a valid skill dir whose basename is
+  # case-insensitively equal to this one, treat this as a duplicate, not a
+  # conflict (both entries would resolve to the same skill).
+  lower() { printf '%s' "$1" | tr '[:upper:]' '[:lower:]'; }
+
   if [[ -L "$dest_path" ]]; then
     current_target="$(readlink "$dest_path")"
     if [[ "$current_target" == "$skill_dir" ]]; then
       echo "skip  $link_name -> $skill_dir"
+      skipped=$((skipped + 1))
+    elif [[ "$current_target" == "$src_root"/* && -f "$current_target/SKILL.md" \
+        && "$(lower "$(basename "$current_target")")" == "$(lower "$link_name")" ]]; then
+      echo "skip  $link_name (case-insensitive duplicate of -> $current_target)"
       skipped=$((skipped + 1))
     else
       echo "conflict symlink exists: $dest_path -> $current_target, expected $skill_dir" >&2
