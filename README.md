@@ -22,6 +22,7 @@ engineering/、productivity/ 文件夹下的 skill 来自 [mattpocock/skills](ht
 | [stack-notes](./stack-notes/SKILL.md) | — | 整理编程语言、框架和工具栈的快速入门笔记 |
 | [trajex-skill](./trajex-skill/SKILL.md) | [GitHub](https://github.com/wutongyuonce/Trajex/tree/main/trajex-skill) | 检索过去的 Claude Code / Codex / Pi 会话历史 |
 | [understand-project](./understand-project/SKILL.md) | — | 为完全不了解项目的人产出由浅到深的中文「看懂 X」项目解析文档 |
+| [video2article](./video2article/SKILL.md) | [GitHub](https://github.com/wutongyuonce/video2article) | 把视频/播客重写成阅读版文章（YouTube 字幕 / 小宇宙官方逐字稿 / 本地 ASR） |
 
 ## 其他 Skills
 
