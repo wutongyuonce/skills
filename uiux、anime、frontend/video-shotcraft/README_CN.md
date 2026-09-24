@@ -16,7 +16,7 @@
 <a href="https://trendshift.io/repositories/88911?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-88911" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/88911/daily?language=TypeScript" alt="Vincentwei1021%2Fvideo-shotcraft | Trendshift" width="250" height="55"/></a>
 <a href="https://trendshift.io/repositories/88911?utm_source=trendshift-badge&utm_medium=badge&utm_campaign=badge-trendshift-88911" target="_blank" rel="noopener noreferrer"><img src="https://trendshift.io/api/badge/trendshift/repositories/88911/weekly?language=TypeScript" alt="Vincentwei1021%2Fvideo-shotcraft | Trendshift" width="250" height="55"/></a>
 
-**让 agent 帮你制作电影感产品视频的 skill：152 张镜头配方卡 · 209 个样式 · 209 条动态样片 · 已验收成片模板**
+**让 agent 帮你制作电影感产品视频的 skill：157 张镜头配方卡 · 214 个样式 · 214 条动态样片 · 已验收成片模板**
 
 [English](README.md) | [中文](README_CN.md) | [日本語](README_JA.md)
 
@@ -27,7 +27,7 @@
 和声音设计，产出一支电影感的宣传片 / 营销视频 / 发布视频 / 功能演示——
 真实页面截图、2.5D 运镜、节奏卡点和电影级 SFX 全部包含。
 
-🖼️ [**在线 Gallery：浏览全部 209 条动态样片 »**](https://vincentwei1021.github.io/video-shotcraft/)
+🖼️ [**在线 Gallery：浏览全部 214 条动态样片 »**](https://vincentwei1021.github.io/video-shotcraft/)
 
 ## ✨ 最近更新
 
@@ -41,6 +41,18 @@
 >
 > 🎙️ [**项目主页 »**](https://github.com/Vincentwei1021/video-talkcraft) ·
 > 🖼️ [**在线浏览 78 条口播动效样片 »**](https://vincentwei1021.github.io/video-talkcraft/)
+
+> [!IMPORTANT]
+> ### 🛠️ 2026-09 · 新功能：**动效工作台**——成片交付后在浏览器里继续改
+> 交付后 skill 会主动打开一个剪映式的浏览器工作台（`node workbench/scripts/open.mjs <工程>`）：
+> 片子按原始镜头拆成镜头 / 转场 / 字幕 / 音效多轨；选中任意镜头，字标、文案、字号、颜色
+> 在属性面板里逐项改，预览即时跟随；镜头可挪、可裁、可变速；**216 张 demo 动效**从素材库
+> 直接拖上轨；改完用 Remotion 一键导出。预览与渲染逐帧一致（像素级校验）。
+>
+> ![动效工作台](workbench/docs/overview.png)
+>
+> 🧭 [**工作台图文指南：各区域与功能 »**](workbench/GUIDE.md) ·
+> 🔌 [**成片接入契约 »**](references/workbench.md)
 
 - 🌟 **2026-08 · 新增 48 张镜头配方卡**——卡库从 104 张扩充到
   **152 卡 / 209 条样片**。由 209 个候选动效经八轮与参考片逐帧比对评审收敛
@@ -140,13 +152,14 @@ agent 会替换成目标产品的截图、文案和品牌信息，复现同等�
 
 | 内容 | 说明 |
 | --- | --- |
-| 152 张镜头配方卡 | 记录用途、能量、建议时长、参数、实现要点与已知坑 |
-| 209 条动态样片 | 覆盖 209 个样式，可在在线 Gallery 中直接预览、搜索和筛选 |
+| 157 张镜头配方卡 | 记录用途、能量、建议时长、参数、实现要点与已知坑 |
+| 214 条动态样片 | 覆盖 214 个样式，可在在线 Gallery 中直接预览、搜索和筛选 |
 | Remotion 参考实现 | 每张卡对应经过调校的 TSX demo，包含实际缓动和时序参数 |
 | 完整成片模板 | 36.2 秒、1920×1080、30fps、10 镜头的纸墨琥珀风产品宣传片 |
 | 组件与素材 | 2.5D 页面相机、字幕、闪切、数字滚动、音效和素材采集脚本 |
 | 制作方法论 | 从素材采集、风格定调和分镜，到声音设计、节奏卡点与最终验收 |
 | 剪映工程导出 | 成片可装进剪映继续编辑：镜头变速/字幕/音轨全开放（Mac 11.2 实测） |
+| 动效工作台 | 交付后自动打开的浏览器时间线编辑器：成片拆多轨、改镜头开放属性、变速重排、拖入 216 个 demo 动效、Remotion 导出 |
 
 当前主要面向 Web 与桌面产品宣传片，但镜头卡也可以单独用于功能演示、
 品牌短片、发布视频或其他动态设计项目。
@@ -158,16 +171,18 @@ video-shotcraft/
 ├── SKILL.md                 # Agent 使用入口与核心制作规则
 ├── references/
 │   ├── pipeline.md          # 完整制作流水线
-│   ├── shots/               # 152 张镜头配方卡
+│   ├── shots/               # 157 张镜头配方卡
 │   ├── sequences/           # 可复用的全片结构与桥段模板
 │   ├── aesthetic-rules.md   # 视觉验收准则
 │   ├── music-beat-sync.md   # BGM 节奏分析与卡点方法
 │   ├── sound-design.md      # 声音设计方法与判例
-│   └── jianying-export.md   # 剪映工程导出方法
+│   ├── jianying-export.md   # 剪映工程导出方法
+│   └── workbench.md         # 动效工作台：成片接入契约 + 可编辑性规则
 ├── demos/                   # 镜头卡的 Remotion 参考实现（同类别目录）
 ├── gallery/                 # 在线样片画廊的静态站点
 ├── template/                # 可直接运行的完整成片模板
 ├── jianying-export/         # 剪映草稿安装模块（Mac 实测 / Windows 未验证）
+├── workbench/               # 交付后的动效工作台（Vite + Remotion Player）
 └── assets/
     ├── lib/                 # 可复制使用的 Remotion 组件
     ├── scripts/             # 页面素材采集脚本

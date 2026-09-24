@@ -6,7 +6,7 @@
   <a href="./README.zh-CN.md">简体中文</a>
 </p>
 
-`git-ship` is an Agent Skill for completing the repetitive Git handoff around a finished change:
+完成代码检查、分支整理、提交、推送、创建 PR 和合并，处理流程中的冲突与验证失败。
 
 ```text
 working tree → latest main → new branch → commit → local checks → PR → squash merge
@@ -102,3 +102,25 @@ Issues and pull requests are welcome. Please keep changes focused, explain any n
 ## License
 
 [MIT](./LICENSE)
+
+## 配置、依赖与使用边界
+
+需要 Git、GitHub CLI 与目标仓库写权限；复用 gh 的官方认证，不收集聊天中的密钥。命令中的主分支名以真实默认分支为准。
+
+调用 ship 即授权约定发布流程；先保留原分支与 HEAD，检查待提交内容。不把密钥、无关改动或失败检查一起发布。
+
+使用示例：
+
+```text
+ship 当前改动。
+```
+
+## GitHub 安装
+
+把 [仓库地址](https://github.com/oil-oil/git-ship) 交给 Agent，要求按 README 安装；也可运行：
+
+```bash
+npx skills add oil-oil/git-ship
+```
+
+安装后由宿主重新加载 Skill。

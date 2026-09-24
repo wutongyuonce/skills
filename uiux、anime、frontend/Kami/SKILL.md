@@ -1,13 +1,13 @@
 ---
 name: kami
-description: 'Typeset professional documents and product landing pages: resumes, one-pagers, white papers, letters, portfolios, slide decks, landing pages. Warm parchment, ink-blue accent, serif-led hierarchy. CN uses TsangerJinKai02, EN uses Charter, JA uses YuMincho (best-effort). Triggers on "做 PDF / 排版 / 一页纸 / 白皮书 / 作品集 / 简历 / PPT / slides / Marp / markdown slides / マークダウンのスライド / 落地页 / 官网 / landing page / product page", or "build me a resume / make a one-pager / design a slide deck / turn this into a PDF / make this presentable / create a landing page".'
+description: 'Typeset professional documents and product landing pages: resumes, one-pagers, white papers, letters, portfolios, slide decks, landing pages. Templates use warm backgrounds, ink-blue accents, and serif fonts. CN uses TsangerJinKai02, EN uses Charter, JA uses YuMincho (best-effort). Triggers on "做 PDF / 排版 / 一页纸 / 白皮书 / 作品集 / 简历 / PPT / slides / Marp / markdown slides / マークダウンのスライド / 落地页 / 官网 / landing page / product page", or "build me a resume / make a one-pager / design a slide deck / turn this into a PDF / make this presentable / create a landing page".'
 ---
 
 # kami · 紙
 
-**紙 · かみ** - the paper your deliverables land on.
+**紙 · かみ** means paper in Japanese.
 
-Good content deserves good paper. One design language across documents and landing pages: warm parchment canvas, ink-blue accent, serif-led hierarchy, tight editorial rhythm.
+Good content deserves good paper. Use Kami’s templates and layout rules to create documents and landing pages with serif fonts, warm backgrounds, and ink-blue accents.
 
 Part of `Kaku · Waza · Kami` - Kaku writes code, Waza drills habits, **Kami delivers documents**.
 
@@ -61,7 +61,7 @@ Before creating or modifying an output, lock the contract: language, template, o
 
 Use the nearest existing template and verification path. Do not add a new template, shared CSS layer, dependency, script flag, or optional mode unless the current request cannot be satisfied without it.
 
-If a change touches `SKILL.md`, templates, scripts, references, or package inputs, decide whether `dist/kami.zip` must be refreshed before handoff. Shipped behavior is not ready until the package contains the changed files.
+A change to `SKILL.md`, templates, scripts, or references reaches `npx skills add` and plugin installs on the next push to `main`; Claude Desktop users get it only when the next release rebuilds `kami.zip`. Name the channel that carries the change before calling it shipped.
 
 ### Work mode
 
@@ -114,7 +114,7 @@ Ask only when two cells genuinely both fit.
 
 | Signal | Document |
 |---|---|
-| Length target unknown | Ask "how many pages" before classifying |
+| Length target unknown | Infer from the content and document type; ask only if the choice materially changes the deliverable, within the question budget |
 | ≤ 1 page + investor / recruiter / exec summary audience | one-pager |
 | ≤ 1 page + formal correspondence (sales, hiring, resignation, memo) | letter |
 | 1.5-2 pages + career narrative + project bullets | resume |
@@ -252,7 +252,7 @@ Values longer than 80 characters are treated as prose you may rephrase; short at
 
 Slides only. Every other doc type skips to Step 2.7.
 
-Load `references/deck-preflight.md` and work it before drafting: path selection (WeasyPrint HTML by default), page size, the six pre-flight questions to ask in one batch, and the slide content rules.
+Load `references/deck-preflight.md` before drafting for path selection (WeasyPrint HTML by default), page size, unresolved delivery choices, and slide content rules. Its intake follows the shared question budget.
 
 ## Step 2.7 · Layout note (transparent, non-blocking)
 
@@ -260,7 +260,7 @@ Before loading specs and filling the template, write a short editor-style note s
 
 Example (CN):
 
-> 排版意图：Equity Report 中文版，2 页 A4。先立论与目标价，进入估值 (DCF 与可比公司)，落于催化剂与风险。中段嵌一张营收趋势折线和 FY26 收入桥瀑布。Logo 已就位，产品图暂缺，header 改走纯文字。输出 HTML 与 PDF。
+> 使用中文财报模板，制作 2 页 A4，输出 HTML 和 PDF。内容依次为投资判断、目标价、估值、催化剂与风险，加入营收趋势和 FY26 收入构成图，使用已有 Logo，缺少产品图的页眉采用文字。
 
 Example (EN):
 
@@ -400,12 +400,12 @@ Do not ask the user which format to export. Decide from context:
 | Signal | Output | Why |
 |---|---|---|
 | Any document request | HTML + PDF | PDF is the default deliverable, HTML is the source |
-| Slides / PPT / deck | HTML + PDF + PPTX | Presentations need a projectable format |
+| Slides / PPT / deck | HTML + PDF; add PPTX only when explicitly requested as editable output | PDF is the default presentation format |
 | "分享" / "发朋友圈" / "share" / "post" / "preview" | + PNG | Social platforms and messaging need images |
 | "嵌入" / "插图" / "embed in another doc" | PNG only | Used as material inside other documents |
 | User explicitly says a format | Follow the user | Explicit request overrides auto-selection |
 
-PDF always ships for document templates. Landing pages ship as a ready-to-serve static HTML file. PPTX follows slides. PNG follows sharing context.
+PDF is the default for document templates; an explicit format request takes precedence. Landing pages ship as a ready-to-serve static HTML file. Add PPTX only when the user explicitly needs an editable deck. PNG follows sharing context.
 
 ## Step 5 · Build & verify
 
@@ -429,12 +429,11 @@ python3 scripts/build.py --check-density              # repo sweep (skips cover 
 python3 scripts/build.py --check-rhythm slides slides-en   # warn on monotonous slide sequences
 python3 scripts/build.py --doctor         # installed render/check/font capability report
 python3 scripts/build.py --check            # lint + token/theme + public-site fact checks
-python3 scripts/build_metadata.py --check   # Claude/Codex plugin mirror + marketplace drift check
 ```
 
 > **Strict LaTeX mathematics**: Use only `\( inline \)` / `\[ display \]` as formula source. The delivered HTML/PDF must contain MathJax SVG, not Unicode pseudo-formulas, raw TeX, or formula screenshots. Run `ensure_mathjax.sh`, `math_render.py --in-place`, and `math_render.py --check` before render/hand-off.
 
-> **Screen verify**: `--check-density` is a print gate. For ANY browser-delivered surface (landing page, docs page, dashboard, testimonial wall, article index), screenshotting the rendered page at 375px and 1280px in every locale is a hard step before declaring done, not an on-request extra: scan for line widows, sparse blocks, and single-line-surface wraps, and report the result. Do not wait for the user to ask "does it work on mobile". See `references/design.md` Section 12 «Responsive screenshot verification».
+> **Screen verify**: `--check-density` is a print gate. For ANY browser-delivered surface (landing page, docs page, dashboard, testimonial wall, article index), screenshotting the rendered page across the responsive matrix in every locale is a hard step before declaring done, not an on-request extra: scan for line widows, sparse blocks, and single-line-surface wraps, and report the result. Do not wait for the user to ask "does it work on mobile". See `references/design.md` Section 12 «Responsive screenshot verification».
 
 > **Perceptual verify (PDF deliverables)**: geometry checks cannot see a fallback glyph or an arrow crossing a label. Before shipping a filled PDF, run `python3 scripts/build.py --check-visual path/to/filled.pdf`, then view every exported page image against the printed checklist. One hit means a whole-document sweep for that class of issue. If your host cannot view images, send the image paths and checklist to the user instead of skipping the pass. `--check-visual` runs the font gate for you and prints its verdict above the checklist.
 
@@ -455,7 +454,7 @@ A task is done when the user receives, in the closing message:
 1. The path of every deliverable, in every promised format (Step 4.5).
 2. Which checks ran and their results, including the page-count contract.
 3. Every remaining `[DATA NEEDED]` gap, listed explicitly. Never declare done with an unreported gap.
-4. The visual verdict, stated honestly by surface: for PDFs the `--check-visual` pass status (which includes the font gate); for screen surfaces the 375px/1280px screenshot result; when rendering could not be inspected, say "build verified, visuals unconfirmed", not "done".
+4. The visual verdict, stated honestly by surface: for PDFs the `--check-visual` pass status (which includes the font gate); for screen surfaces the responsive-matrix screenshot result; when rendering could not be inspected, say "build verified, visuals unconfirmed", not "done".
 5. For documents containing mathematics, the strict LaTeX result: MathJax SVG rendering and `scripts/math_render.py --check` both passed.
 
 ## Fonts
@@ -473,13 +472,13 @@ When the user gives visual feedback ("looks off", "太挤了", "not elegant"), i
 3. Make the smallest content, geometry, spacing, typography, crop, or token change that fixes the defect. Never hide a content problem by shrinking type first.
 4. Verify the affected matrix rather than one screenshot:
    - PDF: target page, neighboring pages, total page count, font result, and every locale or template variant reached by a shared token.
-   - Screen: 1280px and 375px, plus 320px when CTA or nav width is involved; every shipped locale; affected default, focus/selected, loading, empty/error, and transition state only when the surface actually has them.
+   - Screen: the breakpoint, tablet, and baseline matrix in `references/design.md` «Responsive screenshot verification»; every shipped locale; affected default, focus/selected, loading, empty/error, and transition state only when the surface actually has them.
    - PPTX: editable source plus a rendered PDF or opened-deck inspection.
    - Generated asset: target slot at its smallest display size plus sibling assets in the same deliverable.
 
 If no rendered evidence exists and the feedback still leaves two materially different fixes, ask once by naming the current property and offering two in-spec alternatives. Never say "I'll adjust the spacing" without naming the exact property and its new value.
 
-**Escalate after two rounds.** If the same element is still not approved after two adjustment rounds, stop nudging values: produce one comparison artifact instead: the current state plus 2-3 labeled variants (A/B/C) of the same content in the same frame, and let the user pick. For choices with no objective criterion (typeface, accent color, logo), skip the nudging entirely and start with a specimen sheet: up to 5 candidates, each a labeled half-page block of identical title-plus-paragraph content. One round of "pick one" converges where five rounds of "try again" do not; after the pick, apply it everywhere and rebuild affected demos in the same round.
+**Escalate after two rounds.** If the same element is still not approved after two adjustment rounds, stop nudging values: produce one comparison artifact instead: the current state plus 2-3 labeled variants (A/B/C) of the same content in the product’s actual frame and background, retaining neighboring components and changing only the compared property, and let the user pick. For choices with no objective criterion (typeface, accent color, logo), skip the nudging entirely and start with a specimen sheet: up to 5 candidates, each a labeled half-page block of identical title-plus-paragraph content. One round of "pick one" converges where five rounds of "try again" do not; after the pick, apply it everywhere and rebuild affected demos in the same round.
 
 ---
 

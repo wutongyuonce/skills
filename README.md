@@ -12,17 +12,16 @@ engineering/、productivity/ 文件夹下的 skill 来自 [mattpocock/skills](ht
 
 | Skill | 来源 | 说明 |
 |---|---|---|
-| [annotate-code-comments-zh](./annotate-code-comments-zh/SKILL.md) |  | 为代码文件添加统一的中文注释 |
-| [blog-content-publisher](./blog-content-publisher/SKILL.md) | — | 发布和维护 Wutong-Yu Astro 博客内容 |
+| [annotate-code-comments-zh](./annotate-code-comments-zh/SKILL.md) | — | 为代码文件添加统一的中文注释 |
 | [dg-piagent](./dg-piagent/SKILL.md) | — | 面向 pi-agent / `@earendil-works/pi-coding-agent` SDK 的开发指南与接入评估 |
 | [github](./github/SKILL.md) | — | 通过 gh CLI 进行 GitHub 操作：issues、PR、CI、代码审查 |
 | [pr-hint](./pr-hint/SKILL.md) | — | 研究开源项目中的可贡献机会 |
-| [show-me](./show-me/SKILL.md) | — | 用简洁图示、代码形状草图和聚焦 HTML 帮用户直观看懂当前主题 |
+| [pr-lifecycle](./pr-lifecycle/SKILL.md) | [GitHub](https://github.com/wutongyuonce/pr-lifecycle) | 非平凡 PR 的全生命周期纪律：issue/spec 澄清 → 设计 → 实现 → review 修复 → 测试消融 → 终审 |
 | [skill-viz](./skill-viz/SKILL.md) | — | 零依赖 CLI 工具，生成 skill 可视化仪表盘 |
 | [stack-notes](./stack-notes/SKILL.md) | — | 整理编程语言、框架和工具栈的快速入门笔记 |
 | [trajex-skill](./trajex-skill/SKILL.md) | [GitHub](https://github.com/wutongyuonce/Trajex/tree/main/trajex-skill) | 检索过去的 Claude Code / Codex / Pi 会话历史 |
-| [understand-project](./understand-project/SKILL.md) | — | 为完全不了解项目的人产出由浅到深的中文「看懂 X」项目解析文档 |
-| [video2article](./video2article/SKILL.md) | [GitHub](https://github.com/wutongyuonce/video2article) | 把视频/播客重写成阅读版文章（YouTube 字幕 / 小宇宙官方逐字稿 / 本地 ASR） |
+| [understand-project](./understand-project/SKILL.md) | [GitHub](https://github.com/wutongyuonce/understand-project) | 为完全不了解项目的人产出由浅到深的中文「看懂 X」项目解析文档 |
+| [video2article](./video2article/SKILL.md) | [GitHub](https://github.com/wutongyuonce/video2article) | 把视频/播客重写成「阅读版本」文章：按主题分小节、逐节展开（YouTube 字幕 / 小宇宙官方逐字稿 / 本地 ASR） |
 
 ## 其他 Skills
 
@@ -30,24 +29,21 @@ engineering/、productivity/ 文件夹下的 skill 来自 [mattpocock/skills](ht
 |---|---|---|
 | [code-review-skill](./code-review-skill/SKILL.md) | [GitHub](https://github.com/awesome-skills/code-review-skill) | 覆盖 20+ 语言/框架的全面代码审查指南（React、Vue、Angular、Rust、Go、Python 等） |
 | [convert-documents-to-markdown](./convert-documents-to-markdown/SKILL.md) | [GitHub](https://github.com/firecrawl/anydoc/tree/main/skills/convert-documents-to-markdown) | 将 Word/PPT/Excel/PDF/EPUB 等文档转换为 GitHub Flavored Markdown |
-| [ego-browser](./ego-browser/SKILL.md) | — | 基于 ego-browser 的浏览器自动化、网页测试、截图、表单填写与数据提取 |
 | [git-ship](./git-ship/SKILL.md) | [GitHub](https://github.com/oil-oil/git-ship) | 自动化完整 ship 流程：切分支 → commit → push → 建 PR → squash merge |
 | [herdr](./herdr/SKILL.md) | [GitHub](https://github.com/herdrdev/herdr/tree/master/skills/herdr) | 控制 Herdr 终端复用器（工作区、标签、窗格） |
 | [Humanizer-zh](./Humanizer-zh/SKILL.md) | [GitHub](https://github.com/op7418/Humanizer-zh) | 去除文本中的 AI 生成痕迹，使其更自然 |
 | [hv-analysis](./hv-analysis/SKILL.md) | [GitHub](https://github.com/KKKKhazix/khazix-skills/tree/main/hv-analysis) | 横纵分析法深度研究产品/公司/概念，输出 PDF 报告 |
 | [mcp-builder](./mcp-builder/SKILL.md) | [GitHub](https://github.com/anthropics/skills/tree/main/skills/mcp-builder) | 高质量 MCP 服务器开发指南（Python FastMCP / Node SDK） |
+| [show-me](./show-me/SKILL.md) | [GitHub](https://github.com/humanlayer/skills/tree/main/plugins/show-me/skills/show-me) | 用简洁图示、代码形状草图和聚焦 HTML 帮用户直观看懂当前主题 |
 | [skill-creator](./skill-creator/SKILL.md) | [GitHub](https://github.com/anthropics/skills/tree/main/skills/skill-creator) | 创建、修改和评估 skill，含 evals 与触发词优化 |
-| [Kami](./uiux、anime、frontend/Kami/SKILL.md) | [GitHub](https://github.com/tw93/Kami) | 统一设计语言的文档交付系统 |
+| [Kami](./uiux、anime、frontend/kami/SKILL.md) | [GitHub](https://github.com/tw93/Kami) | 统一设计语言的文档交付系统 |
 | [clone-website](./uiux、anime、frontend/clone-website/SKILL.md) | [GitHub](https://github.com/JCodesMore/ai-website-cloner-template/tree/master/.codex/skills/clone-website) | 逆向分析并克隆网站 |
 | [diagram-design](./uiux、anime、frontend/diagram-design/SKILL.md) | [GitHub](https://github.com/cathrynlavery/diagram-design/tree/main/skills/diagram-design) | 创建架构图、流程图、时序图等可视化图表 |
 | [frontend-design](./uiux、anime、frontend/frontend-design/SKILL.md) | [GitHub](https://github.com/anthropics/skills/tree/main/skills/frontend-design) | 前端界面设计与实现指南 |
-| [gc-minimal-zine-poster](./uiux、anime、frontend/gc-minimal-zine-poster/SKILL.md) | [GitHub](https://github.com/LiamGvchi/gc-minimal-zine-poster) | 生成极简主义风格的海报图像 |
 | [guizang-ppt-skill](./uiux、anime、frontend/guizang-ppt-skill/SKILL.md) | [GitHub](https://github.com/op7418/guizang-ppt-skill) | 生成横向翻页网页 PPT，含 WebGL 背景、多风格模板 |
 | [guizang-social-card-skill](./uiux、anime、frontend/guizang-social-card-skill/SKILL.md) | [GitHub](https://github.com/op7418/guizang-social-card-skill) | 生成社交媒体卡片，支持多种布局和主题 |
-| [huashu-md-html](./uiux、anime、frontend/huashu-md-html/SKILL.md) | [GitHub](https://github.com/alchaincyf/huashu-md-html) | md/html/docx 多向转换流水线 |
 | [ian-xiaohei-illustrations](./uiux、anime、frontend/ian-xiaohei-illustrations/SKILL.md) | [GitHub](https://github.com/helloianneo/ian-xiaohei-illustrations/tree/main/ian-xiaohei-illustrations) | 生成 Ian「小黑」风格的中文正文配图 |
 | [oil-cover](./uiux、anime、frontend/oil-cover/SKILL.md) | [GitHub](https://github.com/oil-oil/oil-cover) | 生成小红书/B 站 AI 工具实操视频封面 |
-| [photo-to-zine-postcard](./uiux、anime、frontend/photo-to-zine-postcard/SKILL.md) | [GitHub](https://github.com/Whiplashzeb/photo-to-zine-postcard) | 将照片制作成极简双面 zine 明信片 |
 | [react-best-practices](./uiux、anime、frontend/react-best-practices/SKILL.md) | [GitHub](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices) | Vercel 出品的 React/Next.js 性能优化指南 |
 | [shadcn](./uiux、anime、frontend/shadcn/SKILL.md) | [GitHub](https://github.com/shadcn-ui/ui/tree/main/skills/shadcn) | shadcn/ui 组件管理与项目集成 |
 | [taste-skill](./uiux、anime、frontend/taste-skill/SKILL.md) | [GitHub](https://github.com/Leonxlnx/taste-skill) | 反模板化前端设计，产出不套模板的界面 |
