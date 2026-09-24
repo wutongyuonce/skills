@@ -1,0 +1,16 @@
+# Python-generated files
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.venv/
+
+# macOS metadata
+.DS_Store
+
+# Packaged artifacts
+*.tgz
+*.zip
+
+# Local skill install metadata
+_user_meta.json

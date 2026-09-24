@@ -48,7 +48,7 @@ engineering/、productivity/ 文件夹下的 skill 来自 [mattpocock/skills](ht
 | [shadcn](./uiux、anime、frontend/shadcn/SKILL.md) | [GitHub](https://github.com/shadcn-ui/ui/tree/main/skills/shadcn) | shadcn/ui 组件管理与项目集成 |
 | [taste-skill](./uiux、anime、frontend/taste-skill/SKILL.md) | [GitHub](https://github.com/Leonxlnx/taste-skill) | 反模板化前端设计，产出不套模板的界面 |
 | [video-shotcraft](./uiux、anime、frontend/video-shotcraft/SKILL.md) | [GitHub](https://github.com/Vincentwei1021/video-shotcraft) | 将产品视频需求转化为可执行的镜头方案 |
-| [open-kimi-ppt](./open-kimi-ppt-skill/skills/open-kimi-ppt/SKILL.md) | — | 创建、编辑、复刻和导出演示文稿 |
+| [open-kimi-ppt](./open-kimi-ppt-skill/skills/open-kimi-ppt/SKILL.md) | [GitHub](https://github.com/binaryify/open-kimi-ppt-skill) | 创建、编辑、复刻和导出演示文稿 |
 
 ## 同步到 Codex
 
