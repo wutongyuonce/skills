@@ -32,6 +32,9 @@ export interface TrackData {
 }
 
 export interface ProjectData {
+  /** Visual preset; absent means the manifest's default, preserving older JSON. */
+  themeId?: string;
+  themeColors?: Record<string, string>;
   name: string;
   fps: number;
   width: number;

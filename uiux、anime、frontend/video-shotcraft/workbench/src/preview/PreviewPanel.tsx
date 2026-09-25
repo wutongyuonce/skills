@@ -6,13 +6,17 @@ import { projectDuration, useStore } from "../store";
 import type { PreviewItem } from "../store";
 import { fmtFrames } from "../time";
 import { CARDS } from "../cards/registry";
-import { cardFps, cardSize, defaultsOf } from "../cards/types";
+import { cardFps, cardSize } from "../cards/types";
+import { MANIFEST } from '../cards/projectCards';
+import { themedProps } from '../theme';
 
 /** 素材库点击预览：占据画面区，循环播放；主工程 Player 保持挂载（display:none） */
 const ItemPreview: React.FC<{ item: NonNullable<PreviewItem>; onClose: () => void }> = ({
   item,
   onClose,
 }) => {
+  const themeId = useStore(s => s.project.themeId);
+  const themeColors = useStore(s => s.project.themeColors);
   let body: React.ReactNode = null;
   let title = "";
   if (item.kind === "card") {
@@ -23,7 +27,7 @@ const ItemPreview: React.FC<{ item: NonNullable<PreviewItem>; onClose: () => voi
       body = (
         <Player
           component={card.component}
-          inputProps={defaultsOf(card)}
+          inputProps={themedProps(MANIFEST, card, themeId, {}, themeColors)}
           durationInFrames={Math.max(2, card.durationInFrames)}
           compositionWidth={width}
           compositionHeight={height}

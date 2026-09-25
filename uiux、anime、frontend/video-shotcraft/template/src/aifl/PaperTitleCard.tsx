@@ -1,8 +1,7 @@
+import { useVisualTheme, themePaint, sceneDefaults } from '../themes/visual-theme';
 import { AbsoluteFill, interpolate, useCurrentFrame, Easing } from 'remotion';
 import { DigitRoll } from './DigitRoll';
 
-const SERIF = 'ui-serif, Georgia, "Times New Roman", serif';
-const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
 
 /** Context-level defaults (copy size / palette). Exposed as props so the
  * workbench can edit them per clip; the motion timing stays fixed. Hex values
@@ -29,14 +28,14 @@ export const PaperTitleCard: React.FC<{
   accent?: string;
   muted?: string;
   paper?: string;
-}> = ({
-  duration, words, sub, subDigits,
-  fontSize = TITLE_CARD_DEFAULTS.fontSize,
-  ink = TITLE_CARD_DEFAULTS.ink,
-  accent = TITLE_CARD_DEFAULTS.accent,
-  muted = TITLE_CARD_DEFAULTS.muted,
-  paper = TITLE_CARD_DEFAULTS.paper,
-}) => {
+}> = (props) => {
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+  const paint = (css: string) => themePaint(theme, css);
+  const SERIF = paperStyle ? 'ui-serif, Georgia, "Times New Roman", serif' : theme.font;
+  const MONO = (paperStyle ? 'ui-monospace, SFMono-Regular, Menlo, monospace' : theme.font);
+  const {duration, words, sub, subDigits, ...style} = props;
+  const {fontSize, ink, accent, muted, paper} = {...sceneDefaults(theme, 'title-card', TITLE_CARD_DEFAULTS), ...style};
   const frame = useCurrentFrame();
   const fadeOut = interpolate(frame, [duration - 8, duration], [1, 0], {
     extrapolateLeft: 'clamp',
@@ -59,7 +58,7 @@ export const PaperTitleCard: React.FC<{
         justifyContent: 'center',
         alignItems: 'center',
         opacity: fadeOut,
-        backgroundImage: 'radial-gradient(1100px 750px at 50% 42%, oklch(99.3% 0.014 88 / 0.85), transparent 65%)',
+        backgroundImage: paint('radial-gradient(1100px 750px at 50% 42%, oklch(99.3% 0.014 88 / 0.85), transparent 65%)'),
       }}
     >
       <div style={{ textAlign: 'center', maxWidth: 1500 }}>
@@ -85,7 +84,7 @@ export const PaperTitleCard: React.FC<{
                   transform: `scale(${1.28 - 0.28 * t})`,
                   filter: `blur(${(1 - t) * 7}px)`,
                   display: 'inline-block',
-                  fontStyle: w.accent ? 'italic' : 'normal',
+                  fontStyle: paperStyle && w.accent ? 'italic' : 'normal',
                   color: w.accent ? accent : undefined,
                 }}
               >
@@ -101,8 +100,8 @@ export const PaperTitleCard: React.FC<{
           }}
         />
         {sub ? (
-          <div style={{ fontFamily: MONO, fontSize: 26, letterSpacing: '0.12em', color: muted, marginTop: 34, opacity: subT, textTransform: 'uppercase', display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '0.5em' }}>
-            {subDigits ? <DigitRoll value={subDigits} delay={12} fontSize={26} color={accent} /> : null}
+          <div style={{ fontFamily: MONO, fontSize: paperStyle ? 26 : 44, letterSpacing: '0.12em', color: muted, marginTop: 34, opacity: subT, textTransform: 'uppercase', display: 'flex', justifyContent: 'center', alignItems: 'baseline', gap: '0.5em' }}>
+            {subDigits ? <DigitRoll value={subDigits} delay={12} fontSize={paperStyle ? 26 : 44} color={accent} /> : null}
             <span>{sub}</span>
           </div>
         ) : null}

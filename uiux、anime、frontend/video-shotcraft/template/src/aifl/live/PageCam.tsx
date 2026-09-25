@@ -1,3 +1,4 @@
+import { useVisualTheme, themePaint, themeAsset } from '../../themes/visual-theme';
 import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, Easing } from 'remotion';
 
 export type CamKey = {
@@ -35,6 +36,10 @@ export const PageCam: React.FC<{
   ease?: (t: number) => number;
   dof?: { focusY: number; strength: number };
 }> = ({ src, pageH, keys, children, blur = 0, saturate = 1, ease = Easing.bezier(0.33, 0, 0.15, 1), dof }) => {
+  const theme = useVisualTheme();
+  const paint = (css: string) => themePaint(theme, css);
+  const asset = (src: string) => themeAsset(theme, src);
+
   const frame = useCurrentFrame();
   // find segment
   let a = keys[0], b = keys[keys.length - 1];
@@ -57,7 +62,7 @@ export const PageCam: React.FC<{
 
   if (!has3D) {
     return (
-      <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#faf7f2' }}>
+      <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: paint('#faf7f2') }}>
         <div
           style={{
             position: 'absolute', width: 1920, height: pageH,
@@ -66,7 +71,7 @@ export const PageCam: React.FC<{
             filter: filters.length ? filters.join(' ') : undefined,
           }}
         >
-          <Img src={staticFile(src)} style={{ position: 'absolute', width: 1920, height: pageH }} />
+          <Img src={asset(src)} style={{ position: 'absolute', width: 1920, height: pageH }} />
           {children}
         </div>
       </AbsoluteFill>
@@ -82,7 +87,7 @@ export const PageCam: React.FC<{
   const persp = lerp(a.persp ?? 1400, b.persp ?? 1400, t);
 
   return (
-    <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: '#faf7f2' }}>
+    <AbsoluteFill style={{ overflow: 'hidden', backgroundColor: paint('#faf7f2') }}>
       <div
         style={{
           position: 'absolute', inset: 0,
@@ -117,7 +122,7 @@ export const PageCam: React.FC<{
             filter: filters.length ? filters.join(' ') : undefined,
           }}
         >
-          <Img src={staticFile(src)} style={{ position: 'absolute', width: 1920, height: pageH }} />
+          <Img src={asset(src)} style={{ position: 'absolute', width: 1920, height: pageH }} />
           {children}
         </div>
       </div>
@@ -134,8 +139,8 @@ export const PageCam: React.FC<{
             height: Math.max(0, dof.focusY),
             backdropFilter: `blur(${dof.strength}px)`,
             WebkitBackdropFilter: `blur(${dof.strength}px)`,
-            maskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)',
-            WebkitMaskImage: 'linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)',
+            maskImage: paint('linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)'),
+            WebkitMaskImage: paint('linear-gradient(to bottom, rgba(0,0,0,1) 0%, rgba(0,0,0,1) 45%, rgba(0,0,0,0) 100%)'),
             pointerEvents: 'none',
           }}
         />

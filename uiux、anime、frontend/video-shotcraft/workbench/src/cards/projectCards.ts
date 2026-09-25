@@ -46,6 +46,7 @@ const build = (m: WorkbenchManifest | null) => {
         width: m.width,
         height: m.height,
         component: first.component,
+        themeKey: first.themeKey,
         schema: first.schema ?? [],
         durationProp: first.durationProp,
         accent: first.accent ?? KIND_ACCENT[kind],

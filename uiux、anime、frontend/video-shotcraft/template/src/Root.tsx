@@ -1,11 +1,13 @@
 import { Composition } from 'remotion';
-import { AiflMain, AIFL_TOTAL } from './aifl/Main';
+import { AIFL_TOTAL } from './aifl/Main';
+import { ThemedFilm } from './themes/ThemedFilm';
 
 export const Root: React.FC = () => {
   return (
     <Composition
       id="AiflPromo"
-      component={AiflMain}
+      component={ThemedFilm}
+      defaultProps={{theme: 'ink-press'}}
       durationInFrames={AIFL_TOTAL}
       fps={30}
       width={1920}

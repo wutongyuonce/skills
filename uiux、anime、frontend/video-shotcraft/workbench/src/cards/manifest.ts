@@ -7,6 +7,8 @@ import type { PropField } from "./types";
  *  时间量一律用**绝对帧**，与 Main.tsx 里 <Sequence from durationInFrames> 一一对应。 */
 
 export type ManifestUnit = {
+  /** Key into a theme's unitDefaults; omitted for components without theme support. */
+  themeKey?: string;
   /** 唯一 id（镜头 id / 转场序号…），导入后作为 clip 标签的一部分 */
   id: string;
   /** 时间轨上显示名（缺省 id） */
@@ -40,6 +42,12 @@ export type ManifestAudio = {
 };
 
 export type WorkbenchManifest = {
+  /** Optional visual presets. Existing manifests require no changes. */
+  themes?: ManifestTheme[];
+  defaultTheme?: string;
+  /** Prop injected into themed components in both preview and export. */
+  themeProp?: string;
+  paletteProp?: string;
   name: string;
   fps: number;
   width: number;
@@ -64,6 +72,14 @@ export type WorkbenchManifest = {
   order?: ("transitions" | "captions" | "overlays")[];
   /** 原成片合成（整条 Main）——Studio 里注册为 ProjOriginal，供逐帧对照导入结果 */
   original?: React.ComponentType<Record<string, unknown>>;
+};
+
+export type ManifestTheme = {
+  palette?: Record<string, string>;
+  id: string;
+  label: string;
+  background?: string;
+  unitDefaults?: Record<string, Record<string, unknown>>;
 };
 
 export const UNIT_KINDS = ["shot", "transition", "caption", "overlay"] as const;
@@ -122,10 +138,12 @@ const canonical = (m: WorkbenchManifest): string => {
     [
       cardOf.get(u) ?? "", u.id, u.label ?? "", u.from, u.duration, u.durationProp ?? "",
       (u.component as { displayName?: string }).displayName ?? "", JSON.stringify(u.props ?? {}),
+      ...(u.themeKey ? [u.themeKey] : []),
     ].join("|");
   const audio = (kind: string, a: ManifestAudio) => [kind, a.from, a.duration ?? "", a.src, a.volume, a.label ?? ""].join("|");
   return [
     m.name, m.fps, m.width, m.height, m.total, m.background ?? "", (m.order ?? []).join(","),
+    ...(m.themes ? [JSON.stringify(m.themes), m.defaultTheme ?? '', m.themeProp ?? ''] : []),
     ...UNIT_KINDS.flatMap((kind) => unitsOf(m, kind).map(unit)),
     ...(m.sfx ?? []).map((a) => audio("sfx", a)),
     ...(m.bgm ?? []).map((a) => audio("bgm", a)),

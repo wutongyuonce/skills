@@ -1,4 +1,5 @@
-import { AbsoluteFill, Img, interpolate, staticFile, useCurrentFrame, Easing } from 'remotion';
+import { useVisualTheme, themePaint, themeAsset, sceneDefaults } from '../../themes/visual-theme';
+import { AbsoluteFill, Img, interpolate, useCurrentFrame, Easing } from 'remotion';
 import { PageCam, CamKey } from './PageCam';
 import { AIFL_SHOTS } from '../Main';
 import layout from '../live-layout.json';
@@ -7,7 +8,6 @@ import { DigitRoll } from '../DigitRoll';
 const cards = layout.papers.cards;
 const PAGE_H = layout.papers.pageH;
 
-const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
 
 /** Context-level defaults (screen-space counter copy / palette), editable per clip in the workbench. */
 export const SCENE_PAPERS_DEFAULTS = {
@@ -42,7 +42,12 @@ const CAM_KEYS: CamKey[] = [
  * motif), each landing pressing the settled stack down and bouncing back, with
  * an amber highlight sweeping the linked-project name and a screen-space counter. */
 export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
-  const { title, subtitle, counterSize, amber: AMBER, muted } = { ...SCENE_PAPERS_DEFAULTS, ...props };
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+  const paint = (css: string) => themePaint(theme, css);
+  const asset = (src: string) => themeAsset(theme, src);
+  const MONO = (paperStyle ? 'ui-monospace, SFMono-Regular, Menlo, monospace' : theme.font);
+  const { title, subtitle, counterSize, amber: AMBER, muted } = { ...sceneDefaults(theme, 'chart', SCENE_PAPERS_DEFAULTS), ...props };
   const frame = useCurrentFrame();
 
   // how many cards have already landed (t reached 1) — drives the counter
@@ -89,7 +94,7 @@ export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
               top: c.y - 10,
               width: c.w + 24,
               height: c.h + 20,
-              background: '#faf7f2',
+              background: paint('#faf7f2'),
               opacity: frame >= CUES[i] + DUR - 2 ? 0 : 1,
             }}
           />
@@ -106,8 +111,8 @@ export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
           const rot = TILTS[i] * (1 - t);
           const scale = 1.06 - 0.06 * t;
           const shadow = settled
-            ? '0 2px 8px rgba(60,45,30,.10)'
-            : `0 32px 64px rgba(60,45,30,${0.22 * (1 - t) + 0.06})`;
+            ? paint('0 2px 8px rgba(60,45,30,.10)')
+            : paint(`0 32px 64px rgba(60,45,30,${0.22 * (1 - t) + 0.06})`);
 
           // amber highlight over the linked-project name, 6 frames after landing.
           // card-relative: x ~20px in, y ~72% of card height, ~40% wide.
@@ -137,7 +142,7 @@ export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
               }}
             >
               <Img
-                src={staticFile(`textures/live/${FILES[i]}`)}
+                src={asset(`textures/live/${FILES[i]}`)}
                 style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', display: 'block' }}
               />
               {/* amber highlight sweep on the linked-project name */}
@@ -149,7 +154,7 @@ export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
                     top: c.h * 0.72,
                     width: `${hlGrow * 40}%`,
                     height: 30,
-                    background: 'oklch(97% 0.028 85)',
+                    background: paint('oklch(97% 0.028 85)'),
                     opacity: 0.6 * hlFade,
                     borderRight: `2px solid ${AMBER}`,
                     pointerEvents: 'none',
@@ -169,24 +174,24 @@ export const ScenePapers: React.FC<ScenePapersProps> = (props) => {
             left: glazeX,
             width: 420,
             transform: 'rotate(14deg)',
-            opacity: glazeVis * 0.5,
+            opacity: paperStyle ? glazeVis * 0.5 : 0,
             mixBlendMode: 'overlay',
             background:
-              'linear-gradient(90deg, transparent, rgba(255,240,214,0.9) 45%, rgba(255,240,214,0.9) 55%, transparent)',
+              paint('linear-gradient(90deg, transparent, rgba(255,240,214,0.9) 45%, rgba(255,240,214,0.9) 55%, transparent)'),
             pointerEvents: 'none',
           }}
         />
       </PageCam>
 
       {/* screen-space counter, top-right */}
-      <div style={{ position: 'absolute', top: 70, right: 96, textAlign: 'right', pointerEvents: 'none' }}>
-        <div style={{ fontFamily: MONO, fontSize: 24, letterSpacing: '0.16em', color: muted, textTransform: 'uppercase' }}>
+      <div style={{ position: 'absolute', top: 70, right: 96, textAlign: 'right', pointerEvents: 'none', ...(!paperStyle ? {width: 310} : {}) }}>
+        <div style={{ fontFamily: MONO, fontSize: paperStyle ? 24 : 44, letterSpacing: '0.16em', color: muted, textTransform: 'uppercase' }}>
           {title}
         </div>
         <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: 6 }}>
           <DigitRoll key={landedCount} value={String(landedCount)} fontSize={counterSize} color={AMBER} />
         </div>
-        <div style={{ fontFamily: MONO, fontSize: 20, letterSpacing: '0.12em', color: muted, marginTop: 4, textTransform: 'uppercase' }}>
+        <div style={{ fontFamily: MONO, fontSize: paperStyle ? 20 : 44, letterSpacing: '0.12em', color: muted, marginTop: 4, textTransform: 'uppercase' }}>
           {subtitle}
         </div>
       </div>

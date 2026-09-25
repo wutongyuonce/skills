@@ -1,3 +1,4 @@
+import { useVisualTheme } from '../themes/visual-theme';
 import { interpolate, useCurrentFrame, Easing } from 'remotion';
 
 const DIGITS = '0123456789';
@@ -9,10 +10,13 @@ export const DigitRoll: React.FC<{
   fontSize?: number;
   color?: string;
 }> = ({ value, delay = 0, fontSize = 30, color = 'oklch(52% 0.115 65)' }) => {
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+
   const frame = useCurrentFrame();
   const lineH = fontSize * 1.15;
   return (
-    <span style={{ display: 'inline-flex', overflow: 'hidden', height: lineH, verticalAlign: 'bottom' }}>
+    <span style={{ fontFamily: paperStyle ? undefined : theme.font, display: 'inline-flex', overflow: 'hidden', height: lineH, verticalAlign: 'bottom' }}>
       {value.split('').map((ch, i) => {
         const target = DIGITS.indexOf(ch);
         if (target < 0) {

@@ -1,4 +1,5 @@
-import { AbsoluteFill, Audio, Sequence, staticFile } from 'remotion';
+import { useVisualTheme, themePaint, themeAsset } from '../themes/visual-theme';
+import { AbsoluteFill, Audio, Sequence } from 'remotion';
 import { SceneOpen } from './live/SceneOpen';
 import { SceneFlyIn } from './live/SceneFlyIn';
 import { SceneDetail } from './live/SceneDetail';
@@ -114,8 +115,12 @@ export const SFX: { from: number; src: string; volume: number }[] = [
 ];
 
 export const AiflMain: React.FC = () => {
+  const theme = useVisualTheme();
+  const paint = (css: string) => themePaint(theme, css);
+  const asset = (src: string) => themeAsset(theme, src);
+
   return (
-    <AbsoluteFill style={{ backgroundColor: '#f2eee6' }}>
+    <AbsoluteFill style={{ backgroundColor: paint('#f2eee6') }}>
       {/* beat-pinned promo sound effects (no music bed — SFX only) */}
       {SFX.map((s, i) => (
         <Sequence
@@ -123,7 +128,7 @@ export const AiflMain: React.FC = () => {
           from={s.from}
           durationInFrames={sfxDuration(s)}
         >
-          <Audio src={staticFile(`audio/${s.src}`)} volume={s.volume} />
+          <Audio src={asset(`audio/${s.src}`)} volume={s.volume} />
         </Sequence>
       ))}
       <Sequence from={AIFL_SHOTS.morning.from} durationInFrames={AIFL_SHOTS.morning.duration}>

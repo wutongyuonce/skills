@@ -152,6 +152,8 @@ jobs:
           # template/ has no node_modules in CI; borrow the workbench's (same remotion / react pins)
           ln -s ../workbench/node_modules template/node_modules
           cd template && ../workbench/node_modules/.bin/tsc --noEmit -p tsconfig.json
+      - name: Theme and palette regressions
+        run: npm --prefix workbench run test:themes
 
   demo-smoke:
     runs-on: ubuntu-latest

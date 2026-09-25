@@ -3,6 +3,8 @@ import type { PropField } from "../cards/types";
 import { cardFps, inOffsetFps, sourceLength } from "../cards/types";
 import { CARDS } from "../cards/registry";
 import { findClip, useStore } from "../store";
+import { MANIFEST } from '../cards/projectCards';
+import { themedProps } from '../theme';
 
 /** 单个属性控件：按 schema 字段类型渲染 */
 const PropControl: React.FC<{
@@ -180,7 +182,7 @@ export const Inspector: React.FC = () => {
               <Row key={field.key} label={field.label}>
                 <PropControl
                   field={field}
-                  value={clip.props[field.key] ?? field.default}
+                  value={themedProps(MANIFEST, card, project.themeId, clip.props, project.themeColors)[field.key] ?? field.default}
                   onChange={(v) => updateClipProps(clip.id, { [field.key]: v })}
                   onBegin={begin}
                 />

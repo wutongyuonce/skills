@@ -31,6 +31,8 @@ beat-synced cuts, and film-grade SFX included.
 
 ## ✨ What's new
 
+- **One-click film themes:** switch the template between Ink Press, Modern Light, Midnight, Sage, Coral, Iris, Deep Ocean, Obsidian Violet, and Vintage Kraft in the workbench while keeping your edits. [Theme guide](template/THEMES.md).
+
 > [!IMPORTANT]
 > ### 🔥 2026-08 · New in the series: **video-talkcraft**, for narration videos
 > [**video-talkcraft**](https://github.com/Vincentwei1021/video-talkcraft) is the

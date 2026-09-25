@@ -1,5 +1,6 @@
+import { useVisualTheme, themePaint, themeAsset, sceneDefaults } from '../../themes/visual-theme';
 import React from 'react';
-import { interpolate, staticFile, useCurrentFrame, Easing } from 'remotion';
+import { interpolate, useCurrentFrame, Easing } from 'remotion';
 import { PageCam, CamKey } from './PageCam';
 import layout from '../live-layout.json';
 
@@ -14,7 +15,6 @@ const DETAIL_CAM: CamKey[] = [
 ];
 
 const FLY_EASE = Easing.bezier(0.3, 0, 0.25, 1);
-const detailSrc = staticFile('textures/live/detail-full.png');
 
 /** Context-level defaults, editable per clip in the workbench. */
 export const SCENE_DETAIL_DEFAULTS = {
@@ -25,7 +25,12 @@ type SceneDetailProps = Partial<typeof SCENE_DETAIL_DEFAULTS>;
 /** Open on the nano-lab detail page, then pan down while the
  * research-question rows fly in from the air and embed into their slots. */
 export const SceneDetail: React.FC<SceneDetailProps> = (props) => {
-  const { accent } = { ...SCENE_DETAIL_DEFAULTS, ...props };
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+  const paint = (css: string) => themePaint(theme, css);
+  const asset = (src: string) => themeAsset(theme, src);
+  const detailSrc = asset('textures/live/detail-full.png');
+  const { accent } = { ...sceneDefaults(theme, 'macro', SCENE_DETAIL_DEFAULTS), ...props };
   const frame = useCurrentFrame();
   const df = frame;
 
@@ -52,7 +57,7 @@ export const SceneDetail: React.FC<SceneDetailProps> = (props) => {
                 top: r.y - 4,
                 width: r.w + 24,
                 height: r.h + 8,
-                background: '#fdfcfa',
+                background: paperStyle ? '#fdfcfa' : theme.surface,
                 opacity: patchOpacity,
                 zIndex: 1,
                 pointerEvents: 'none',
@@ -93,13 +98,13 @@ export const SceneDetail: React.FC<SceneDetailProps> = (props) => {
                 width: r.w,
                 height: r.h,
                 borderRadius: 8,
-                backgroundColor: '#fff',
+                backgroundColor: paint('#fff'),
                 backgroundImage: `url(${detailSrc})`,
                 backgroundSize: `1920px ${DETAIL_H}px`,
                 backgroundPosition: `-${r.x}px -${r.y}px`,
                 opacity: appear,
                 transform: `perspective(900px) translateY(${-120 * air}px) rotateX(${16 * air}deg) scale(${scale})`,
-                boxShadow: `0 ${30 * air}px ${60 * air}px rgba(30,25,18,${0.22 * air}), 0 ${8 * air}px ${16 * air}px rgba(30,25,18,${0.12 * air})`,
+                boxShadow: paint(`0 ${30 * air}px ${60 * air}px rgba(30,25,18,${0.22 * air}), 0 ${8 * air}px ${16 * air}px rgba(30,25,18,${0.12 * air})`),
                 zIndex: 3,
                 pointerEvents: 'none',
               }}
@@ -131,7 +136,7 @@ export const SceneDetail: React.FC<SceneDetailProps> = (props) => {
                 width: seamW,
                 height: 2,
                 background: accent,
-                boxShadow: '0 0 6px rgba(180,120,50,0.35)',
+                boxShadow: paint('0 0 6px rgba(180,120,50,0.35)'),
                 opacity: seamOpacity,
                 zIndex: 4,
                 pointerEvents: 'none',

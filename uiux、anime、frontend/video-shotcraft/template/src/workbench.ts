@@ -13,6 +13,7 @@
 // shows exactly what is on screen, and an untouched import renders the original film.
 // Motion timing (cues, eases, camera keys) is deliberately NOT exposed.
 import { createElement, type FC } from 'react';
+import { withThemes } from './themes/manifest';
 import {
   AIFL_SHOTS, AIFL_TOTAL, AiflMain, CAPTIONS, FLASH_CUTS, SFX, TITLE_CARDS, parseWords, sfxDuration,
 } from './aifl/Main';
@@ -157,7 +158,7 @@ const title = (key: keyof typeof TITLE_CARDS, label: string) => {
   };
 };
 
-export const WORKBENCH = {
+const PAPER_WORKBENCH = {
   name: 'Ink Press · AIFL promo',
   fps: 30,
   width: 1920,
@@ -192,7 +193,7 @@ export const WORKBENCH = {
     from: c.from,
     duration: c.duration,
     component: CaptionUnit as FC<Record<string, unknown>>,
-    props: { text: c.text, bottom: 72, ...D.caption },
+    props: { text: c.text, ...D.caption },
     schema: SCHEMAS.caption,
     durationProp: 'duration',
     cardId: 'caption',
@@ -209,3 +210,4 @@ export const WORKBENCH = {
   // the untouched film, registered in the workbench Studio as `ProjOriginal` for frame-by-frame comparison
   original: AiflMain as FC<Record<string, unknown>>,
 };
+export const WORKBENCH = withThemes(PAPER_WORKBENCH);

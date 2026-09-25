@@ -3,6 +3,7 @@ import { uid } from "./types";
 import type { ManifestAudio, WorkbenchManifest } from "./cards/manifest";
 import { manifestKey } from "./cards/manifest";
 import { MANIFEST, cardIdOfUnit, unitsOf } from "./cards/projectCards";
+import { inheritedProps } from './theme';
 
 const baseClip = (): Omit<ClipData, "id" | "cardId" | "start" | "duration"> => ({
   inOffset: 0, speed: 1, opacity: 1, scale: 1, x: 0, y: 0, props: {},
@@ -63,7 +64,7 @@ export const buildProjectFromManifest = (m: WorkbenchManifest = MANIFEST!): Proj
         cardId: cardIdOfUnit(u),
         start: Math.max(0, Math.round(u.from)),
         duration: Math.max(2, Math.min(Math.round(u.duration), m.total - Math.max(0, Math.round(u.from)))),
-        props: { ...(u.props ?? {}) },
+        props: inheritedProps(m, u.themeKey, u.props),
         label: u.label ?? u.id,
       })),
     };
@@ -84,6 +85,7 @@ export const buildProjectFromManifest = (m: WorkbenchManifest = MANIFEST!): Proj
   ];
 
   return {
+    ...(m.themes ? {themeId: m.defaultTheme ?? m.themes[0]?.id} : {}),
     name: m.name,
     fps: m.fps,
     width: m.width,

@@ -1,7 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import { Player, type PlayerRef } from "@remotion/player";
 import type { CardDef } from "../cards/types";
-import { cardFps, cardSize, defaultsOf } from "../cards/types";
+import { cardFps, cardSize } from "../cards/types";
+import { themedProps } from '../theme';
 import { CARD_LIST } from "../cards/registry";
 import { DEMO_CATEGORIES } from "../cards/demoCards";
 import { MANIFEST } from "../cards/projectCards";
@@ -10,11 +11,13 @@ import { sfxUsage } from "../projectImport";
 import { BGM_LIB, MEDIA_ITEMS, SFX_LIB } from "../mediaManifest";
 import { PROJ_DIR, PROJ_HAS_MANIFEST, PROJ_LINKED } from "../projMeta";
 import { setDragPayload } from "../dnd";
+import { ThemePanel } from './ThemePanel';
 
 const TABS = [
   { id: "media", label: "素材" },
   { id: "cards", label: "动效库" },
   { id: "sfx", label: "音效" },
+  { id: "themes", label: "主题" },
 ] as const;
 type TabId = (typeof TABS)[number]["id"];
 
@@ -79,6 +82,8 @@ const LazyLoopVideo: React.FC<{ src: string }> = ({ src }) => {
  *  曾经默认自动循环：十几个 1080p 场景同时跑、闪白转场卡每 0.3s 白一次、字卡每 1.8s 淡出重来，
  *  首屏像在闪光灯下；大图反复解码还刷出一串 EncodingError。 */
 const LazyCardLoop: React.FC<{ card: CardDef }> = ({ card }) => {
+  const themeId = useStore(s => s.project.themeId);
+  const themeColors = useStore(s => s.project.themeColors);
   const { ref, visible } = useVisible();
   const { width, height } = cardSize(card);
   const player = useRef<PlayerRef>(null);
@@ -115,7 +120,7 @@ const LazyCardLoop: React.FC<{ card: CardDef }> = ({ card }) => {
         <Player
           ref={player}
           component={card.component}
-          inputProps={defaultsOf(card)}
+          inputProps={themedProps(MANIFEST, card, themeId, {}, themeColors)}
           durationInFrames={total}
           compositionWidth={width}
           compositionHeight={height}
@@ -250,7 +255,11 @@ export const LibraryPanel: React.FC = () => {
           <button
             key={t.id}
             className={`lib-tab${tab === t.id ? " on" : ""}`}
-            onClick={() => setTab(t.id)}
+            aria-pressed={tab === t.id}
+            onClick={() => {
+              setTab(t.id);
+              if (t.id === 'themes') setPreview(null);
+            }}
           >
             {t.label}
           </button>
@@ -258,6 +267,7 @@ export const LibraryPanel: React.FC = () => {
       </div>
 
       <div className="library-list">
+        {tab === 'themes' && <ThemePanel />}
         {tab === "media" && (
           <>
             {MANIFEST ? (
@@ -382,11 +392,13 @@ export const LibraryPanel: React.FC = () => {
       </div>
 
       <div className="lib-foot dim">
+        {tab === 'themes' ? '切换主题可撤销 · 随工程自动保存' : <>
         动效 {motionCards.length} 卡（{motionCards.filter((c) => c.schema.length > 0).length} 张可调参）
         · 音效库 {SFX_LIB.length}
         {PROJ_LINKED && PROJ_HAS_MANIFEST ? ` · 成片单元 ${projectCards.length}` : ""}
         <br />
         点击预览 · 拖拽到时间轨添加
+        </>}
       </div>
     </div>
   );

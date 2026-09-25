@@ -1,3 +1,4 @@
+import { useVisualTheme, themePaint, sceneDefaults } from '../../themes/visual-theme';
 import { interpolate, useCurrentFrame, Easing } from 'remotion';
 import { PageCam, CamKey } from './PageCam';
 import layout from '../live-layout.json';
@@ -8,9 +9,6 @@ const leftRail = layout.wbr.leftRail;
 const rightRail = layout.wbr.rightRail;
 const PAGE_H = layout.wbr.pageH;
 
-const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
-const PAPER = '#fdfcfa';
-const AMBER_WASH = 'oklch(95% 0.05 85)';
 
 // editor-title close-up → ease out to the whole page (both rails on camera)
 // → tiny breathing hold.
@@ -33,7 +31,6 @@ const WIPE = 8;
 // ---- past weeks stack into the left rail: the captured texture only holds
 // the live W28 entry, so W27…W22 drop in from above one after another (list
 // stacking, same vocabulary as the papers shot), landing below it. ----
-const SANS = 'ui-sans-serif, system-ui, -apple-system, sans-serif';
 /** One past week per line: `week|date|title` */
 const PAST_WEEKS_DSL = [
   '2026 第 27 周|7月3日|2026-W27 · Foundation Lab Weekly',
@@ -82,7 +79,14 @@ const memberH2 = new Set<number>();
  * wash, then the week list (left) and comment sidebar (right) wipe on stage —
  * the whole page, both rails included, settles into frame. */
 export const SceneWbr: React.FC<SceneWbrProps> = (props) => {
-  const { kicker, kickerSize, pastWeeks, amber: AMBER, muted } = { ...SCENE_WBR_DEFAULTS, ...props };
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+  const paint = (css: string) => themePaint(theme, css);
+  const MONO = (paperStyle ? 'ui-monospace, SFMono-Regular, Menlo, monospace' : theme.font);
+  const PAPER = paint('#fdfcfa');
+  const AMBER_WASH = paperStyle ? 'oklch(95% 0.05 85)' : paint('rgba(180,120,50,0.10)');
+  const SANS = (paperStyle ? 'ui-sans-serif, system-ui, -apple-system, sans-serif' : theme.font);
+  const { kicker, kickerSize, pastWeeks, amber: AMBER, muted } = { ...sceneDefaults(theme, 'wbr', SCENE_WBR_DEFAULTS), ...props };
   const PAST_WEEKS = parsePastWeeks(pastWeeks);
   const frame = useCurrentFrame();
 
@@ -275,9 +279,9 @@ export const SceneWbr: React.FC<SceneWbrProps> = (props) => {
                 height: WEEK_H,
                 transform: `translateY(${-44 * air}px)`,
                 opacity: appear,
-                boxShadow: air > 0.02 ? `0 ${10 * air}px ${20 * air}px rgba(30,25,18,${0.16 * air})` : 'none',
+                boxShadow: air > 0.02 ? paint(`0 ${10 * air}px ${20 * air}px rgba(30,25,18,${0.16 * air})`) : 'none',
                 background: PAPER,
-                borderBottom: '1px solid rgba(31,41,55,0.07)',
+                borderBottom: paint('1px solid rgba(31,41,55,0.07)'),
                 padding: '8px 10px 0',
                 boxSizing: 'border-box',
                 fontFamily: SANS,
@@ -285,10 +289,10 @@ export const SceneWbr: React.FC<SceneWbrProps> = (props) => {
               }}
             >
               <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'baseline' }}>
-                <span style={{ fontSize: 13, fontWeight: 500, color: '#1f2937' }}>{w.week}</span>
-                <span style={{ fontSize: 10, color: '#9ca3af' }}>{w.date}</span>
+                <span style={{ fontSize: 13, fontWeight: 500, color: paint('#1f2937') }}>{w.week}</span>
+                <span style={{ fontSize: 10, color: paint('#9ca3af') }}>{w.date}</span>
               </div>
-              <div style={{ marginTop: 2, fontSize: 11, color: '#6b7280', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
+              <div style={{ marginTop: 2, fontSize: 11, color: paint('#6b7280'), whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>
                 {w.title}
               </div>
             </div>
@@ -300,13 +304,13 @@ export const SceneWbr: React.FC<SceneWbrProps> = (props) => {
       <div
         style={{
           position: 'absolute',
-          top: 16, // inside the page's empty top-nav band at full-page framing,
-          right: 96, // clear of the comment rail's own header
+          top: paperStyle ? 16 : 72, // use the empty report-header band for editable themes
+          right: paperStyle ? 96 : 320, // clear of the comment rail's header
 
           textAlign: 'right',
           fontFamily: MONO,
           fontSize: kickerSize,
-          letterSpacing: '0.14em',
+          letterSpacing: paperStyle ? '0.14em' : '0.08em',
           color: muted,
           textTransform: 'uppercase',
           opacity: kick,

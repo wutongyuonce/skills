@@ -1,9 +1,10 @@
+import { useVisualTheme, sceneDefaults } from '../themes/visual-theme';
 import { interpolate, useCurrentFrame } from 'remotion';
 
-const MONO = 'ui-monospace, SFMono-Regular, Menlo, monospace';
 
 /** Context-level defaults, editable per clip in the workbench (hex = sRGB of the oklch tokens). */
 export const CAPTION_DEFAULTS = {
+  bottom: 72,
   fontSize: 22,
   color: '#575552',  // oklch(45% 0.006 82)
   accent: '#955905', // oklch(52% 0.115 65)
@@ -19,14 +20,12 @@ export const Caption: React.FC<{
   fontSize?: number;
   color?: string;
   accent?: string;
-}> = ({
-  text,
-  duration,
-  bottom = 72,
-  fontSize = CAPTION_DEFAULTS.fontSize,
-  color = CAPTION_DEFAULTS.color,
-  accent = CAPTION_DEFAULTS.accent,
-}) => {
+}> = (props) => {
+  const theme = useVisualTheme();
+  const paperStyle = theme.id === 'ink-press';
+  const MONO = (paperStyle ? 'ui-monospace, SFMono-Regular, Menlo, monospace' : theme.font);
+  const {text, duration, ...style} = props;
+  const {fontSize, color, accent, bottom} = {...sceneDefaults(theme, 'caption', CAPTION_DEFAULTS), ...style};
   const frame = useCurrentFrame();
   const inT = interpolate(frame, [0, 8], [0, 1], {
     extrapolateLeft: 'clamp',
@@ -50,11 +49,12 @@ export const Caption: React.FC<{
         gap: 14,
         fontFamily: MONO,
         fontSize,
-        letterSpacing: '0.14em',
+        letterSpacing: paperStyle ? '0.14em' : '0.015em',
+        ...(!paperStyle ? {left: '50%', right: 'auto', width: 'max-content', maxWidth: '90%', padding: '8px 18px', borderRadius: 8, background: theme.surface, border: `1px solid ${theme.border}`, fontWeight: 500, lineHeight: 1.2} : {}),
         textTransform: 'uppercase',
         color,
         opacity: inT * outT,
-        transform: `translateY(${(1 - inT) * 8}px)`,
+        transform: paperStyle ? `translateY(${(1 - inT) * 8}px)` : `translate(-50%, ${(1 - inT) * 8}px)`,
         pointerEvents: 'none',
       }}
     >

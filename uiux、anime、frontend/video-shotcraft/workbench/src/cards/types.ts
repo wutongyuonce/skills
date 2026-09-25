@@ -36,6 +36,7 @@ export type PropField =
   | { type: "boolean"; key: string; label: string; default: boolean };
 
 export interface CardDef {
+  themeKey?: string;
   id: string;
   /** 中文名（面板展示） */
   name: string;
