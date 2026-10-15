@@ -1,0 +1,22 @@
+{
+  "name": "@wutongyuonce/pi-agent-skill",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Chinese Agent Skill for developing with the Pi Agent SDK",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "agent-skills",
+    "pi-agent",
+    "sdk"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wutongyuonce/pi-agent-skill.git"
+  },
+  "pi": {
+    "skills": [
+      "./SKILL.md"
+    ]
+  }
+}

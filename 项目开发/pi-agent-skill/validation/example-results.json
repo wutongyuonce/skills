@@ -1,0 +1,2171 @@
+{
+  "totals": {
+    "compiled": 161,
+    "reference-fragment": 256,
+    "signature-or-pseudocode": 5,
+    "intentional-negative-example": 5
+  },
+  "diagnostics": 0,
+  "examples": [
+    {
+      "file": "SKILL.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/project-structure.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/project-structure.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A01-minimal-startup.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A01-minimal-startup.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A02-model-selection.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A03-system-prompt.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A03-system-prompt.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A03-system-prompt.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A03-system-prompt.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A03-system-prompt.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A04-tool-whitelist.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A04-tool-whitelist.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A05-custom-cwd.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A05-custom-cwd.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A05-custom-cwd.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/A06-load-extensions.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B01-auth-config.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 11,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 12,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B02-settings.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B03-available-models.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B04-project-trust.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/B04-project-trust.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/B04-project-trust.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C01-custom-skill.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C02-prompt-templates.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/C03-context-files.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D01-custom-tool.md",
+      "block": 10,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D02-dynamic-tools.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 0,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 4,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 5,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 6,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 7,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 8,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 9,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D04-confirm-destructive.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 8,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 12,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 14,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 15,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D05-tool-result-render.md",
+      "block": 16,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 5,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function computeRootsForUser(id: string): string[];"
+    },
+    {
+      "file": "references/scenarios/D06-protected-paths.md",
+      "block": 6,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function computeRootsForUser(id: string): string[];"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 0,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;\n          declare function isForbidden(event: ToolCallEvent): boolean;\n          declare function logToolCall(event: ToolCallEvent): void;\n          declare function logToolResult(event: ToolResultEvent): void;\n          declare function sanitizeContent<T>(content: T): T;\n          declare function isAllowedDomain(email: string): boolean;"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 5,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;\n          declare function isForbidden(event: ToolCallEvent): boolean;\n          declare function logToolCall(event: ToolCallEvent): void;\n          declare function logToolResult(event: ToolResultEvent): void;\n          declare function sanitizeContent<T>(content: T): T;\n          declare function isAllowedDomain(email: string): boolean;"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 6,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;\n          declare function isForbidden(event: ToolCallEvent): boolean;\n          declare function logToolCall(event: ToolCallEvent): void;\n          declare function logToolResult(event: ToolResultEvent): void;\n          declare function sanitizeContent<T>(content: T): T;\n          declare function isAllowedDomain(email: string): boolean;"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 7,
+      "status": "compiled",
+      "context": "typed application placeholders: declare const dangerous: boolean; declare const modifiedCmd: string;\n          declare function isForbidden(event: ToolCallEvent): boolean;\n          declare function logToolCall(event: ToolCallEvent): void;\n          declare function logToolResult(event: ToolResultEvent): void;\n          declare function sanitizeContent<T>(content: T): T;\n          declare function isAllowedDomain(email: string): boolean;"
+    },
+    {
+      "file": "references/scenarios/E01-tool-intercept.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E02-extension-basics.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E02-extension-basics.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E02-extension-basics.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E02-extension-basics.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E02-extension-basics.md",
+      "block": 4,
+      "status": "signature-or-pseudocode"
+    },
+    {
+      "file": "references/scenarios/E04-lifecycle-hooks.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E04-lifecycle-hooks.md",
+      "block": 1,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function loadDynamicRules(cwd: string): string; declare function sanitizeContent<T>(content: T): T;"
+    },
+    {
+      "file": "references/scenarios/E04-lifecycle-hooks.md",
+      "block": 2,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function loadDynamicRules(cwd: string): string; declare function sanitizeContent<T>(content: T): T;"
+    },
+    {
+      "file": "references/scenarios/E04-lifecycle-hooks.md",
+      "block": 3,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function loadDynamicRules(cwd: string): string; declare function sanitizeContent<T>(content: T): T;"
+    },
+    {
+      "file": "references/scenarios/E04-lifecycle-hooks.md",
+      "block": 4,
+      "status": "intentional-negative-example"
+    },
+    {
+      "file": "references/scenarios/E05-input-transform.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E05-input-transform.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E05-input-transform.md",
+      "block": 2,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function translateText(text: string, from: string, to: string): Promise<string>;"
+    },
+    {
+      "file": "references/scenarios/E05-input-transform.md",
+      "block": 3,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function translateText(text: string, from: string, to: string): Promise<string>;"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 9,
+      "status": "intentional-negative-example"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 10,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 11,
+      "status": "intentional-negative-example"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 12,
+      "status": "intentional-negative-example"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 14,
+      "status": "intentional-negative-example"
+    },
+    {
+      "file": "references/scenarios/E06-streaming-transform.md",
+      "block": 15,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/E11-sse-progress-streaming.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/E11-sse-progress-streaming.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F01-session-persistence.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/F02-session-runtime.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F02-session-runtime.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/F02-session-runtime.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F04-abort-session.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F04-abort-session.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/F04-abort-session.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F04-abort-session.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F04-abort-session.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F05-steer-session.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F05-steer-session.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F05-steer-session.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/F05-steer-session.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/F05-steer-session.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G01-context-injection.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G02-custom-compaction.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G02-custom-compaction.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G02-custom-compaction.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G02-custom-compaction.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G03-auto-summarize.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/G04-preload-context.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G04-preload-context.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G04-preload-context.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G04-preload-context.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/G04-preload-context.md",
+      "block": 4,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/H01-full-control.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H01-full-control.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H01-full-control.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H01-full-control.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H02-custom-provider.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H03-faux-provider.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/scenarios/H06-multi-agent.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/H08-codemode-mcp.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/scenarios/I03-extension-deps.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 3,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/01-create-agent-session.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/02-agent-session.md",
+      "block": 14,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 3,
+      "status": "compiled",
+      "context": "application tool: CreateAgentSessionOptions.customTools element"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/03-agent-session-runtime.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 1,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function handleText(delta: string): void;"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/04-events.md",
+      "block": 5,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function handleText(delta: string): void;"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 8,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 11,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/05-auth-model-registry.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 0,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 1,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/06-tools.md",
+      "block": 8,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 1,
+      "status": "signature-or-pseudocode"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 2,
+      "status": "signature-or-pseudocode"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 3,
+      "status": "signature-or-pseudocode"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 10,
+      "status": "signature-or-pseudocode"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 11,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/07-extensions-api.md",
+      "block": 14,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/08-resource-loader.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/09-skills.md",
+      "block": 10,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 10,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/10-prompt-templates.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 2,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/11-context-files.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 5,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 7,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 11,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 14,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 15,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 16,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/12-session-manager.md",
+      "block": 17,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/13-settings-manager.md",
+      "block": 8,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 4,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function exchangeToken(code: string): Promise<{ access_token: string; refresh_token: string; expires_in: number }>;\n          declare const newCredentials: { access: string; refresh: string; expires: number };"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 5,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 6,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 7,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function exchangeToken(code: string): Promise<{ access_token: string; refresh_token: string; expires_in: number }>;\n          declare const newCredentials: { access: string; refresh: string; expires: number };"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 8,
+      "status": "compiled",
+      "context": "typed application placeholders: declare function exchangeToken(code: string): Promise<{ access_token: string; refresh_token: string; expires_in: number }>;\n          declare const newCredentials: { access: string; refresh: string; expires: number };"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 9,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 10,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 11,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 12,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/16-custom-provider.md",
+      "block": 13,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 1,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 2,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 3,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 4,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 5,
+      "status": "compiled",
+      "context": "host session: AgentSession"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 6,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 7,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 8,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 9,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 10,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/18-compaction.md",
+      "block": 11,
+      "status": "compiled"
+    },
+    {
+      "file": "references/sdk_doc/20-pi-package.md",
+      "block": 0,
+      "status": "reference-fragment"
+    },
+    {
+      "file": "references/sdk_doc/20-pi-package.md",
+      "block": 1,
+      "status": "reference-fragment"
+    }
+  ]
+}
