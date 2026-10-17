@@ -10,6 +10,9 @@
 
 **English** | [中文](README_CN.md) | [日本語](README_JA.md)
 
+[![Gallery](https://img.shields.io/badge/Gallery-live%20previews-d3923c)](https://vincentwei1021.github.io/video-shotcraft/)
+[![Showcase](https://img.shields.io/badge/Showcase-community%20videos-7c3aed)](https://vincentwei1021.github.io/video-shotcraft/showcase.html)
+
 [![GitHub stars](https://img.shields.io/github/stars/Vincentwei1021/video-shotcraft)](https://github.com/Vincentwei1021/video-shotcraft/stargazers)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)](SKILL.md)
@@ -34,52 +37,59 @@ a finished MP4 you can keep editing.
 It is not a video generator. Every frame is drawn by code from your own screenshots and copy, so the result is
 sharp, on-brand and fully editable.
 
-- **Real product, real pages.** Your actual UI, captured and moved with 2.5D camera work, not a generated look-alike.
-- **124 shot recipe cards, 150 tuned shots.** Each card says when to use the shot, its timing, easing and known
-  pitfalls, and ships a Remotion implementation you can read.
-- **A finished film, not a clip.** Storyboard, captions, beat-synced cuts, film-grade SFX and a final QA pass,
-  then a browser workbench and a JianYing (CapCut CN) export to keep editing.
-
 **How it works**
 
-```mermaid
-flowchart LR
-  A[Your product<br>or web page] --> B[Capture<br>real pages]
-  B --> C[Storyboard with<br>shot recipe cards]
-  C --> D[Animate in<br>Remotion]
-  D --> E[Beat sync +<br>sound design]
-  E --> F[Render +<br>frame QA]
-  F --> G[MP4 · Motion Workbench<br>· JianYing draft]
-```
+![Eight-second workflow loop: product → capture real pages → storyboard with shot recipe cards → animate in Remotion → beat sync and sound design → render and frame QA → MP4, Motion Workbench and JianYing draft](assets/readme/workflow.gif)
 
 ## What's new
 
 > [!IMPORTANT]
-> ### 🎬 2026-10 · Library overhaul: every shot re-crafted, the best version kept
-> All 216 demo shots went through two redesign passes: a texture polish, and a
-> full launch-film-grade redesign built on a new visual system
-> (`demos/_fixtures/Look.tsx`: 8 lit stage looks, a type scale, text reveals,
-> light and grain). Every shot was then reviewed side by side (original /
-> polish / redesign) and the strongest version kept: 92 redesigns, 50 polished,
-> 8 originals. 66 weaker shots were retired, so the library is now
-> **124 cards / 150 shots**, all freshly re-rendered in the Gallery.
->
-> The demos now star video-shotcraft itself: its Frame Chisel mark, wordmark
-> and promo copy. The mark and name come from one shared file,
-> `demos/_fixtures/Brand.tsx`; when the skill builds your film, the agent swaps
-> in your logo and rewrites the copy for your product.
+> ### 🎬 2026-10 · Shot library refresh
+> All 216 demos were polished and reviewed. The best versions now make up
+> **124 cards / 150 shots**, with fresh Gallery previews and video-shotcraft branding.
 
 - **2026-09 · [Motion Workbench](#motion-workbench).** Keep editing the delivered film in a CapCut-style browser editor.
-- **2026-09 · One-click film themes.** Switch the template between nine looks (Ink Press, Modern Light, Midnight,
-  Sage, Coral, Iris, Deep Ocean, Obsidian Violet, Vintage Kraft) and keep your edits. [Theme guide](template/THEMES.md).
 - **2026-08 · [video-talkcraft](https://github.com/Vincentwei1021/video-talkcraft)**, the narration-video
   sibling: script + voiceover in, every motion beat locked to the voice
   ([78 narration previews](https://vincentwei1021.github.io/video-talkcraft/)).
 - **2026-08 · JianYing (CapCut CN) export.** The final film becomes an editable JianYing draft: per-shot clips,
   native caption tracks, separate SFX/BGM tracks. Verified on JianYing Pro 11.2 for macOS
   ([guide](references/jianying-export.md)).
-- **2026-08 · 48 new shot recipe cards**, distilled through eight rounds of frame-by-frame review against
-  reference footage ([sourcing notes](references/shots/ATTRIBUTION.md)).
+
+## ❤️ Sponsors
+
+<table>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://go.apimart.ai/tw-video-shotcraft"><img src="./assets/readme/sponsors/apimart.png" width="200" alt="APIMart logo"></a><br>
+  <a href="https://go.apimart.ai/tw-video-shotcraft"><b>APIMart</b></a>
+</td>
+<td>
+  <p>Thanks to APIMart for sponsoring this project! APIMart is a low-cost API platform for AI image &amp; video generation — GPT-Image-2 from $0.006/image, 160+ images per dollar. One async API covers both image and video: submit a task, get an ID, fetch results via polling or callback. Batch tens of thousands of images without timeouts, switch models without changing code. Pay-as-you-go with no monthly fee — <a href="https://go.apimart.ai/tw-video-shotcraft">sign up here</a> to get started.</p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><img src="./assets/readme/sponsors/packycode.png" width="200" alt="PackyCode logo"></a><br>
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><b>PackyCode</b></a>
+</td>
+<td>
+  <p>Access leading AI models through PackyCode with one API endpoint and one API key. Enjoy fast, reliable access with automatic failover and dedicated high-speed routes for Codex and Claude Code.</p>
+  <p>Get started with $1 in free credits, a discount on your first top-up, and savings of up to 80% on eligible routes. Pay in RMB with no currency conversion markups or extra top-up fees.</p>
+  <p><a href="https://www.packyapi.ai/register?aff=l9IZ">Get started with PackyCode →</a></p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://aws.amazon.com/"><img src="./assets/readme/sponsors/aws.svg" width="200" alt="AWS logo"></a><br>
+  <a href="https://aws.amazon.com/"><b>AWS</b></a>
+</td>
+<td>
+  <p>Amazon Web Services (AWS) offers reliable, scalable cloud computing services, including compute, storage and AI.</p>
+  <p><a href="https://aws.amazon.com/">Explore AWS →</a></p>
+</td>
+</tr>
+</table>
 
 ## Install
 
@@ -118,20 +128,6 @@ Just describe the film. No command needed.
 | `Use the deck-deal-flyin and row-embed shot cards to present this feature.` | You pick the shots by name (copy names straight from the Gallery) |
 | `Design a product close-up inspired by spotlight-hero-card.` | One shot, adapted to your product |
 
-## What you get
-
-| Output | Details |
-|---|---|
-| Final film | `MP4`, 1920×1080, 30 fps, h264, with music and sound design |
-| Remotion project | The full source of your film: every shot is a React component you or the agent can change |
-| Motion Workbench | Opens after delivery: tracks, inspector, retime, swap shots, export ([details](#motion-workbench)) |
-| JianYing draft | Optional: an editable JianYing (CapCut CN) project with per-shot clips, captions and audio tracks |
-| Social publishing | Optional, when you ask: publish the finished film via Upload-Post to TikTok, Instagram, YouTube, LinkedIn, X and more. Confirm caption and platforms, then dry-run before posting ([guide](references/publish-upload-post.md)) |
-
-Also in the box: reusable Remotion components (2.5D page camera, captions, flash cuts, digit rolls), 149 SFX and
-5 BGM tracks, page-capture scripts, and the production method itself (capture, visual direction, storyboarding,
-sound design, beat sync, final QA) in [references/](references/pipeline.md).
-
 ## Shot library
 
 124 recipe cards in 10 categories, 150 shots in total. Search, filter and copy card names in the
@@ -163,19 +159,6 @@ sound design, beat sync, final QA) in [references/](references/pipeline.md).
 Each card lives in `references/shots/<category>/<card>.md`, with its Remotion implementation in
 `demos/<category>/<card>/` (see [demos/README.md](demos/README.md) for how to wire one into your project).
 
-## Video template: Ink Press
-
-A validated, complete promo: 36.2 seconds, 1920×1080, 30 fps, 10 shots in a paper, ink and amber style, with
-2.5D real-page camera moves, title cards, transitions and a fully pinned cinematic SFX pass.
-
-https://github.com/user-attachments/assets/4cf5af51-98f3-4af2-8ab2-7267f470513d
-
-▶️ [Watch in HD on YouTube](https://youtu.be/iShab28B_ak)
-
-Say `Use video-shotcraft to make a promo for my product with the Ink Press template.` The agent swaps in your
-screenshots, copy and branding. It is the fastest, most reliable path to a finished film. More templates are on
-the way.
-
 ## Motion Workbench
 
 After delivery the skill opens a CapCut-style editor in your browser
@@ -188,14 +171,21 @@ drag in any of the 150 library shots, then export with Remotion. Preview and ren
 [Workbench guide, every panel with screenshots](workbench/GUIDE.md) (Chinese) ·
 [Integration contract](references/workbench.md)
 
+## What you get
+
+| Output | Details |
+|---|---|
+| Final film | `MP4`, 1920×1080, 30 fps, h264, with music and sound design |
+| Remotion project | The full source of your film: every shot is a React component you or the agent can change |
+| Motion Workbench | Opens after delivery: tracks, inspector, retime, swap shots, export ([details](#motion-workbench)) |
+| JianYing draft | Optional: an editable JianYing (CapCut CN) project with per-shot clips, captions and audio tracks |
+| Social publishing | Optional, when you ask: publish the finished film via Upload-Post to TikTok, Instagram, YouTube, LinkedIn, X and more. Confirm caption and platforms, then dry-run before posting ([guide](references/publish-upload-post.md)) |
+
+Also in the box: reusable Remotion components (2.5D page camera, captions, flash cuts, digit rolls), 149 SFX and
+5 BGM tracks, page-capture scripts, and the production method itself (capture, visual direction, storyboarding,
+sound design, beat sync, final QA) in [references/](references/pipeline.md).
+
 ## Showcase
-
-The 38-second Gallery intro below was itself made with this skill: storyboard, shots and sound design were all
-done by an agent following the library's method.
-
-https://github.com/user-attachments/assets/cba2df8a-4b2e-4247-bace-d0b1dea9c2bd
-
-▶️ [Watch in HD on YouTube](https://youtu.be/gcVvRM_P3SM)
 
 **Share your film.** Made something with video-shotcraft?
 [Submit it](https://github.com/Vincentwei1021/video-shotcraft/issues/new?template=showcase.yml) with the

@@ -10,6 +10,9 @@
 
 [English](README.md) | **中文** | [日本語](README_JA.md)
 
+[![Gallery](https://img.shields.io/badge/Gallery-live%20previews-d3923c)](https://vincentwei1021.github.io/video-shotcraft/)
+[![Showcase](https://img.shields.io/badge/Showcase-community%20videos-7c3aed)](https://vincentwei1021.github.io/video-shotcraft/showcase.html)
+
 [![GitHub stars](https://img.shields.io/github/stars/Vincentwei1021/video-shotcraft)](https://github.com/Vincentwei1021/video-shotcraft/stargazers)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)](SKILL.md)
@@ -32,43 +35,57 @@
 
 它不是视频生成模型。每一帧都由代码基于你自己的截图和文案绘制，画面清晰、品牌准确，也能逐项修改。
 
-- **真实产品，真实页面**：用的是你真实的界面截图，配 2.5D 运镜动起来，不是生成出来的「长得像」。
-- **124 张镜头配方卡、150 个调校过的镜头**：每张卡写明什么时候用、时长、缓动和已知的坑，并附可读的 Remotion 实现。
-- **交付整支成片，而不是一个片段**：分镜、字幕、踩点剪辑、电影级音效、最终验收；交付后还能在浏览器工作台里改，
-  或导出剪映工程继续剪。
-
 **流程**
 
-```mermaid
-flowchart LR
-  A[你的产品<br>或网页] --> B[抓取<br>真实页面]
-  B --> C[用镜头配方卡<br>排分镜]
-  C --> D[Remotion<br>动画实现]
-  D --> E[踩点剪辑<br>+ 声音设计]
-  E --> F[渲染<br>+ 逐帧验收]
-  F --> G[MP4 · 动效工作台<br>· 剪映工程]
-```
+![8 秒循环流程动图：你的产品 → 抓取真实页面 → 镜头配方卡排分镜 → Remotion 动画 → 踩点剪辑与声音设计 → 渲染与逐帧验收 → MP4、动效工作台与剪映工程](assets/readme/workflow.gif)
 
 ## 最近更新
 
 > [!IMPORTANT]
-> ### 🎬 2026-10 · 镜头库大改版：每个镜头重做，择优落版
-> 全库 216 个 demo 镜头做了两轮改版：一轮质感打磨，一轮按发布片标准的全量重设计
-> （新视觉系统 `demos/_fixtures/Look.tsx`：8 套带光的舞台配色、字号阶梯、文字揭示、光效与颗粒）。
-> 随后逐个镜头三方并排（原版 / 打磨版 / 重设计版）评审、择优落版：重设计版 92 个、打磨版 50 个、
-> 原版 8 个；去掉较弱的 66 个，卡库现为 **124 张卡 / 150 个镜头**，Gallery 样片全部重新渲染。
->
-> demo 画面里的 logo、字标与宣传文案现在是 video-shotcraft 自己（「镜刻」标志）。标志与名字
-> 统一来自 `demos/_fixtures/Brand.tsx`；用 skill 给你的产品做片时，agent 会换上你的标志、按你的产品重写文案。
+> ### 🎬 2026-10 · 镜头库更新
+> 全库 216 个镜头经打磨与评审，择优保留 **124 张卡 / 150 个镜头**。
+> Gallery 样片已重新渲染，并统一采用 video-shotcraft 品牌素材。
 
 - **2026-09 · [动效工作台](#动效工作台)**：成片交付后，在剪映式的浏览器编辑器里继续改。
-- **2026-09 · 一键切换成片主题**：模板可在纸质 / 现代浅色 / 暗黑 / 清新鼠尾草 / 珊瑚点缀 / 柔和鸢尾 / 深海蓝 /
-  黑曜紫 / 复古牛皮纸之间切换，保留文案与剪辑。[主题说明](template/THEMES.md)。
 - **2026-08 · 系列新成员 [video-talkcraft](https://github.com/Vincentwei1021/video-talkcraft)**：口播视频版，
   给它口播稿和成品配音，所有动效节拍都钉在人声上（[78 条口播动效样片](https://vincentwei1021.github.io/video-talkcraft/)）。
 - **2026-08 · 剪映工程导出**：成片可导出为可编辑的剪映草稿——底片按镜头切段、字幕重建为原生文本轨、
   SFX/BGM 独立音轨。Mac 剪映 11.2 实测验收（[方法](references/jianying-export.md)）。
-- **2026-08 · 新增 48 张镜头配方卡**：经八轮与参考片逐帧比对评审收敛而来（[来源说明](references/shots/ATTRIBUTION.md)）。
+
+## ❤️ Sponsors
+
+<table>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://go.apimart.ai/tw-video-shotcraft"><img src="./assets/readme/sponsors/apimart.png" width="200" alt="APIMart 标志"></a><br>
+  <a href="https://go.apimart.ai/tw-video-shotcraft"><b>APIMart</b></a>
+</td>
+<td>
+  <p>感谢 APIMart 赞助了本项目！APIMart 是专注 AI 图片/视频生成的低价 API 平台，GPT-Image-2 低至 $0.006/张，1 美元可出图 160+ 张。图片、视频一套异步 API 通吃，提交任务拿 ID、回调取结果，跑批万张不超时、换模型不改代码。按量付费、无月费，通过此<a href="https://go.apimart.ai/tw-video-shotcraft">注册链接</a>注册即可开用。</p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><img src="./assets/readme/sponsors/packycode.png" width="200" alt="PackyCode 标志"></a><br>
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><b>PackyCode</b></a>
+</td>
+<td>
+  <p>PackyCode 是一家稳定、高效的 API 中转服务商，通过统一域名、统一密钥接入主流大模型，支持智能容灾切换，并提供专属 Codex / Claude Code 高速通道。</p>
+  <p>新用户可获 $1 免费体验额度，首充享折扣，多分组折扣低至 2 折起。支持人民币 1:1 充值，无汇率加价及额外充值手续费。</p>
+  <p><a href="https://www.packyapi.ai/register?aff=l9IZ">注册并开始使用 PackyCode →</a></p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://aws.amazon.com/"><img src="./assets/readme/sponsors/aws.svg" width="200" alt="AWS 标志"></a><br>
+  <a href="https://aws.amazon.com/"><b>AWS</b></a>
+</td>
+<td>
+  <p>Amazon Web Services（AWS）提供稳定、可扩展的云计算服务，涵盖计算、存储和 AI。</p>
+  <p><a href="https://aws.amazon.com/">了解 AWS →</a></p>
+</td>
+</tr>
+</table>
 
 ## 安装
 
@@ -107,20 +124,6 @@ ln -s "$(pwd)" ~/.codex/skills/video-shotcraft    # Codex
 | `用 deck-deal-flyin 和 row-embed 两张镜头卡展示这个功能。` | 你按名字点镜头（名字可以直接从 Gallery 复制） |
 | `参考 spotlight-hero-card，为这个页面设计一个产品特写镜头。` | 单个镜头，按你的产品改编 |
 
-## 你会拿到什么
-
-| 产出 | 说明 |
-|---|---|
-| 成片 | `MP4`，1920×1080、30fps、h264，含音乐和音效 |
-| Remotion 工程 | 整支片的源码：每个镜头都是一个 React 组件，你或 agent 都能改 |
-| 动效工作台 | 交付后自动打开：多轨时间线、属性面板、变速、换镜头、导出（[详情](#动效工作台)） |
-| 剪映工程 | 可选：可编辑的剪映草稿，镜头分段、字幕和音轨都能改 |
-| 社交平台发布 | 可选，用户要求时：通过 Upload-Post 把成片发到 TikTok / Instagram / YouTube / LinkedIn / X 等；先确认文案与平台、dry-run 后再发（[说明](references/publish-upload-post.md)） |
-
-另外还附带：可复用的 Remotion 组件（2.5D 页面相机、字幕、闪切、数字滚动）、149 个音效和 5 首 BGM、
-页面素材采集脚本，以及整套制作方法（素材采集、风格定调、分镜、声音设计、节奏卡点、最终验收），
-见 [references/](references/pipeline.md)。
-
 ## 镜头库
 
 124 张配方卡，分 10 类，共 150 个镜头。可以在 [Gallery](https://vincentwei1021.github.io/video-shotcraft/)
@@ -152,18 +155,6 @@ ln -s "$(pwd)" ~/.codex/skills/video-shotcraft    # Codex
 每张卡在 `references/shots/<类别>/<卡名>.md`，对应的 Remotion 实现在 `demos/<类别>/<卡名>/`
 （怎么接进你的工程见 [demos/README.md](demos/README.md)）。
 
-## 成片模板：Ink Press（墨压）
-
-一支已验收的完整宣传片：36.2 秒、1920×1080、30fps、10 个镜头的纸墨琥珀风，含 2.5D 真实页面运镜、字卡、转场和
-配好的电影感音效。
-
-https://github.com/user-attachments/assets/4cf5af51-98f3-4af2-8ab2-7267f470513d
-
-▶️ [在 YouTube 观看高清版](https://youtu.be/iShab28B_ak)
-
-对 agent 说 `用 video-shotcraft 的 Ink Press 模板给我的产品做一支宣传片。` 它会换上你的截图、文案和品牌信息，
-这是最快、质量最有保障的出片路径。后续会持续加入更多模板。
-
 ## 动效工作台
 
 交付后 skill 会在浏览器里打开一个剪映式的编辑器（`node workbench/scripts/open.mjs <工程>`）。成片按原始镜头
@@ -174,13 +165,21 @@ https://github.com/user-attachments/assets/4cf5af51-98f3-4af2-8ab2-7267f470513d
 
 [工作台图文指南：各区域与功能](workbench/GUIDE.md) · [成片接入契约](references/workbench.md)
 
+## 你会拿到什么
+
+| 产出 | 说明 |
+|---|---|
+| 成片 | `MP4`，1920×1080、30fps、h264，含音乐和音效 |
+| Remotion 工程 | 整支片的源码：每个镜头都是一个 React 组件，你或 agent 都能改 |
+| 动效工作台 | 交付后自动打开：多轨时间线、属性面板、变速、换镜头、导出（[详情](#动效工作台)） |
+| 剪映工程 | 可选：可编辑的剪映草稿，镜头分段、字幕和音轨都能改 |
+| 社交平台发布 | 可选，用户要求时：通过 Upload-Post 把成片发到 TikTok / Instagram / YouTube / LinkedIn / X 等；先确认文案与平台、dry-run 后再发（[说明](references/publish-upload-post.md)） |
+
+另外还附带：可复用的 Remotion 组件（2.5D 页面相机、字幕、闪切、数字滚动）、149 个音效和 5 首 BGM、
+页面素材采集脚本，以及整套制作方法（素材采集、风格定调、分镜、声音设计、节奏卡点、最终验收），
+见 [references/](references/pipeline.md)。
+
 ## 作品展示
-
-下面这支 38 秒的 Gallery 介绍片，本身就是用这个 skill 做的：分镜、镜头实现和声音设计，全部由 agent 按库内方法完成。
-
-https://github.com/user-attachments/assets/cba2df8a-4b2e-4247-bace-d0b1dea9c2bd
-
-▶️ [在 YouTube 观看高清版](https://youtu.be/gcVvRM_P3SM)
 
 **投稿你的作品**：用 video-shotcraft 做了片子？用 Showcase 投稿表单
 [提交](https://github.com/Vincentwei1021/video-shotcraft/issues/new?template=showcase.yml)，审核通过后会出现在

@@ -22,6 +22,19 @@
 <meta name="twitter:image" content="{{OG_IMAGE_URL}}">
 <link rel="icon" type="image/png" sizes="32x32" href="{{FAVICON_32}}">
 <link rel="canonical" href="{{CANONICAL_URL}}">
+<!-- Multilingual SEO. Remove any line whose locale is not shipped. {{SITE_ORIGIN}} is e.g. https://example.com -->
+<link rel="alternate" hreflang="en"        href="{{SITE_ORIGIN}}/">
+<link rel="alternate" hreflang="zh-CN"     href="{{SITE_ORIGIN}}/zh/">
+<link rel="alternate" hreflang="zh-Hant"   href="{{SITE_ORIGIN}}/tw/">
+<link rel="alternate" hreflang="ja"        href="{{SITE_ORIGIN}}/ja/">
+<link rel="alternate" hreflang="ko"        href="{{SITE_ORIGIN}}/ko/">
+<link rel="alternate" hreflang="x-default" href="{{SITE_ORIGIN}}/">
+<link rel="alternate" type="text/plain"    href="{{SITE_ORIGIN}}/llms.txt">
+<meta property="og:locale" content="ko_KR">
+<meta property="og:locale:alternate" content="en_US">
+<meta property="og:locale:alternate" content="zh_CN">
+<meta property="og:locale:alternate" content="zh_TW">
+<meta property="og:locale:alternate" content="ja_JP">
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -31,6 +44,7 @@
   "operatingSystem": "{{OS_REQUIREMENT}}",
   "description": "{{META_DESCRIPTION}}",
   "url": "{{CANONICAL_URL}}",
+  "inLanguage": "ko",
   "author": {
     "@type": "Person",
     "name": "{{AUTHOR_NAME}}",
@@ -57,6 +71,13 @@
     src: url("../fonts/SourceHanSerifKR-Medium.otf") format("opentype"),
          url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/assets/fonts/SourceHanSerifKR-Medium.otf") format("opentype");
     font-weight: 500;
+    font-style: normal;
+  }
+  @font-face {
+    font-family: "JetBrains Mono";
+    src: url("../fonts/JetBrainsMono.woff2") format("woff2"),
+         url("https://cdn.jsdelivr.net/gh/tw93/Kami@main/skills/kami/assets/fonts/JetBrainsMono.woff2") format("woff2");
+    font-weight: 400;
     font-style: normal;
   }
 
@@ -257,14 +278,6 @@ a:hover { color: var(--brand-light); }
 
 section { margin-bottom: 72px; }
 .section-head { margin-bottom: 24px; }
-.section-num {
-  font-family: var(--latin-ui);
-  font-weight: 400;
-  font-size: 13px;
-  color: var(--brand);
-  letter-spacing: 0.4px;
-  margin: 0 0 6px;
-}
 .section-title {
   font-family: var(--serif);
   font-weight: 500;
@@ -909,7 +922,6 @@ footer.foot {
   <!-- ============ 00 · Gallery ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">00 · {{GALLERY_SECTION_NUM}}</p>
       <h2 class="section-title">{{GALLERY_TITLE}}</h2>
       <p class="section-lede">{{GALLERY_LEDE}}</p>
       <!-- 선택: <p class="section-versus">대체 대상 <b>경쟁사 A</b> · <b>경쟁사 B</b></p> -->
@@ -942,7 +954,6 @@ footer.foot {
   <!-- ============ 01 · Features ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">01 · {{FEATURES_SECTION_NUM}}</p>
       <h2 class="section-title">{{FEATURES_TITLE}}</h2>
     </div>
 
@@ -959,7 +970,6 @@ footer.foot {
   <!-- ============ 02 · Principles ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">02 · {{PRINCIPLES_SECTION_NUM}}</p>
       <h2 class="section-title">{{PRINCIPLES_TITLE}}</h2>
     </div>
 
@@ -976,7 +986,6 @@ footer.foot {
   <!-- ============ 03 · Pricing ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">03 · {{PRICING_SECTION_NUM}}</p>
       <h2 class="section-title">{{PRICING_TITLE}}</h2>
     </div>
 
@@ -995,7 +1004,6 @@ footer.foot {
   <!-- ============ 04 · FAQ ============ -->
   <section>
     <div class="section-head">
-      <p class="section-num">04 · {{FAQ_SECTION_NUM}}</p>
       <h2 class="section-title">{{FAQ_TITLE}}</h2>
     </div>
 

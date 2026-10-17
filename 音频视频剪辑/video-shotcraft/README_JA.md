@@ -10,6 +10,9 @@
 
 [English](README.md) | [中文](README_CN.md) | **日本語**
 
+[![Gallery](https://img.shields.io/badge/Gallery-live%20previews-d3923c)](https://vincentwei1021.github.io/video-shotcraft/)
+[![Showcase](https://img.shields.io/badge/Showcase-community%20videos-7c3aed)](https://vincentwei1021.github.io/video-shotcraft/showcase.html)
+
 [![GitHub stars](https://img.shields.io/github/stars/Vincentwei1021/video-shotcraft)](https://github.com/Vincentwei1021/video-shotcraft/stargazers)
 [![License](https://img.shields.io/badge/license-Apache--2.0-blue)](LICENSE)
 [![Claude Code](https://img.shields.io/badge/Claude%20Code-skill-d97757)](SKILL.md)
@@ -34,51 +37,49 @@ Claude Code や Codex に「プロダクトのプロモーション動画を作�
 動画生成モデルではありません。すべてのフレームはあなた自身のスクリーンショットとコピーからコードで描かれるので、
 くっきりとブランドに忠実で、細部まで編集できます。
 
-- **本物のプロダクト、本物のページ**：実際の UI をキャプチャし、2.5D カメラワークで動かします。生成された「似たもの」ではありません。
-- **ショットレシピカード 124 枚、調整済みショット 150 本**：各カードに使いどころ・尺・イージング・既知の落とし穴を
-  記し、読める Remotion 実装を同梱しています。
-- **クリップではなく、完成した映像**：絵コンテ、字幕、ビート同期カット、映画品質の SFX、最終 QA まで。
-  納品後はブラウザのワークベンチで編集を続けたり、剪映（CapCut 中国版）に書き出したりできます。
-
 **仕組み**
 
-```mermaid
-flowchart LR
-  A[プロダクト<br>または Web ページ] --> B[実ページを<br>キャプチャ]
-  B --> C[レシピカードで<br>絵コンテ]
-  C --> D[Remotion で<br>アニメーション]
-  D --> E[ビート同期 +<br>サウンドデザイン]
-  E --> F[レンダリング +<br>フレーム QA]
-  F --> G[MP4 · ワークベンチ<br>· 剪映ドラフト]
-```
+![8 秒ループの制作フロー：プロダクト → 実ページをキャプチャ → レシピカードで絵コンテ → Remotion でアニメーション → ビート同期とサウンドデザイン → レンダリングとフレーム QA → MP4・ワークベンチ・剪映ドラフト](assets/readme/workflow.gif)
 
 ## 最新情報
 
 > [!IMPORTANT]
-> ### 🎬 2026-10 · ライブラリ大改修：全ショットを作り直し、ベストな版を採用
-> 216 本すべての demo ショットに 2 段階の改修を実施しました。質感の磨き込みと、
-> ローンチ映像クラスへの全面リデザインです（新しいビジュアルシステム
-> `demos/_fixtures/Look.tsx`：ライティング付きの 8 種類のステージ配色、文字サイズの階層、
-> テキストリビール、光とグレイン）。その後、ショットごとにオリジナル / 磨き込み版 /
-> リデザイン版を並べて比較し、最も良い版を採用しました（リデザイン 92 本、磨き込み 50 本、
-> オリジナル 8 本）。弱い 66 本は引退し、ライブラリは **124 カード / 150 ショット**に。
-> Gallery のプレビューもすべて再レンダリングしています。
->
-> demo の画面に出るロゴ・ワードマーク・プロモーションコピーは video-shotcraft 自身のもの
-> （「镜刻」マーク）になりました。マークと名前は `demos/_fixtures/Brand.tsx` に集約しており、
-> skill であなたのプロダクトの映像を作るときは、エージェントがあなたのロゴに差し替え、
-> コピーもプロダクトに合わせて書き直します。
+> ### 🎬 2026-10 · ショットライブラリ更新
+> 216 本の demo を磨き込み・レビューし、ベストな版を **124 カード / 150 ショット**に整理。
+> Gallery のプレビューを再レンダリングし、video-shotcraft のブランド素材に統一しました。
 
 - **2026-09 · [モーションワークベンチ](#モーションワークベンチ)**：納品した映像を CapCut 風のブラウザエディタで編集し続けられます。
-- **2026-09 · ワンクリックでテーマ切り替え**：テンプレートを 9 種類のルック（Ink Press、Modern Light、Midnight、Sage、
-  Coral、Iris、Deep Ocean、Obsidian Violet、Vintage Kraft）に切り替えても編集内容はそのまま。[テーマガイド](template/THEMES.md)。
 - **2026-08 · シリーズ新作 [video-talkcraft](https://github.com/Vincentwei1021/video-talkcraft)**：ナレーション動画版。
   原稿とボイスオーバーを渡すと、すべてのモーションが音声にロックされます
   （[78 本のナレーション用プレビュー](https://vincentwei1021.github.io/video-talkcraft/)）。
 - **2026-08 · 剪映（CapCut 中国版）書き出し**：完成映像を編集可能な剪映ドラフトに。ショット単位のクリップ、
   ネイティブ字幕トラック、独立した SFX/BGM トラック。macOS 版剪映 11.2 で検証済み（[ガイド](references/jianying-export.md)）。
-- **2026-08 · ショットレシピカード 48 枚を追加**：参照映像とのフレーム単位比較レビューを 8 ラウンド重ねて厳選
-  （[出典メモ](references/shots/ATTRIBUTION.md)）。
+
+## ❤️ Sponsors
+
+<table>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><img src="./assets/readme/sponsors/packycode.png" width="200" alt="PackyCode ロゴ"></a><br>
+  <a href="https://www.packyapi.ai/register?aff=l9IZ"><b>PackyCode</b></a>
+</td>
+<td>
+  <p>PackyCode は、1 つの API エンドポイントと API キーで主要な AI モデルにアクセスできる、高速で安定した API 中継サービスです。自動フェイルオーバーと、Codex / Claude Code 専用の高速ルートを提供します。</p>
+  <p>新規ユーザーには $1 分の無料クレジットと初回チャージ割引があり、対象ルートでは最大 80% オフ。人民元でチャージでき、為替レートへの上乗せや追加のチャージ手数料はありません。</p>
+  <p><a href="https://www.packyapi.ai/register?aff=l9IZ">PackyCode を始める →</a></p>
+</td>
+</tr>
+<tr>
+<td align="center" valign="middle" width="25%">
+  <a href="https://aws.amazon.com/"><img src="./assets/readme/sponsors/aws.svg" width="200" alt="AWS ロゴ"></a><br>
+  <a href="https://aws.amazon.com/"><b>AWS</b></a>
+</td>
+<td>
+  <p>Amazon Web Services（AWS）は、コンピューティング、ストレージ、AI など、信頼性と拡張性を備えたクラウドサービスを提供します。</p>
+  <p><a href="https://aws.amazon.com/">AWS を見る →</a></p>
+</td>
+</tr>
+</table>
 
 ## インストール
 
@@ -114,20 +115,6 @@ ln -s "$(pwd)" ~/.codex/skills/video-shotcraft    # Codex
 | `deck-deal-flyin と row-embed のショットカードでこの機能を紹介して。` | ショットを名前で指定（名前は Gallery からそのままコピーできます） |
 | `spotlight-hero-card を参考に、このページの製品クローズアップを作って。` | 1 ショットをあなたのプロダクト向けにアレンジ |
 
-## 納品物
-
-| 成果物 | 内容 |
-|---|---|
-| 完成映像 | `MP4`、1920×1080、30fps、h264、音楽とサウンドデザイン付き |
-| Remotion プロジェクト | 映像のソース一式。各ショットは React コンポーネントで、あなたもエージェントも変更できます |
-| モーションワークベンチ | 納品後に自動で開く：トラック、インスペクタ、速度変更、ショット差し替え、書き出し（[詳細](#モーションワークベンチ)） |
-| 剪映ドラフト | 任意：ショット単位のクリップ・字幕・音声トラックを編集できる剪映プロジェクト |
-| SNS 投稿 | 任意、依頼があれば：Upload-Post で完成映像を TikTok・Instagram・YouTube・LinkedIn・X などへ投稿。キャプションと投稿先を確認し、dry-run の後に投稿（[ガイド](references/publish-upload-post.md)） |
-
-ほかにも、再利用できる Remotion コンポーネント（2.5D ページカメラ、字幕、フラッシュカット、数字ロール）、
-SFX 149 種と BGM 5 曲、ページキャプチャスクリプト、そして制作手法そのもの（素材キャプチャ、ビジュアルの方向付け、
-絵コンテ、サウンドデザイン、ビート同期、最終 QA）を [references/](references/pipeline.md) に収録しています。
-
 ## ショットライブラリ
 
 レシピカード 124 枚、10 カテゴリ、計 150 ショット。[Gallery](https://vincentwei1021.github.io/video-shotcraft/)
@@ -159,19 +146,6 @@ SFX 149 種と BGM 5 曲、ページキャプチャスクリプト、そして�
 各カードは `references/shots/<カテゴリ>/<カード名>.md`、Remotion 実装は `demos/<カテゴリ>/<カード名>/` にあります
 （プロジェクトへの組み込み方は [demos/README.md](demos/README.md) を参照）。
 
-## 動画テンプレート：Ink Press
-
-検証済みの完成プロモーション映像：36.2 秒、1920×1080、30fps、紙・墨・琥珀スタイルの 10 ショット。
-実ページの 2.5D カメラワーク、タイトルカード、トランジション、映画風 SFX を作り込み済みです。
-
-https://github.com/user-attachments/assets/4cf5af51-98f3-4af2-8ab2-7267f470513d
-
-▶️ [YouTube で HD 版を見る](https://youtu.be/iShab28B_ak)
-
-エージェントに `video-shotcraft の Ink Press テンプレートでプロダクトのプロモーション動画を作って。` と伝えれば、
-スクリーンショット・コピー・ブランドを差し替えて同じ品質を再現します。完成映像へのいちばん速く確実なルートです。
-テンプレートは今後も追加予定です。
-
 ## モーションワークベンチ
 
 納品後、skill がブラウザで CapCut 風のエディタを開きます（`node workbench/scripts/open.mjs <project>`）。
@@ -184,14 +158,21 @@ Remotion での書き出しができます。プレビューとレンダリン�
 [ワークベンチガイド（各パネルをスクリーンショット付きで）](workbench/GUIDE.md)（中国語）·
 [連携コントラクト](references/workbench.md)
 
+## 納品物
+
+| 成果物 | 内容 |
+|---|---|
+| 完成映像 | `MP4`、1920×1080、30fps、h264、音楽とサウンドデザイン付き |
+| Remotion プロジェクト | 映像のソース一式。各ショットは React コンポーネントで、あなたもエージェントも変更できます |
+| モーションワークベンチ | 納品後に自動で開く：トラック、インスペクタ、速度変更、ショット差し替え、書き出し（[詳細](#モーションワークベンチ)） |
+| 剪映ドラフト | 任意：ショット単位のクリップ・字幕・音声トラックを編集できる剪映プロジェクト |
+| SNS 投稿 | 任意、依頼があれば：Upload-Post で完成映像を TikTok・Instagram・YouTube・LinkedIn・X などへ投稿。キャプションと投稿先を確認し、dry-run の後に投稿（[ガイド](references/publish-upload-post.md)） |
+
+ほかにも、再利用できる Remotion コンポーネント（2.5D ページカメラ、字幕、フラッシュカット、数字ロール）、
+SFX 149 種と BGM 5 曲、ページキャプチャスクリプト、そして制作手法そのもの（素材キャプチャ、ビジュアルの方向付け、
+絵コンテ、サウンドデザイン、ビート同期、最終 QA）を [references/](references/pipeline.md) に収録しています。
+
 ## ショーケース
-
-下の 38 秒の Gallery 紹介映像も、この skill で作りました。絵コンテ、ショット実装、サウンドデザインまで、
-すべてエージェントがライブラリの手法どおりに仕上げています。
-
-https://github.com/user-attachments/assets/cba2df8a-4b2e-4247-bace-d0b1dea9c2bd
-
-▶️ [YouTube で HD 版を見る](https://youtu.be/gcVvRM_P3SM)
 
 **作品を投稿**：video-shotcraft で映像を作ったら、Showcase の投稿フォームから
 [提出](https://github.com/Vincentwei1021/video-shotcraft/issues/new?template=showcase.yml)してください。審査後、

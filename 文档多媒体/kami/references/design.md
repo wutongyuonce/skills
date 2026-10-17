@@ -21,6 +21,18 @@ This is not a UI framework. It is a constraint system for print, designed to kee
 
 This system is a fusion of Anthropic's visual language and real Chinese / English resume iteration. Details below.
 
+### A choice, not the default
+
+Anthropic's `frontend-design` skill lists "a warm cream background with a high-contrast serif display and a terracotta accent" first among the looks AI-generated design falls into, followed by hairline broadsheet layouts and template chrome (an all-caps eyebrow over every heading, `A · B · C` meta strings, numbered markers). Kami overlaps that list on purpose, so each overlap has to earn its place:
+
+- **Paper tone.** Kami's output is a page that gets printed or read as a PDF, and parchment is the color of the page, not a mood for a screen. The white-paper print variant exists for when the sheet itself is white.
+- **Ink-blue, never clay.** The single accent is `#1B365D`, kept under 5% of the surface and spent on numbers and distinctive phrases. Terracotta and warm clay are not in the palette, and no second accent is added for warmth.
+- **Serif for reading length.** Documents are read top to bottom at length, which is what the serif and the 500 weight are for. Display contrast stays modest; hierarchy comes from size and space, not a fashion display face.
+- **Rules separate data.** A hairline appears only where it divides rows, regions, or states («Subtractive rule»); a broadsheet frame for its own sake is out.
+- **No chrome without information.** One eyebrow on a cover or hero at most, never one over every heading. Numbering only for real sequences (chapters, slides, steps). A middle dot only between data fields of one line (author and date, phone and email), never as a decorative joiner.
+
+When a brief or brand profile asks for a different direction, follow it (`references/brand-profile.md`); when it asks for a look Kami does not do (dark, futurist, saturated multi-color), say so instead of bending the system.
+
 ---
 
 ## 1. Color
@@ -145,11 +157,11 @@ Any font-family that may render Chinese or Japanese must include a CJK fallback,
 | Body | 10pt | 400 | 1.55 | Reading body |
 | Body Dense | 9.2pt | 400 | 1.42 | Dense body (resume, one-pager) |
 | Caption | 9pt | 400 | 1.45 | Notes, figure captions |
-| Label | 9pt | 600 | 1.35 | Small labels, corner tags |
+| Label | 9pt | 500 | 1.35 | Small labels, corner tags |
 | Tiny | 9pt | 400 | 1.40 | Footer, minor metadata |
 
 **Screen (px)** ≈ pt × 1.33 (9pt ≈ 12px, 18pt ≈ 24px).
-**Minimum floor**: web text >= 12px, PDF text >= 9pt.
+**Minimum floor**: web text >= 12px, PDF body text and labels >= 9pt. Named dense exceptions may go to 8-8.5pt: `.compact` tables, running footers, and dense resume timelines.
 **Slide caption floor**: slides 上 caption 至少 24px (不是 12px)。Print 9pt 在投影距离不可读，slide caption 用 pt x 2.67。
 
 **Ladder discipline**: sizes must land ON the scale, never between its steps. Components that each pick their own size drift into 12.5 / 13.5 / 14.5 / 17.5 neighbours; a reader cannot tell a 13.5 from a 14, so the difference registers as noise instead of hierarchy. Audit a screen stylesheet with `grep 'font-size:' <file> | sort | uniq -c`: every value should be a scale step, and the 12px floor should carry only uppercase micro-labels and badges, never prose (prose stops at 14).
@@ -766,10 +778,6 @@ Use a visible `outline` for keyboard focus. Reserve a whisper shadow for a real
 product screenshot, popover, or other element that physically floats above the
 page; never use it to make an ordinary card look more important.
 
-### Section-level light/dark alternation
-
-Long docs alternate parchment `#f5f4ed` and `#141413` dark sections. This section-level light change creates the strongest contrast.
-
 **Forbidden**: `box-shadow: 0 2px 8px rgba(0,0,0,0.3)` and relatives.
 
 ---
@@ -881,26 +889,26 @@ body {
 }
 ```
 
-Heading scale:
+Heading scale (a 280mm slide is read from across a room, so body type sits near 13pt, matching the approved `demo-agent-slides` scale, not the 9-11pt of a printed page):
 
 | Element | Size | Weight | Notes |
 |---|---|---|---|
-| `h2` | 24pt | 500 | Page title; `margin-bottom: 14pt` |
-| `h3` | 15pt | 500 | Section heading; `color: var(--brand)` |
-| `.eyebrow` | 9.5pt | 400 | Mono, `letter-spacing: 2pt`, `color: var(--stone)` |
-| `.lead` | 12pt | 400 | Below `h2`; `color: var(--olive)` |
+| `h2` | 32pt | 500 | Page title; `margin-bottom: var(--rhythm-module)` (16pt) |
+| `h3` | 18pt | 500 | Section heading; `color: var(--brand)` |
+| `.eyebrow` | 10pt | 400 | Mono, `letter-spacing: 2pt`, `color: var(--stone)` |
+| `.lead` | 16pt | 400 | Below `h2`; `color: var(--olive)` |
 
 Content element scale:
 
 | Class | Size | Notes |
 |---|---|---|
-| `.mt` | 16pt | Module title, used with `.ml` |
-| `.ml` | 24pt | Large letter prefix in `var(--brand)`, paired with `.mt` |
-| `.ms` | 7.5pt mono | Module sub-label; `border-bottom` separator |
-| `.mb` | 11pt | Module body description |
-| `.mi` | 11pt | Module line item; `padding: 8pt 0` |
-| `.mc` | 9.5pt | Delivery rhythm or cadence note; `border-top` |
-| `.co` | 11pt bold | Bottom callout; `position: absolute; bottom: 12mm` |
+| `.mt` | 19pt | Module title, used with `.ml` |
+| `.ml` | 28pt | Large letter prefix in `var(--brand)`, paired with `.mt` |
+| `.ms` | 9pt mono | Module sub-label; `border-bottom` separator |
+| `.mb` | 13pt | Module body description |
+| `.mi` | 13pt | Module line item; `padding: 8pt 0` |
+| `.mc` | 11pt | Delivery rhythm or cadence note; `border-top` |
+| `.co` | 14pt bold | Bottom callout; `position: absolute; bottom: 22mm`, clear of the 10mm footer line |
 
 ### Layout patterns
 
@@ -955,7 +963,7 @@ table.data td:first-child {
 | One line per bullet | Trim until each item fits on one line; never let it wrap |
 | Empty space ≥50% | Draft defect. Order: merge with a neighbor > remove the slide and fold its useful point into another slide > convert existing evidence only when another form is clearer. Never add a callout, chart, or image just to occupy space. |
 | Empty space 25-50% | Acceptable when one complete assertion and its proof genuinely need the room. Otherwise merge or tighten the slide; do not add supporting matter solely for density. |
-| Cover | No horizontal rule; title centered `38pt`; subtitle on one line; bottom meta centered |
+| Cover | No horizontal rule; title centered `44pt`; subtitle on one line; bottom meta centered |
 
 Image-heavy decks carry two acceptance bars: the visual brief (crop notes, prompt fragments, generation instructions) is internal working material and never appears in slide titles, body copy, or captions; and the deck uses the existing `.c2`, `table.t2x2`, `.co`, data table, and inline figure patterns unless the source material clearly needs something else. How you plan toward that (slot map, outline, or otherwise) is your call; whatever you sketch is a rhythm check, not a locked layout registry.
 
@@ -1105,7 +1113,7 @@ Apply this to fixed-size containers that intentionally crop photos or illustrati
 
 ### Brand logo slot
 
-`one-pager`, `portfolio`, and `slides-weasy` (and their `-en` variants) carry an optional brand logo slot, supplied by the brand profile `logo` field (see `references/brand-profile.md` Layer C). It ships commented out, so the default render is unchanged. The `.brand-logo` rule is fixed-height, `width: auto`, `object-fit: contain`, so any aspect ratio scales cleanly without distortion. Sizes are deliberately per template, not a shared token:
+`one-pager`, `portfolio`, and `slides-weasy` (and their `-en` and `-ko` variants) carry an optional brand logo slot, supplied by the brand profile `logo` field (see `references/brand-profile.md` Layer C). It ships commented out, so the default render is unchanged. The `.brand-logo` rule is fixed-height, `width: auto`, `object-fit: contain`, so any aspect ratio scales cleanly without distortion. Sizes are deliberately per template, not a shared token:
 
 | Template | Height | Placement |
 |---|---|---|
@@ -1113,7 +1121,7 @@ Apply this to fixed-size containers that intentionally crop photos or illustrati
 | portfolio | `72px` | above the cover eyebrow, inside `.cover-head` |
 | slides-weasy | `72px` | centered above the cover `h1` |
 
-Keep the base and `-en` `.brand-logo` rules identical; the cross-template lint pair check (`scripts/lint.py`) flags drift. Do not add `object-position` (no effect under `object-fit: contain`).
+Keep the base, `-en`, and `-ko` `.brand-logo` rules identical; the cross-template lint compares only `:root` tokens, so check this rule by hand. Do not add `object-position` (no effect under `object-fit: contain`).
 
 ---
 
@@ -1158,7 +1166,7 @@ Every screenshot path must resolve from the repo or a stable public URL. Never r
 ### Layout
 
 - `max-width: 1120px` centered, padding `88px 64px 120px`
-- Sections numbered `00 · Label` through `04 · Label` with `section-num` / `section-title` / `section-lede` pattern
+- Each section opens with `section-title` and an optional `section-lede`. No numbered label above the title: gallery, features, pricing, and FAQ are not a sequence, and a counter over every heading is template chrome rather than information (one eyebrow on the hero is enough)
 - Two responsive breakpoints: `880px` (tablet) and `480px` (phone)
 - Section rhythm is a system, not per-gap. Run section spacing as one responsive ladder (e.g. desktop 96/72, tablet 72/54, phone 56/42). When a page reads too airy or too tight, scale the *whole* set by a single factor (about 0.75) across all breakpoints at once; nudging one gap leaves asymmetry, and asymmetry that survives tuning is structural. At the phone breakpoint step gutters down (64px to 16px) and shrink display sizes (hero title, price amount) in the same pass.
 
@@ -1349,7 +1357,7 @@ No template ships this section; build it only from real, attributed quotes (name
 ### Cross-lang typography hardening
 
 - **Numeric alignment across CJK and Latin runs.** Use `font-variant-numeric: lining-nums tabular-nums` on every node that displays numbers (prices, metrics, version strings, tabular data). Lining keeps digit height uniform; tabular keeps digit width uniform. Without lining-nums, oldstyle fonts drop descenders on 3, 4, 5, 7, 9 and break vertical rhythm.
-- **Latin fallback before CJK in the serif stack on Chinese pages.** Charter or Georgia first in `html[lang="zh-CN"] { --serif: ... }`, so mixed runs like "Mac/22/$19" share baseline with the Chinese body.
+- **CJK families lead the serif stack on Chinese pages, Latin faces trail.** Keep `html[lang="zh-CN"] { --serif: "TsangerJinKai02", "Source Han Serif SC", ..., Georgia, serif; }` in that order; a leading Latin serif sends each ideograph to fallback separately and splits words across two faces (`production.md` pitfall 4.1). Mixed runs like "Mac/22/$19" align through the `lining-nums tabular-nums` rule above, not through font order.
 - **Avoid scaling the currency glyph with super.** Do not write `.price-currency { font-size: 0.5em; vertical-align: super }`. That trick makes `$` and the digit visually unequal. Prefer `font-size: 0.74em; line-height: 1; transform: translateY(0.015em);`.
 - **Language menu items need vertical room for descenders.** When `<a>` inside `.lang-menu` has `line-height: 1`, the descender of 'g' / 'y' / 'p' is clipped. Use `min-height: 32px; padding: 6px 10px; line-height: 1.35;`. Add an invisible `::before` bridge between trigger and menu so the cursor can cross the gap without dismissing the menu.
 
@@ -1398,6 +1406,18 @@ Data dashboards built in the Kami idiom (analytics boards, sales views, status p
 - **Every chart answers one question.** Where is growth, which region buys, what broke: if a chart only restates a number that is already on screen as a stat, delete the chart (screen twin of `references/anti-patterns.md` #18).
 - Numbers on the board follow the reconciliation rule: totals must be checked against one authoritative source before shipping, with the basis noted.
 
+### Responsive screenshot verification
+
+Before declaring any screen change done, screenshot the real rendered surface; a type check or CSS-balance read is not enough. Several regressions (early wraps, orphaned separator dots, table overflow, missed pages) are invisible in source and only show in the render.
+
+- Capture at phone (375px, plus 320px for CTAs), desktop (1280px), both sides of each actual breakpoint, and an intermediate tablet width, in every shipped locale. These are verification samples, not instructions to add layout branches.
+- Measure each text block's last-line width against its widest line; a ratio below about 13% is a review candidate, not a defect verdict. Inspect the rendered context, including nested `<code>` and intentional short lines, before changing anything. Preserve natural, meaningful text rather than rewriting it to force the candidate count to zero.
+- Confirm CTAs reach their natural-width left-aligned resting state with no overflow, code is legible at the reduced mobile font, the gallery and any multi-column grids collapse to a single column, and total page overflow is zero.
+- Scan each screenshot for sparse blocks: a low-information region taller than about a quarter viewport, an empty grid slot, or a single item rattling in a multi-column row. Fix by tightening, merging, rewriting, or removing the weak block. Add content only when required evidence is genuinely missing, never to fill space.
+- Check every «Single-line surfaces» entry at its required widths; key-fact tokens (price, platform, CTA) must hold one line at 375px.
+- Long pages do not fit one viewport; use a capture helper that can scroll to a specific element (first code block, pager) before shooting.
+- Serve fresh bytes: browsers cache stylesheets and restore scroll positions, so a plain reload can screenshot the OLD css at the OLD scroll point and pass a broken change. Verify through a cache-busted URL (or a fresh-named temp copy of the page) and confirm the viewport actually shows the section under review before trusting the capture.
+
 ## 12. Mermaid diagrams
 
 Mermaid text is turned into Kami-styled diagrams via beautiful-mermaid plus
@@ -1413,18 +1433,6 @@ derivations to static hex, so derived shades (e.g. `#dad9d3`) stay warm and neve
 introduce cool grays. PDF supports flowchart / state / sequence / class / ER;
 `xychart-beta` is browser-only (it uses `<style>` class selectors WeasyPrint will
 not apply). Full pipeline and rationale in `references/mermaid.md`.
-
-### Responsive screenshot verification
-
-Before declaring any screen change done, screenshot the real rendered surface; a type check or CSS-balance read is not enough. Several regressions (early wraps, orphaned separator dots, table overflow, missed pages) are invisible in source and only show in the render.
-
-- Capture at phone (375px, plus 320px for CTAs), desktop (1280px), both sides of each actual breakpoint, and an intermediate tablet width, in every shipped locale. These are verification samples, not instructions to add layout branches.
-- Measure each text block's last-line width against its widest line; a ratio below about 13% is a review candidate, not a defect verdict. Inspect the rendered context, including nested `<code>` and intentional short lines, before changing anything. Preserve natural, meaningful text rather than rewriting it to force the candidate count to zero.
-- Confirm CTAs reach their natural-width left-aligned resting state with no overflow, code is legible at the reduced mobile font, the gallery and any multi-column grids collapse to a single column, and total page overflow is zero.
-- Scan each screenshot for sparse blocks: a low-information region taller than about a quarter viewport, an empty grid slot, or a single item rattling in a multi-column row. Fix by tightening, merging, rewriting, or removing the weak block. Add content only when required evidence is genuinely missing, never to fill space.
-- Check every «Single-line surfaces» entry at its required widths; key-fact tokens (price, platform, CTA) must hold one line at 375px.
-- Long pages do not fit one viewport; use a capture helper that can scroll to a specific element (first code block, pager) before shooting.
-- Serve fresh bytes: browsers cache stylesheets and restore scroll positions, so a plain reload can screenshot the OLD css at the OLD scroll point and pass a broken change. Verify through a cache-busted URL (or a fresh-named temp copy of the page) and confirm the viewport actually shows the section under review before trusting the capture.
 
 ## KO locale tuning
 
@@ -1458,10 +1466,11 @@ Canonical values (verified during the `one-pager-ko` pilot, 2026-05-28):
 - `.metric-label` `font-size`: 7pt (one-pager-ko only: KO labels read wider
   than CN/EN, so the baseline-flex metric strip needs a smaller label to
   avoid wrapping inside the card column).
-- `font-synthesis: none;` MUST be applied to the body rule. WeasyPrint can
-  synthesize fake bold when Bold weight resolution fails through fallbacks,
-  and disabling synthesis keeps the editorial tone honest (real glyph
-  shapes only).
+- `font-synthesis: none;` stays on the body rule, but it is browser-only:
+  WeasyPrint logs it as an unknown property and ignores it. The PDF guard
+  against synthetic bold is never asking for a weight above 500 (set any
+  `strong`, `b`, or heading the document uses to 500), so a real Medium
+  face always resolves.
 
 Fallback chain (consistent across all KO templates):
 
@@ -1469,9 +1478,9 @@ Fallback chain (consistent across all KO templates):
 --serif: "Source Han Serif K", "Source Han Serif KR", "Noto Serif KR", "Nanum Myeongjo",
          "AppleMyungjo", "Apple SD Gothic Neo", Charter, Georgia, serif;
 --sans:  var(--serif);
---mono:  "JetBrains Mono", "D2Coding", "SF Mono", "Fira Code",
-         Consolas, Monaco, monospace;
---latin-ui: "Inter", -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+--mono:  "JetBrains Mono", "D2Coding", "SF Mono", "Fira Code", Consolas, Monaco,
+         "Source Han Serif K", "Source Han Serif KR", monospace;
+--latin-ui: "Inter", system-ui, -apple-system, "Segoe UI", sans-serif;
 ```
 
 `"Source Han Serif K"` is the Adobe distribution name and the `@font-face`
@@ -1487,5 +1496,6 @@ name for the same Adobe source, covering boxes that installed it via
 installer the user used.
 
 Subsequent KO templates (letter-ko, long-doc-ko, etc.) should adopt the
-font variables and `font-synthesis` rule verbatim and leave all numeric
-values at their CN sibling's baseline.
+font variables and the browser-only `font-synthesis` rule verbatim, keep
+every weight at 500 or below, and leave all numeric values at their CN
+sibling's baseline.
