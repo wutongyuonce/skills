@@ -19,7 +19,7 @@ Skills 是 AI Agent（如 Claude Code、Codex）的可复用指令模块。每�
 
 ## [mattpocock/skills](https://github.com/mattpocock/skills)
 
-mattpocock/skills 的 skill 大多收在 `工作流/`（对应其 `engineering/` 系列），另有几个 `productivity/` skill 位于 `会话工具/handoff`、`工作流/grilling`、`文档多媒体/teach` 和 `文档多媒体/writing-for-agents`，覆盖日常编码工作的完整流程。
+mattpocock/skills 的 skill 大多收在 `工作流/`（对应其 `engineering/` 系列），另有几个 `productivity/` skill 位于其他文件夹，覆盖日常编码工作的完整流程。
 
 ## 我创建的 Skills
 
@@ -29,7 +29,7 @@ mattpocock/skills 的 skill 大多收在 `工作流/`（对应其 `engineering/`
 | [neat](./工作流/neat/SKILL.md) | — | 知识收尾：把代码、文档、Agent 规则和获准记忆收成同一个现役答案 |
 | [pr-lifecycle](./工作流/pr-lifecycle/SKILL.md) | [GitHub](https://github.com/wutongyuonce/pr-lifecycle) | 非平凡 PR 的全生命周期纪律：issue/spec 澄清 → 设计 → 实现 → review 修复 → 测试消融 → 终审 |
 | [annotate-code-comments-zh](./文档多媒体/annotate-code-comments-zh/SKILL.md) | — | 为代码文件添加统一的中文注释 |
-| [understand-project](./文档多媒体/understand-project/SKILL.md) | — | 为完全不了解项目的人产出由浅到深的中文「看懂 X」项目解析文档 |
+| [note](./文档多媒体/note/SKILL.md) | — | 为项目/技术栈/技术主题撰写、整理中文技术笔记与解析文章 |
 | [video2article](./音频视频剪辑/video2article/SKILL.md) | [GitHub](https://github.com/wutongyuonce/video2article) | 把视频/播客重写成「阅读版本」文章：按主题分小节、逐节展开（YouTube 字幕 / 小宇宙官方逐字稿 / 本地 ASR） |
 | [trajex-skill](./会话工具/trajex-skill/SKILL.md) | [GitHub](https://github.com/wutongyuonce/Trajex/tree/main/trajex-skill) | 检索过去的 Claude Code / Codex / Pi 会话历史 |
 | [pi-agent-skill](./项目开发/pi-agent-skill/SKILL.md) | [GitHub](https://github.com/wutongyuonce/pi-agent-skill) | 面向 pi-agent / `@earendil-works/pi-coding-agent` SDK 的开发指南与接入评估 |
@@ -44,6 +44,8 @@ mattpocock/skills 的 skill 大多收在 `工作流/`（对应其 `engineering/`
 | [react-best-practices](./前端%20uiux/react-best-practices/SKILL.md) | [GitHub](https://github.com/vercel-labs/agent-skills/tree/main/skills/react-best-practices) | Vercel 出品的 React/Next.js 性能优化指南 |
 | [shadcn](./前端%20uiux/shadcn/SKILL.md) | [GitHub](https://github.com/shadcn-ui/ui/tree/main/skills/shadcn) | shadcn/ui 组件管理与项目集成 |
 | [taste-skill](./前端%20uiux/taste-skill/SKILL.md) | [GitHub](https://github.com/Leonxlnx/taste-skill) | 反模板化前端设计，产出不套模板的界面 |
+| [unocss](./前端%20uiux/unocss/SKILL.md) | [GitHub](https://github.com/antfu/skills/tree/main/skills/unocss) | UnoCSS 原子化 CSS：工具规则、shortcuts 与 Wind/Icons/Attributify 预设 |
+| [vue](./前端%20uiux/vue/) | [GitHub](https://github.com/vuejs-ai/skills) | Vue 3 最佳实践系列（组合式 API、Router、Pinia、测试、调试等 6 个子 skill） |
 | [code-review-skill](./工作流/code-review-skill/SKILL.md) | [GitHub](https://github.com/awesome-skills/code-review-skill) | 覆盖 20+ 语言/框架的全面代码审查指南（React、Vue、Angular、Rust、Go、Python 等） |
 | [convert-documents-to-markdown](./文档多媒体/convert-documents-to-markdown/SKILL.md) | [GitHub](https://github.com/firecrawl/anydoc/tree/main/skills/convert-documents-to-markdown) | 将 Word/PPT/Excel/PDF/EPUB 等文档转换为 GitHub Flavored Markdown |
 | [diagram-design](./文档多媒体/diagram-design/SKILL.md) | [GitHub](https://github.com/cathrynlavery/diagram-design/tree/main/skills/diagram-design) | 创建架构图、流程图、时序图等可视化图表 |
@@ -55,7 +57,6 @@ mattpocock/skills 的 skill 大多收在 `工作流/`（对应其 `engineering/`
 | [Kami](./文档多媒体/kami/SKILL.md) | [GitHub](https://github.com/tw93/Kami) | 统一设计语言的文档交付系统 |
 | [open-kimi-ppt](./文档多媒体/open-kimi-ppt-skill/skills/open-kimi-ppt/SKILL.md) | [GitHub](https://github.com/binaryify/open-kimi-ppt-skill) | 创建、编辑、复刻和导出演示文稿 |
 | [show-me](./文档多媒体/show-me/SKILL.md) | [GitHub](https://github.com/humanlayer/skills/tree/main/plugins/show-me/skills/show-me) | 用简洁图示、代码形状草图和聚焦 HTML 帮用户直观看懂当前主题 |
-| [simple-english](./文档多媒体/simple-english/SKILL.md) | [GitHub](https://github.com/AminBlg/SimpleEnglish) | 用简单直白的英文写作（ASD-STE100 简化技术英语精神），顺带去掉 AI 腔 |
 | [oil-cover](./音频视频剪辑/oil-cover/SKILL.md) | [GitHub](https://github.com/oil-oil/oil-cover) | 生成小红书/B 站 AI 工具实操视频封面 |
 | [remotion-best-practices](./音频视频剪辑/remotion-best-practices/SKILL.md) | [GitHub](https://github.com/remotion-dev/skills/tree/main/skills/remotion-best-practices) | Remotion 视频编程的 skill 路由器（字幕、地图、文档、交互等） |
 | [video-shotcraft](./音频视频剪辑/video-shotcraft/SKILL.md) | [GitHub](https://github.com/Vincentwei1021/video-shotcraft) | 将产品视频需求转化为可执行的镜头方案 |
