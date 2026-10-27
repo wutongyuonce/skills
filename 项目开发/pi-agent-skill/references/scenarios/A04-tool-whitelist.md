@@ -4,7 +4,7 @@
 
 限制 Agent 可用的工具集，例如只允许只读工具，禁用写入类工具。
 
-> **默认行为**：使用 settings.defaultTools，未配置时 read/bash/edit/write；不是启用所有内置工具。patterns、modifier-only、MCP 保留例外统一见 [工具规则](../sdk_doc/06-tools.md#工具选择规则120-权威表)。
+> **默认行为**：使用 settings.defaultTools，未配置时 read/bash/edit/write；不是启用所有内置工具。patterns、modifier-only、MCP 保留例外统一见 [工具规则](../sdk_doc/06-tools.md#工具选择规则140-权威表)。
 
 ## 涉及 SDK
 

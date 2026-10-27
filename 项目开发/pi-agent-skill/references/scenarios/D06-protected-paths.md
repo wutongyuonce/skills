@@ -36,7 +36,7 @@
 
 > ⚠️ **关键集成坑 1：`tool_call` 是 扩展独有 hook**（其他典型 hooks 见 04-events 的完整分类）。在 server 层用 subscribe 回调中的 `event.type === "tool_call"` 分支 会**静默失败**——外部事件流根本不派发这个 type。想做服务端路径限制**必须走扩展**。详见 [04-events.md 坑 4](../sdk_doc/04-events.md)。
 
-> ⚠️ **关键集成坑 2：`ctx.ui.confirm` 是 CLI 专属**。如果你想在越权时弹框让用户确认（而非硬阻断），`ctx.ui.confirm` 在 `createAgentSession` 默认 `mode="print"` 下 `hasUI=false`，调用会 no-op（返回 false）——见 `runner.ts` 的 `noOpUIContext`。Web 场景请用硬阻断或自定义 RPC 通道。详见 [D04 与 setStatus 配合](D04-confirm-destructive.md#与-setstatus-配合cli-专属)。
+> ⚠️ **关键集成坑 2：`ctx.ui.confirm` 是 CLI 专属**。如果你想在越权时弹框让用户确认（而非硬阻断），`ctx.ui.confirm` 在 `createAgentSession` 默认 `mode="print"` 下 `hasUI=false`，调用会 no-op（返回 false）——见 `runner.ts` 的 `noOpUIContext`。Web 场景请用硬阻断或自定义 RPC 通道。详见 [D05 与 setStatus 配合](D05-tool-result-render.md#与-setstatus-配合cli-专属-必读陷阱)。
 
 ---
 
@@ -44,7 +44,7 @@
 
 **工具启用规则**（与 [A04](A04-tool-whitelist.md) / [D01](D01-custom-tool.md) / [D02](D02-dynamic-tools.md) / [D04](D04-confirm-destructive.md) / [D05](D05-tool-result-render.md) 一致）：
 
-工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)，不在此复制。
+工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)，不在此复制。
 
 **关键事实**：
 
@@ -130,7 +130,7 @@ type Handler = (event: ToolCallEvent, ctx: ExtensionContext) =>
 | 异常处理 | **未捕获** | 有 try/catch + emitError（异常不冒泡） |
 | 典型用途 | 路径白名单、危险命令阻断、参数改写 | 脱敏、截断、格式标准化、错误友好化 |
 
-详见 [D05 handler 执行机制](D05-tool-result-render.md#handler-执行机制)。
+详见 [D05 handler 执行机制](D05-tool-result-render.md#handler-执行机制runnerts)。
 
 ---
 
@@ -378,7 +378,7 @@ pi.on("tool_call", (event, ctx) => {
 
 10. **handler 抛异常会阻断调用**：`emitToolCall` **没有 try/catch**（`runner.ts`），对比 `emitUserBash` 有。如果你的 handler 可能抛异常（如读配置失败），自己包 try/catch
 
-11. **`ctx.ui.confirm` 在 Web 场景是 no-op**：默认 `mode="print"` 时 `hasUI=false`，所有 UI 方法都返回安全默认值（confirm 返回 false）。不能依赖它做交互式确认。详见 [D04 与 setStatus 配合](D04-confirm-destructive.md#与-setstatus-配合cli-专属)
+11. **`ctx.ui.confirm` 在 Web 场景是 no-op**：默认 `mode="print"` 时 `hasUI=false`，所有 UI 方法都返回安全默认值（confirm 返回 false）。不能依赖它做交互式确认。详见 [D05 与 setStatus 配合](D05-tool-result-render.md#与-setstatus-配合cli-专属-必读陷阱)
 
 12. **多 handler 串行 + block 短路**：如果同时注册了 D04 危险命令拦截和 D06 路径拦截，按扩展注册顺序执行。前一个 `block: true` 会让后面的 handler 不跑。注意 handler 顺序
 

@@ -34,7 +34,7 @@ Pi 和文件存储的认证可以留在 host，但被路由的 shell 收到宿�
 
 ```dockerfile
 FROM node:24
-RUN npm install -g @earendil-works/pi-coding-agent@1.2.0
+RUN npm install -g @earendil-works/pi-coding-agent@1.4.0
 WORKDIR /workspace
 ENTRYPOINT ["pi"]
 ```

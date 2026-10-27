@@ -37,7 +37,7 @@
 
 ## 默认行为（不传 `tools` 时）
 
-工具启用规则统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)。
+工具启用规则统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)。
 
 plain allowlist 下 customTools 也受允许名称/pattern 过滤；modifier-only 与 MCP 例外见 06。所以：
 - 不传 `tools` → `_allowedToolNames = undefined` → customTools **自动启用**

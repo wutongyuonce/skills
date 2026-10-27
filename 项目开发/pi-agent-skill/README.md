@@ -6,7 +6,7 @@
 
 ## 当前基线
 
-- 已核对 SDK：`@earendil-works/pi-coding-agent@1.2.0`。
+- 已核对 SDK：`@earendil-works/pi-coding-agent@1.4.0`。
 - 使用该 SDK 需要 Node.js `>=22.19.0`。
 - 内容：18 份 SDK 参考、43 个场景、项目结构与源码兜底说明。
 - 涵盖会话、工具、扩展事件、Provider/认证、上下文/压缩、Codemode/MCP、多 Agent、打包与权限边界。
@@ -71,13 +71,13 @@ CHANGELOG.md             # 已完成的维护记录
 
 ## 验证与限制
 
-[验证说明](validation/README.md) 提供临时目录复跑命令。1.2.0 基线验收包括：
+[验证说明](validation/README.md) 提供临时目录复跑命令。1.4.0 基线验收包括：
 
 - 161 个完整文档块/hook 与 14 个官方 SDK 示例通过严格 Bundler/ESNext 类型检查。
-- 隔离的会话、认证、工具、事件、队列与恢复行为检查通过，检测到的网络尝试为 0。
-- 本地文件链接和安装版本检查通过。签名、伪代码、故意错误示例不冒称独立程序通过编译。
+- 隔离的会话、认证、工具、事件、队列与恢复行为检查通过，检测到的网络尝试为 0；其中包含 1.4.0 的摘要输出上限、跨模型 thinking 丢弃、`sessionShareDestination` 与恢复工具 loadout 断言。
+- 本地文件链接、文内锚点与安装版本检查通过。签名、伪代码、故意错误示例不冒称独立程序通过编译。
 
-**已知限制**：上游 `pi-ai@1.2.0` 的 42 个 JSON 声明 import 导致严格 NodeNext 报 TS1543。没有使用 `skipLibCheck` 或声明补丁掩盖。真实模型/OAuth/MCP/VM、CLI/UI 和容器端到端路径未运行；完整范围见 [1.2.0 验收报告](references/updates/1.2.0.md)。
+**已知限制**：上游 `pi-ai@1.4.0` 的 42 个 JSON 声明 import 仍导致严格 NodeNext 报 TS1543。没有使用 `skipLibCheck` 或声明补丁掩盖。真实模型/OAuth/MCP/VM、CLI/UI 和容器端到端路径未运行；完整范围见 [1.4.0 验收报告](references/updates/1.4.0.md)。
 
 ## 维护与贡献
 

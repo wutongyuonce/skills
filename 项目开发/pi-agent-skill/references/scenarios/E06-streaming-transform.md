@@ -45,7 +45,7 @@
 
 **工具启用规则**（与 [A04](A04-tool-whitelist.md) / [A06](A06-load-extensions.md) / [D01](D01-custom-tool.md) / [D04](D04-confirm-destructive.md) / [D05](D05-tool-result-render.md) / [E01](E01-tool-intercept.md) 一致）：
 
-工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)，不在此复制。
+工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)，不在此复制。
 
 > 📌 **此表为跨文档复用**：工具启用规则的**权威落点是 [06-tools](../sdk_doc/06-tools.md)**，本表仅为方便阅读而内联。尤其 `noTools: "builtin"` 行的「扩展/customTools 自动启用」语义依赖 SDK 层 `includeAllExtensionTools` 分支是否命中（sdk.ts 的 `createAgentSession` 未显式传该参数），实际激活行为以 A04 为准。本场景只关心「被启用的工具才会触发 `tool_result`」这一条。
 
@@ -156,9 +156,9 @@ onUpdate({
 | edit | ❌ 不支持 | 同上，参数命名为 `_onUpdate`（前缀 `_` 表明未用） |
 | write | ❌ 不支持 | 同上 |
 | grep / find / ls | ❌ 不支持 | 参数命名为 `_onUpdate` |
-| 自定义工具 | ✅ 如果作者实现 | 在 `defineTool` 的 `execute` 中调用 `onUpdate?.(...)`——见 [D01 onUpdate 回调](D01-custom-tool.md#onupdate-流式更新回调) |
+| 自定义工具 | ✅ 如果作者实现 | 在 `defineTool` 的 `execute` 中调用 `onUpdate?.(...)`——见 [D01 onUpdate 回调](D01-custom-tool.md#onupdate-流式更新回调agenttypests) |
 
-> **结论**：内置工具中bash（以及 PowerShell，见目标工具实现）和自定义工具可触发 `tool_execution_update`**。其他内置工具的 `tool_execution_update` 事件**永远不会触发**（参数未调用）。想在自定义工具里支持流式，必须自己在 `execute` 里调 `onUpdate?.(...)`——详见 [D01 §onUpdate 流式更新回调](D01-custom-tool.md#onupdate-流式更新回调)。
+> **结论**：内置工具中bash（以及 PowerShell，见目标工具实现）和自定义工具可触发 `tool_execution_update`**。其他内置工具的 `tool_execution_update` 事件**永远不会触发**（参数未调用）。想在自定义工具里支持流式，必须自己在 `execute` 里调 `onUpdate?.(...)`——详见 [D01 §onUpdate 流式更新回调](D01-custom-tool.md#onupdate-流式更新回调agenttypests)。
 
 > ⚠️ **bash 首次空 partialResult**：bash 工具在命令开始执行时会先发一次 `onUpdate({ content: [], details: undefined })`（bash.ts）——handler 首次收到的 partialResult 可能是**空内容数组**，需要做空值判断。
 
@@ -179,7 +179,7 @@ onUpdate({
 | `details` | 因工具而异 | 结构化元数据，**不送 LLM**——仅供 UI 或扩展内部使用 |
 | `usage` | `Usage \| undefined` | 工具执行用量统计（token 数等），**不送 LLM** |
 
-**按工具分 details 类型**（与 [D05](D05-tool-result-render.md#按工具分-details-类型) 一致）：
+**按工具分 details 类型**（与 [D05](D05-tool-result-render.md#toolresultevent-字段typests) 一致）：
 
 | 工具 | `event.toolName` | `event.details` 类型 |
 |------|-----------------|---------------------|
@@ -249,7 +249,7 @@ interface ToolResultEventResult {
 | `ctx.model` | `Model<any> \| undefined` | 当前模型 |
 | `ctx.abort()` | - | 中止当前 agent 操作 |
 
-> ⚠️ `ExtensionContext` **没有 `session` 字段**、**没有 `waitForIdle` 方法**（[E04 陷阱 5](E04-lifecycle-hooks.md#陷阱 5)）。`waitForIdle` 只在 `ExtensionCommandContext`（命令 handler 的 ctx）上。
+> ⚠️ `ExtensionContext` **没有 `session` 字段**、**没有 `waitForIdle` 方法**（[E04 ExtensionContext](E04-lifecycle-hooks.md#extensioncontext事件-handler-的-ctx)）。`waitForIdle` 只在 `ExtensionCommandContext`（命令 handler 的 ctx）上。
 
 > ⚠️ **`ctx.ui.setStatus(key, text)`** 签名是**双参数**（types.ts 的 `ExtensionUIContext.setStatus`）：
 > - `key: string` — 状态栏位置标识（如 `"streaming"` / `"lifecycle"`）
@@ -466,7 +466,7 @@ pi.on("tool_result", (event, ctx) => {
 });
 ```
 
-> ⚠️ **这与 `tool_call` 的 mutation 模式完全相反**（[E01 陷阱 2](E01-tool-intercept.md#陷阱 2)）：`tool_call` 的 `event.input` 是同一引用，跨 handler 透明 mutation 有效；但 `tool_result` 的 mutation **无效**。原因：emitToolCall 直接传 event 不拷贝（runner.ts 的 `emitToolCall`），emitToolResult 浅拷贝 + 只看返回值。
+> ⚠️ **这与 `tool_call` 的 mutation 模式完全相反**（[E01 emitToolCall 执行机制](E01-tool-intercept.md#emittoolcall-执行机制-多-handler-必读)）：`tool_call` 的 `event.input` 是同一引用，跨 handler 透明 mutation 有效；但 `tool_result` 的 mutation **无效**。原因：emitToolCall 直接传 event 不拷贝（runner.ts 的 `emitToolCall`），emitToolResult 浅拷贝 + 只看返回值。
 
 ### 陷阱 2：`tool_execution_update` 没有 `progress` 字段
 
@@ -505,7 +505,7 @@ if (ctx.hasUI) {
 }
 ```
 
-> 与 [E01 陷阱 11](E01-tool-intercept.md#陷阱 11) / [E04 陷阱 1](E04-lifecycle-hooks.md#陷阱 1) / [E05 陷阱 3](E05-input-transform.md) 完全一致——所有用到 `ctx.ui.*` 的地方都要加守卫。
+> 与 [E01 陷阱 11](E01-tool-intercept.md#陷阱-11ctxuiconfirm-在-websdk-场景-no-op) / [E04 陷阱 1](E04-lifecycle-hooks.md#陷阱-1ctxui-默认是-no-opmode-守卫) / [E05 陷阱 3](E05-input-transform.md) 完全一致——所有用到 `ctx.ui.*` 的地方都要加守卫。
 
 ### 陷阱 4：`tool_execution_update` handler 返回值被忽略
 
@@ -536,7 +536,7 @@ pi.on("tool_execution_update", (event, ctx) => {
 
 **实际情况**：见上方「内置工具 onUpdate 支持表」——bash/PowerShell 与实现了 onUpdate 的自定义工具可发送更新，read / edit / write / grep / find / ls 的 `_onUpdate` 参数**从未被调用**（参数命名前缀 `_` 表明未用）。
 
-**结论**：如果你的 `tool_execution_update` handler 想捕获 read 大文件的流式进度，**根本收不到事件**——要么改用 `tool_result` 事后处理，要么自定义工具包装 read 并在 execute 中调 onUpdate（见 [D01](D01-custom-tool.md#onupdate-流式更新回调)）。
+**结论**：如果你的 `tool_execution_update` handler 想捕获 read 大文件的流式进度，**根本收不到事件**——要么改用 `tool_result` 事后处理，要么自定义工具包装 read 并在 execute 中调 onUpdate（见 [D01](D01-custom-tool.md#onupdate-流式更新回调agenttypests)）。
 
 ### 陷阱 6（★ 集成坑）：`tool_result` 是 扩展独有 hook
 

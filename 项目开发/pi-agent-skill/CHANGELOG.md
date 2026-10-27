@@ -32,3 +32,14 @@
 - 验证包增加显式 version，移除锁文件中 313 个临时路径/冗余条目，保留 206 个实际依赖的版本与 integrity；验证说明不再包含作者机器绝对路径。
 - 新临时目录 npm ci 后，严格类型、离线行为与161个文档块/hook再次通过。公开内容检查未发现真实 token、私钥或个人临时路径；不包含 node_modules、日志和系统缓存。
 - 公开仓库与当前全局 skills 仓库分开，不推送其他 skills。发布仅为 GitHub 仓库，未执行 npm publish。
+
+
+## 2026-10-27 — 完整同步 1.2.0 → 1.4.0
+
+- 固定 npm `dist-tags.latest` = 1.4.0（2026-10-27 查询）。完整核对 1.3.0 与 1.4.0 两个发布条目，并对照 coding-agent 1.2.0/1.4.0 与 pi-ai 1.2.0/1.4.0 的公开 exports、声明、实现及附带 docs/examples。根导出无删除，新增 `formatReadLineRange`。
+- 修正 1.4.0 中与 skill 旧结论冲突的行为：摘要输出改用模型上限、`generateSummary` 的 `reserveTokens` 参数失效（18/G02/G03/13）；`sessionShareDestination` 新设置（13/B02）；跨模型 thinking 块改为丢弃（02/A02）；恢复会话按 transcript loadout + modifiers 恢复工具（06）。
+- 同步 classifier 图片与 `SystemOneCompat`（05/16/H07/H08）、Codemode worker 上限与排队（H08）、`before_provider_headers` 归属头边界（04）、扩展导入 `@earendil-works/pi-ai/models`（07）、`grep` 使用 `rg --no-config`（06）、内部 pi 包精确版本依赖（20/I01）。
+- 全部 active 安装 pin 与基线提升到 1.4.0；修复 19 个 1.2.0 时期遗留的失效文内锚点，并修正 D06 指向错误文件的 `setStatus` 链接。`check-docs.py` 新增 heading 锚点校验。
+- 核对来源：`earendil-works-pi-coding-agent-1.4.0.tgz`（sha1 `7f5dd2a4f7fa46ed252465ac4d341831896b1fc2`，integrity `sha512-Z41...`）；验证锁定 pi-ai / pi-agent-core / pi-codemode / pi-mcp / pi-tui / pi-telemetry 均为 1.4.0，typebox 1.3.27、diff 8.0.4。npm metadata 无 gitHead，未推测提交。
+- 验证：Node 22.22.2 / TS 5.9.3；严格 Bundler/ESNext 类型检查与 14 个官方 SDK 示例通过；161 个文档完整块/hook 编译 0 diagnostics；离线行为检查全部断言通过、网络尝试 0（新增摘要上限、跨模型 thinking、sessionShareDestination、formatReadLineRange、恢复工具 loadout 断言）；71 个 Markdown、978 个本地链接、79 个文内锚点、active pins 全为 1.4.0；NodeNext 仍为 42 个上游 TS1543。
+- 限制：未运行真实 Provider/OAuth/classifier 图片/MCP/VM/CLI/容器端到端；未实测 `PI_CODEMODE_MAX_WORKERS` 排队时序与扩展虚拟模块解析；不声称 NodeNext 通过。逐文件结论与冲突取舍见 [1.4.0 同步报告](references/updates/1.4.0.md)。

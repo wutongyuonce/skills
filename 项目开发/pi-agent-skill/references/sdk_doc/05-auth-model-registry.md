@@ -62,7 +62,7 @@ getProviderAuthStatus(providerId: string): AuthStatus                   // 脱�
 
 `getModels()` / `getModel()` / `getAvailableSnapshot()` 仅处理 chat。全部操作类型用 `getAllModels()` / `getAllAvailable()`；按 `"chat" | "image" | "classifier"` 使用 `getModelsOfType`、`getModelOfType`、`getAvailableOfType`（后两种 availability API 为 async）。
 
-图片用 `generateImages(model, context, options?)`，分类用 `classify(...)`；chat deferred 用 `streamDeferred` / `fetchDeferred` / `cancelDeferred`。虚拟 chat 模型用 `registerVirtualModel` / `unregisterVirtualModel`，宿主路由用 `resolveModel`（返回真实模型与 thinking），真实目录查询用 `getPhysicalModel`。扩展门面也提供 typed 查询、图片/分类和虚拟注册。
+图片用 `generateImages(model, context, options?)`，分类用 `classify(...)`；`ClassifierContext` 可带 `images?: ImageContent[]`，仅 `input` 含 `"image"` 的 classifier 模型接受（其余返回错误结果），请求格式由 `compat.imageInput` 决定。chat deferred 用 `streamDeferred` / `fetchDeferred` / `cancelDeferred`。虚拟 chat 模型用 `registerVirtualModel` / `unregisterVirtualModel`，宿主路由用 `resolveModel`（返回真实模型与 thinking），真实目录查询用 `getPhysicalModel`。扩展门面也提供 typed 查询、图片/分类和虚拟注册。
 
 `modelsPath: null` 只禁用 models.json；不禁用 catalog/native/extension providers。`getBuiltinModel` 仅接受当前静态目录的类型化 IDs，不包含运行时覆盖；未知字符串 ID 用 runtime 查询。
 

@@ -26,7 +26,7 @@ pi.on(eventName, handler): () => void
 
 > **派发层提示**：标 ⭐ 的事件是**扩展独有**，只经 `pi.on`（扩展层 `_extensionRunner.emit`）派发，**外部 `session.subscribe()` 收不到**（不在 `AgentSessionEvent` union 中）。下表所有 `session_*` 事件（`session_start` / `session_before_*` / `session_compact` / `session_shutdown` / `session_tree`）也都是扩展独有，**除 `session_info_changed` 外** subscribe 层均收不到。`agent_settled` 的"两层"指扩展层 `pi.on` + session subscribe 层（详见 04-events.md）。
 
-事件归属、公共 payload 与可操作边界统一见 [04-events.md](04-events.md)。1.2.0 还包括 agent_before_settle、context_with_system、provider_stream_event、ui_prompt_start/end、mcp_servers_change、session_compact_failed、cache_warming_decision；turn_end 可返回 BoundaryResult，settled 带 aborted。pi.on 返回退订函数。
+事件归属、公共 payload 与可操作边界统一见 [04-events.md](04-events.md)。当前基线还包括 agent_before_settle、context_with_system、provider_stream_event、ui_prompt_start/end、mcp_servers_change、session_compact_failed、cache_warming_decision；turn_end 可返回 BoundaryResult，settled 带 aborted。pi.on 返回退订函数。
 
 Handler 函数签名：`(event: EventType, ctx: ExtensionContext) => Promise<ResultType | void> | ResultType | void`（支持 async/await）
 
@@ -168,7 +168,7 @@ pi.registerProvider("my-proxy", {
 });
 ```
 
-> 完整 Provider 对象注册详见 [16-custom-provider.md 模式 5](16-custom-provider.md#模式-5注册完整-pi-ai-provider-对象v0810)。
+> 完整 Provider 对象注册详见 [16-custom-provider.md 模式 5](16-custom-provider.md#模式-5注册完整-pi-ai-provider-对象)。
 
 ### 扩展间事件总线（EventBus）
 
@@ -238,7 +238,7 @@ pi.unregisterProvider("my-proxy");
 | `sendMessage<T>()` | `(message, options?) => Promise<void>` | 向新会话发送自定义消息（支持 `triggerTurn` / `deliverAs`） |
 | `sendUserMessage()` | `(content, options?) => Promise<void>` | 向新会话发送用户消息（支持 `deliverAs`） |
 
-## 1.2.0 注册入口
+## 1.4.0 注册入口
 
 - `pi.registerToolRenderer(resolver: ToolRendererResolver): void`，resolver 为 `(toolName,next)=>ToolRenderers|undefined`。
 - `pi.registerMcpServer(name,config)` / `unregisterMcpServer(name)` / `getMcpServers()`；SDK 使用 MCP extension 时还需 bindExtensions 触发连接。
@@ -246,3 +246,5 @@ pi.unregisterProvider("my-proxy");
 - tool execute 的 ctx 是 `ExtensionToolContext`（含 tools/executeTool），事件 ctx 是 ExtensionContext；详见 [06-tools.md](06-tools.md)。
 
 命令可用 `session.prompt("/name args")` 在 SDK 中调用，不是 TUI 专属。需要资源 startup 时 loader.reload → createAgentSession({resourceLoader:loader}) → session.bindExtensions({})。
+
+> **扩展内可导入的 pi-ai 子路径**：1.4.0 修复了扩展导入 `@earendil-works/pi-ai/models` 失败的问题（例：`clampThinkingLevel`）。loader 的虚拟模块/别名现在覆盖该子路径；仍建议在 `peerDependencies` 声明 `@earendil-works/pi-ai`，不要打包副本。

@@ -36,7 +36,7 @@
 
 > ⚠️ **关键集成坑 #2**：`renderCall` / `renderResult` / `ctx.ui.setStatus` 等 TUI 渲染能力渲染器用于 TUI/HTML 导出；UI 状态栏需要实际宿主 UI 绑定。SDK 集成（`createAgentSession`）、`print` / `json` 模式下 `ctx.hasUI === false`，所有 UI 方法是 no-op，渲染器返回的 Component 不会被显示。**Web/Server 集成只能用 `tool_result` 事件做"修改 LLM 看到的内容"，不能用渲染器做"修改用户看到的界面"**——后者要自己在前端实现。
 
-> ⚠️ **import 来源**：TypeBox 从 `typebox` 包导入（**不是** `@sinclair/typebox`，目标 1.2.0 使用 typebox）。
+> ⚠️ **import 来源**：TypeBox 从 `typebox` 包导入（**不是** `@sinclair/typebox`，当前基线使用 typebox）。
 > ```ts
 > import { Type } from "typebox";                              // ✅ 正确
 > import { Type } from "@sinclair/typebox";                    // ❌ 旧包名，已废弃
@@ -48,7 +48,7 @@
 
 **工具启用规则**（与 [A04](A04-tool-whitelist.md) / [D01](D01-custom-tool.md) / [D02](D02-dynamic-tools.md) / [D04](D04-confirm-destructive.md) 一致）：
 
-工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)，不在此复制。
+工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)，不在此复制。
 
 **关键事实**：
 
@@ -600,7 +600,7 @@ handler 内 throw 不会终止 agent loop——错误会被 runner.ts 的 try/ca
 
 ### 陷阱 12：结构化输出与省略字段
 
-1.2.0 runner 合并省略字段时保留原值，usage 不会因只返回 content 就必然丢失。特例：替换 content 而省略 structuredContent 会删除旧 structuredContent，避免机器结果与文本不一致。脱敏需同时转化它（按其 schema）或有意丢弃；不能保留未脱敏的机器结果绕过文本处理。details/日志/图片中的秘密也需各自处理，不承诺 regex 完全防泄露。
+当前基线 runner 合并省略字段时保留原值，usage 不会因只返回 content 就必然丢失。特例：替换 content 而省略 structuredContent 会删除旧 structuredContent，避免机器结果与文本不一致。脱敏需同时转化它（按其 schema）或有意丢弃；不能保留未脱敏的机器结果绕过文本处理。details/日志/图片中的秘密也需各自处理，不承诺 regex 完全防泄露。
 
 ## 横向联动
 

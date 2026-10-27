@@ -118,7 +118,7 @@
 | `keywords: ["pi-package"]` | **必须包含** `"pi-package"` 才能在 [pi.dev 包画廊](https://pi.dev/packages) 被发现。`pi` 不强制校验，但画廊用这个 keyword 过滤 |
 | `files` | **npm tarball 的 whitelist**。漏写 `extensions/` 等目录，tarball 里就没有这些文件，消费者 install 后扩展加载不到 |
 | `pi.image` / `pi.video` | **画廊端元数据，pi CLI 不会读取这两个字段**（`PiManifest` 接口只认 `extensions` / `skills` / `prompts` / `themes` 四个字段）。仅供 [pi.dev 包画廊](https://pi.dev/packages) 消费：`image` 支持 PNG/JPEG/GIF/WebP；`video` 仅 MP4 + 桌面端 hover 自动播放；两者同设时 **video 优先**。证据：`pi-manifest.ts`（`PiManifest` 接口 + `RESOURCE_FIELDS`）。 |
-| `peerDependencies` | **5 个 pi 核心包必须列在这里 + `"*"` 范围**，不能放 `dependencies`。详见 [I01](I01-pi-package.md#peerdependencies-5-个核心包不要打包) / [I03](I03-extension-deps.md) |
+| `peerDependencies` | **5 个 pi 核心包必须列在这里 + `"*"` 范围**，不能放 `dependencies`。详见 [I01](I01-pi-package.md#peerdependencies5-个核心包不要打包) / [I03](I03-extension-deps.md) |
 
 #### 2. 验证 tarball 内容（重要）
 

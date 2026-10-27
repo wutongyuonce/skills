@@ -534,6 +534,10 @@ compat: {
 以上是最常见的覆盖项。完整字段列表见 pi-ai 源码 `OpenAICompletionsCompat` 接口（约 25 个字段，`types.ts`），`detectCompat` 函数（`api/openai-completions.ts`）负责根据 URL 自动推断。
 
 > **compat 不限于 openai-completions**。各协议有专属 compat 类型：`OpenAICompletionsCompat`、`OpenAIResponsesCompat`、`AnthropicMessagesCompat`、`BedrockCompat` 等，条件类型映射见 `types.ts` 的 `TApi -> Compat`。
+>
+> 1.4.0 新增的常用字段：
+> - `supportsMidConvoEffort`（`openai-responses`）——思考级别变更以 configuration_update 形式的输入项发送，不再改 `reasoning.effort`，从而保留 prompt cache。仅该协议使用；Sign in with ChatGPT 下忽略。Anthropic 协议同名字段表示支持 effort-only system messages / thinking binding。
+> - `imageInput` / `sendImageOptInHeader`（System One classifier）——决定 classifier 收图格式（`assets` / `images` / `state-image-urls`）与 TypeSafe 图片 opt-in 头。它们属于 provider 级 `compat`，只影响 classifier 模型；内置模型会自动检测，代理其它服务的自定义 provider 需显式设置。`ClassifierModel` 的 `compat` 类型为 `SystemOneCompat`（从 `@earendil-works/pi-ai` 导出）。
 
 ### 10. 上下文溢出错误归一化（自定义 provider 上线必读）
 
@@ -580,3 +584,9 @@ export default function (pi: ExtensionAPI) {
 - **限定 provider**：用 `message.provider` 和 `ctx.model?.provider` 判断，别误改其他 provider 的错误。
 - **匹配专属 pattern**：只匹配你自己 provider 的溢出文案，**不要**匹配 pi 的通用 overflow pattern。尤其别改写 rate-limit / throttling 类错误（`rate limit`、`too many requests`），否则会把限流误判成溢出、触发 compaction 而不是 pi 正常的退避重试。
 - **幂等跳过**：`errorMessage` 已含 `context_length_exceeded` 就 return，避免重复改写。
+
+## 官方参考资料（以目标安装包为准）
+
+- `docs/custom-provider.md`：注册、覆盖 endpoint、自定义 stream 的官方约定。
+- `docs/models.md`：`models.json` 快速上手与 classifier 图片输入。
+- `docs/models-configuration.md`：由 `models.schema.json` 生成的完整字段参考（provider / model / modelOverrides / 各协议 compat），字段拿不准时先查这里，再回到本文示例。

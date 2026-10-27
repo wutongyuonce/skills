@@ -38,7 +38,8 @@
 
 - 老版参数：`maxTokensField` / `supportsUsageInStreaming` / `supportsStore`
 - 消息/角色/工具：`supportsDeveloperRole`（只认 system）/ `supportsStrictMode` / `requiresAssistantAfterToolResult` / `requiresToolResultName`
-- 思考参数：`thinkingFormat` / `supportsReasoningEffort`
+- 思考参数：`thinkingFormat` / `supportsReasoningEffort`；OpenAI Responses 代理如需换思考级别仍复用缓存，加 `supportsMidConvoEffort`
+- classifier 代理（非 chat）：provider 级 `compat.imageInput` / `sendImageOptInHeader`，不影响 chat 模型
 - 完整字段见 SDK 类型 `OpenAICompletionsCompat`（`packages/ai/src/types.ts`），其余缓存/路由字段仅按实际服务契约设置
 
 **兜底判断**：

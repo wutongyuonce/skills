@@ -94,6 +94,7 @@ for (const info of sessions) console.log(info.id, info.firstMessage);
 ## 变体与延伸
 
 - 运行时动态切换会话 → 见 [场景 F02](F02-session-runtime.md)
+- 恢复后的工具 loadout 与 `+name`/`-name` 叠加规则 → 见 [06 工具选择规则](../sdk_doc/06-tools.md#工具选择规则140-权威表)
 - 会话进行中中止当前操作 → 见 [场景 F04](F04-abort-session.md)
 - 会话历史消息的读取与操控（steer 注入）→ 见 [场景 F05](F05-steer-session.md)
 - 自定义 SessionManager 的 cwd 陷阱 → 见 [场景 A05](A05-custom-cwd.md) ★ 涉及自定义 SessionManager 时务必先读

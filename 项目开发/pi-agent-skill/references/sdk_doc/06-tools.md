@@ -17,6 +17,8 @@
 | `find` | 文件 glob 匹配搜索 | readonly |
 | `ls` | 列出目录内容 | readonly |
 
+> `grep` 工具自 1.4.0 起运行 `rg --no-config`，不读取 `RIPGREP_CONFIG_PATH`；用户全局 ripgrep 配置（如 `--fixed-strings`）不会再静默改变工具的正则语义。
+
 ## 工厂函数
 
 这些是 SDK 导出的工具工厂函数，可接受自定义 cwd 和选项：
@@ -34,7 +36,7 @@ import {
 
 包根公开单工具 `createReadToolDefinition` / `createBashToolDefinition` / `createPowerShellToolDefinition` / `createEditToolDefinition` / `createWriteToolDefinition` / `createGrepToolDefinition` / `createFindToolDefinition` / `createLsToolDefinition`。内部批量 `createCodingToolDefinitions`、`createReadOnlyToolDefinitions`、`createAllToolDefinitions`、`createAllTools` **不从包根导出**，不要用未公开子路径绕过 exports。
 
-## 工具选择规则（1.2.0 权威表）
+## 工具选择规则（1.4.0 权威表）
 
 这是 `tools` / `excludeTools` / `noTools` 的统一落点；场景文档引用此表，避免复制规则。
 
@@ -49,6 +51,10 @@ import {
 | 同时 tools 与 noTools | 显式 tools 优先，noTools 不参与选择 |
 
 **MCP 例外**：非空 plain allowlist 通常保留 MCP 注册，供 codemode/tool search 调用，即使 MCP 名未列入。只有条目以 `mcp__` 开头时才显式收紧 MCP 注册范围；`excludeTools` 仍生效。只传 `["read"]` 不是“只读宿主隔离”。宿主权限与 OS/容器隔离不由工具名选择保证。
+
+**恢复已有会话时**：仅当选择来自 settings `defaultTools` 或 modifier-only 列表（即 `tools` 为 `undefined` 或全部是 `+name`/`-name`）时，恢复会以会话 transcript 记录的工具 loadout 为基准，再应用这些 modifier；plain allowlist、`tools: []`、`noTools` 仍按本次显式选择。扩展工具若从未在该分支记录过增删，则按 `defaultActive` 重新激活（`defaultActive: false` 仍需显式启用）。
+
+> 例：该分支曾激活扩展工具 `deploy`，本次传 `tools: ["+lint", "-bash"]`，恢复后保留 `deploy`，在默认内置工具上减去 `bash` 并加上 `lint`。
 
 ## 在会话中注册自定义工具
 

@@ -161,7 +161,7 @@ reload(): Promise<void>
 |------|------|
 | `getCompactionEnabled()` / `setCompactionEnabled(e)` | 是否启用上下文压缩 |
 | `getCompactionSettings(model?)` | 解析模型 token override → 普通值 → 内置默认；返回 enabled/reserveTokens/keepRecentTokens |
-| `getCompactionReserveTokens()` / `getCompactionKeepRecentTokens()` | 压缩 token 参数 |
+| `getCompactionReserveTokens()` / `getCompactionKeepRecentTokens()` | 压缩 token 参数（`reserveTokens` 仅用于触发阈值，不限制摘要输出） |
 | `getRetryEnabled()` / `setRetryEnabled(e)` | 是否启用重试 |
 | `getRetrySettings()` | 重试完整配置 |
 | `getProviderRetrySettings()` | provider 级重试配置 |
@@ -227,6 +227,7 @@ reload(): Promise<void>
 | `isProjectTrusted()` / `setProjectTrusted(t)` | 项目信任状态 |
 | `getDefaultProjectTrust()` / `setDefaultProjectTrust(t)` | 全局默认信任策略（global setting only） |
 | `getSessionDir()` | 自定义会话存储目录 |
+| `getSessionShareDestination()` / `setSessionShareDestination(d)` | `/share` 目标：`"auto"` \| `"gist"` \| `"radius"`（默认 `"auto"`） |
 
 **遥测与分析：**
 
@@ -267,7 +268,7 @@ interface SettingsError {
 // 压缩设置
 interface CompactionSettings {
   enabled?: boolean;       // 默认 true
-  reserveTokens?: number;  // 默认 16384（预留给 LLM 回复的 token）
+  reserveTokens?: number;  // 默认 16384；只决定自动压缩何时开始（contextWindow - reserveTokens）
   keepRecentTokens?: number; // 默认 20000（保留不压缩的最近 token）
   modelOverrides?: Record<string, { reserveTokens?: number; keepRecentTokens?: number }>;
   // key = "provider/modelId"，token 设置必须为非负安全整数
@@ -275,7 +276,7 @@ interface CompactionSettings {
 
 // 分支摘要设置
 interface BranchSummarySettings {
-  reserveTokens?: number;  // 默认 16384
+  reserveTokens?: number;  // 默认 16384；从 contextWindow 中扣除以选择摘要输入量，不限制输出
   skipPrompt?: boolean;    // 默认 false
 }
 

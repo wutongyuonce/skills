@@ -29,7 +29,7 @@ SDK 提供的素材只有事件 hook（`turn_end` / `agent_end` / `message_end`�
 | `pi.appendEntry(customType, data?)` | `(customType: string, data?: T) => void` | 写入 CustomEntry 到会话树（`~/.pi/agent/sessions/<encoded-cwd>/<timestamp>_<sessionId>.jsonl`，跨 session 持久化） | [sdk_doc/07-extensions-api.md](../sdk_doc/07-extensions-api.md) |
 | `generateSummary()` / `serializeConversation()` | SDK 公开的摘要工具函数 | 让 LLM 生成结构化摘要（同 compaction 内部用的工具） | [sdk_doc/18-compaction.md](../sdk_doc/18-compaction.md) |
 
-> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)。
+> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)。
 
 ## ⚠️ 最大陷阱：turn_end 拿不到 user message
 
@@ -153,7 +153,7 @@ function extractText(content: unknown): string {
 }
 ```
 
-> ⚠️ **`message_end(assistant)` 单轮触发多次**（[04-events.md 坑 2](../sdk_doc/04-events.md#坑-2message_end-单轮对话触发多次粒度是每次-llm-调用而非每条最终消息)）：用户发一条消息、Agent 调一次工具再回复，会产生多条 assistant message_end；数量依 provider/turn 而变。上例跳过空 assistant，但非空中间文本仍可提前消费 pendingUser——实战中需要"只配对非空 assistant"或"延迟到 turn_end 才落库"。
+> ⚠️ **`message_end(assistant)` 单轮触发多次**（[04-events.md 坑 2](../sdk_doc/04-events.md#坑-2message_end-不是整个-run-的最终答案)）：用户发一条消息、Agent 调一次工具再回复，会产生多条 assistant message_end；数量依 provider/turn 而变。上例跳过空 assistant，但非空中间文本仍可提前消费 pendingUser——实战中需要"只配对非空 assistant"或"延迟到 turn_end 才落库"。
 
 ### 模式 C：agent_settled 总结当前 projected context
 
@@ -249,9 +249,11 @@ import type { AgentMessage } from "@earendil-works/pi-agent-core";
 const toSummaryText = (messages: AgentMessage[]) => serializeConversation(convertToLlm(messages));
 ```
 
-### `generateSummary(messages, model, reserveTokens, apiKey, headers?, signal?, customInstructions?, previousSummary?, thinkingLevel?, streamFn?, env?, retry?, callbacks?, sessionId?): Promise<string>`
+### `generateSummary(messages, model, _reserveTokens, apiKey, headers?, signal?, customInstructions?, previousSummary?, thinkingLevel?, streamFn?, env?, retry?, callbacks?, sessionId?): Promise<string>
 
 让 LLM 生成结构化摘要（compaction.ts）。传 `previousSummary` 走"增量更新"prompt，不传走"首次摘要"prompt。
+
+第三个参数自 **1.4.0** 起被忽略（声明为 `_reserveTokens: number | undefined`，仅为兼容旧调用保留）。摘要请求不设置 `maxTokens`，由模型输出上限决定；传入的值不会扩大或缩小摘要输出。旧示例传 `16384` 仍然可运行。
 
 第 4 个位置参数 apiKey 必填但可为 undefined。它不自动引用 session ModelRuntime；默认底层 stream 可能使用 ambient env，不能保证 stored OAuth/自定义 provider 生效。传 registry/runtime streamFn（模式 C）保留认证配置。sessionId 是尾部可选参数。
 
@@ -327,4 +329,4 @@ function extractText(content: unknown): string {
 - 自定义 compaction 策略（替换 SDK 内置摘要）→ [场景 G02](G02-custom-compaction.md)
 - 生命周期 hooks 完整参考 → [场景 E04](E04-lifecycle-hooks.md)
 - compaction 内部机制与触发公式 → [sdk_doc/18-compaction.md](../sdk_doc/18-compaction.md)
-- 事件派发层次（扩展层 vs subscribe 层）→ [sdk_doc/04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)
+- 事件派发层次（扩展层 vs subscribe 层）→ [sdk_doc/04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)

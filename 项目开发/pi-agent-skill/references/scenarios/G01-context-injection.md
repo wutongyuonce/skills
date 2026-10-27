@@ -33,7 +33,7 @@
 | `pi.sendUserMessage()` | `sendUserMessage(content: string \| (TextContent \| ImageContent)[], options?: { deliverAs?: "steer" \| "followUp" }): void` | 扩展中投递 user 消息（流式时按 deliverAs 入队） | [07-extensions-api.md](../sdk_doc/07-extensions-api.md) |
 | `session.steer()` | `async steer(text: string, images?: ImageContent[]): Promise<void>` | 入队 steering 消息（当前 turn 结束后注入并触发新一轮） | [02-agent-session.md](../sdk_doc/02-agent-session.md) |
 
-> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`context` 和 `before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。如果用 subscribe 监听这两个事件，handler 根本不会被调用。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)。
+> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`context` 和 `before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。如果用 subscribe 监听这两个事件，handler 根本不会被调用。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)。
 
 ## 四种注入机制（先理解，再写代码）
 
@@ -304,9 +304,9 @@ export default function (pi: ExtensionAPI) {
 
 **现象**：在 Express SSE 路由用 `session.subscribe` 监听 `event.type === "context"`，期望抓取发给 LLM 的消息。实际：**handler 根本不会被 context 事件触发**——context 事件不经 subscribe 层 `_emit` 分发，只在扩展层 `pi.on` 派发。
 
-**根因**：`context` 是扩展独有事件（[04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)），只在 `pi.on` 派发。
+**根因**：`context` 是扩展独有事件（[04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)），只在 `pi.on` 派发。
 
-**修复**：把抓取逻辑写成**扩展**（走 `pi.on("context", ...)`），通过 `extensionFactories` 注入 session。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)。
+**修复**：把抓取逻辑写成**扩展**（走 `pi.on("context", ...)`），通过 `extensionFactories` 注入 session。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)。
 
 ## 变体与延伸
 

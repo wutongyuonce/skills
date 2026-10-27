@@ -29,7 +29,7 @@ pi install npm:@scope/pkg@1.2.3
 pi install npm:pkg
 ```
 
-- 精确版本锁定；范围版本仍可能解析到范围内新版。自 1.0.1 起 npm 发布包不再附带 npm-shrinkwrap，关联依赖解析须看消费者锁文件
+- 精确版本锁定；范围版本仍可能解析到范围内新版。自 1.0.1 起 npm 发布包不再附带 npm-shrinkwrap；自 1.3.0 起 coding-agent 对 pi-ai / pi-agent-core / pi-codemode / pi-mcp / pi-tui 使用精确版本依赖，因此 coding-agent 自己的依赖树会得到同版内部包，而不是安装时才在范围里漂移（宿主若同时直接声明这些包，顶层解析仍以宿主依赖与锁文件为准）
 - 用户级安装到 `~/.pi/agent/npm/`
 - 项目级安装到 `.pi/npm/`
 - 可通过 `settings.json` 中的 `npmCommand` 字段（`string[]` 数组）指定自定义包管理器：
