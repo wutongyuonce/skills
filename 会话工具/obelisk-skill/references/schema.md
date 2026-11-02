@@ -1,26 +1,42 @@
-# Trajex -- Raw SQL Quick Reference
+# Obelisk -- Raw SQL Quick Reference
 
 Read this before writing non-trivial `sql()` queries. It is a compact field and
 join map for raw SQL, not the full helper API manual.
 
-- Canonical executable DDL: [`packages/core/src/schema.sql`](https://github.com/tommy0103/trajex/blob/main/packages/core/src/schema.sql) in the CLI source repository (not duplicated in this docs-only skill)
+- Canonical executable DDL: [`packages/core/src/schema.sql`](https://github.com/tommy0103/obelisk/blob/main/packages/core/src/schema.sql) in the CLI source repository (not duplicated in this docs-only skill)
 - Helper signatures and return shapes: `references/api-reference.md`
 - Query recipes and synthesis patterns: `references/query-patterns.md`
 - FTS, alias, ordering, and compactness traps: `references/pitfalls.md`
 
-Database path: `~/.trajex/trajex.sqlite`. Older `~/.claude/trajex.sqlite`
+Database path: `~/.obelisk/obelisk.sqlite`. Older `~/.claude/obelisk.sqlite`
 databases are copied forward on first open when the new database does not
 exist.
 
 ## Source Model
 
-Trajex stores Claude Code, Codex, and Pi transcripts in the same schema.
+Obelisk stores Claude Code, Codex, DeepSeek Harness, Kimi Code, OMP, and Pi transcripts in the same
+schema.
 
 - Claude rows use `source='claude'`.
-- Codex rows use `source='codex'`; root session and message IDs are prefixed with `codex:`.
-- Pi rows use `source='pi'` and IDs derived from normalized `cwd` plus the v3 header `id`; official v3 session files are discovered recursively.
+- Codex rows use `source='codex'`; root session and message IDs are prefixed
+  with `codex:`.
+- Kimi Code rows use `source='kimi'`.
+- OMP rows use `source='omp'`; session IDs are prefixed with `omp:`.
+- Pi rows use `source='pi'`; session IDs are prefixed with `pi:`.
+- OpenCode rows use `source='opencode'`; session IDs are prefixed with
+  `opencode:`. Obelisk indexes V1 and V2 SQLite databases (`opencode.db` and
+  channel stores; earlier JSON formats are not indexed). Canonical token
+  accounting folds provider breakdowns: V2 combines input + cache read/write
+  into `input_tokens` and output + reasoning into `output_tokens`; V1 uses
+  per-step `step-finish` usage with assistant-level fallback.
+- DeepSeek Harness rows use `source='deepseek'`; session IDs are prefixed with
+  `deepseek:`. Subagent logs fold into their root parent session as sidechain
+  messages (`is_sidechain=1`, `agent_id` = the subagent's `deepseek:` id), and
+  their `total_tokens` are derived at query time from sidechain message usage
+  (ADR-0010) rather than stored.
 - Omit `source` filters unless provider provenance matters.
-- Codex child agents are represented through `subagents`; provider workflow rows may be absent when the source has no compatible metadata.
+- Codex child threads are represented through `subagents`; Codex may not have
+  Claude-style workflow rows.
 
 ## Scope Fields
 
@@ -51,16 +67,16 @@ One row per root session.
 
 | Column | Meaning |
 | --- | --- |
-| `id` | Stable provider session ID; Pi combines normalized header `cwd` and header `id` so the same explicit ID in different projects cannot collide |
+| `id` | Session ID (`codex:<thread-id>` for Codex roots) |
 | `title` | AI/session title |
 | `project` | Provider-normalized project slug |
 | `project_path` | Absolute project path when known |
 | `started_at`, `ended_at` | ISO timestamps |
 | `git_branch` | Branch at session time |
 | `version` | Provider CLI/app version |
-| `message_count` | Indexed user + assistant messages |
+| `message_count` | Visible canonical messages; inactive and hidden records are excluded |
 | `jsonl_path` | Source JSONL path |
-| `source` | `claude`, `codex`, or `pi` |
+| `source` | Provider ID: `claude`, `codex`, `deepseek`, `kimi`, `omp`, or `pi` |
 
 ### `messages`
 
@@ -73,17 +89,18 @@ Core evidence table.
 | `type`, `role` | User/assistant role fields |
 | `parent_uuid` | Conversation tree parent |
 | `timestamp` | ISO timestamp |
-| `text` | Extracted text, capped at 10k chars; tool-result messages use a 1k head-tail preview |
+| `text` | Extracted text, truncated to 10k chars |
 | `content_type` | `text`, `thinking`, `tool_use`, `tool_result`, or `unknown` |
 | `is_meta` | 1 for injected/control-plane messages |
+| `visibility` | `visible` for current evidence, `inactive` for provider-attested superseded history, `hidden` for display-suppressed or transport-only material. Pi and OMP emit `inactive` |
 | `model` | Assistant model name |
-| `visibility` | `visible` for current context, `inactive` for retained superseded context, `hidden` for source-suppressed content |
+| `is_sidechain` | Retry/branch marker |
 | `agent_id` | Subagent/workflow agent ID |
 | `input_tokens`, `output_tokens` | Assistant token usage |
 | `cwd` | Working directory at message time |
 | `skill` | Skill that generated the response, if known |
 | `turn_duration_ms` | Wall-clock duration for the turn |
-| `source` | `claude`, `codex`, or `pi` |
+| `source` | Provider ID: `claude`, `codex`, `deepseek`, `kimi`, `omp`, or `pi` |
 
 `content_type='tool_use'` is only a marker. Tool-call details live in
 `tool_calls`. `content_type='tool_result'` marks provider-emitted tool-result
@@ -113,7 +130,7 @@ One row per tool result.
 | `tool_use_id` | FK to `tool_calls.id` |
 | `message_uuid` | User/tool-result message carrying the result |
 | `session_id` | Denormalized session ID |
-| `content` | Result text, capped at 10k chars with both head and tail retained |
+| `content` | Result text, truncated to 10k chars |
 | `file_path` | Tool result file path metadata, if any |
 | `is_error` | 1 when the provider marks the result as an error |
 
@@ -127,12 +144,11 @@ Session summary rows.
 | --- | --- |
 | `id` | Summary ID |
 | `session_id` | FK to `sessions.id` |
-| `agent_id` | Owning subagent ID; null for the main session |
 | `timestamp` | Summary timestamp |
 | `source` | Summary kind, such as `away_summary`; not provider source |
 | `content` | Summary text |
-| `visibility` | `visible`, `inactive`, or `hidden`; query helpers hide inactive rows by default |
-| `input_tokens`, `output_tokens` | Summary generation usage when the provider records it |
+| `visibility` | Same `visible` / `inactive` / `hidden` contract as messages |
+| `input_tokens`, `output_tokens` | Model usage when summary generation was a separate provider call |
 
 ### `subagents`
 
@@ -191,6 +207,7 @@ durable memory; `summary` is the compact retrieval surface.
 | `project` | Project slug for scoped recall |
 | `message_start`, `message_end` | Source message UUID range |
 | `path` | Normalized absolute markdown path |
+| `anchors` | Optional JSON array of recall anchors |
 | `summary` | English retrieval summary |
 | `created_at` | Registration timestamp |
 | `deleted_at` | Archive timestamp |
@@ -206,11 +223,9 @@ Indexer progress and sentinel state.
 | Column | Meaning |
 | --- | --- |
 | `jsonl_path` | Source path or synthetic sentinel key |
-| `mtime` | Numeric first cursor component retained for compatibility, ordering, and sentinel timestamps |
-| `lines_processed` | Numeric second cursor component. Claude uses it for incremental resume; Codex and Pi record it for compatibility/inspection but full-replay the file. |
-| `cursor` | Provider cursor preserved verbatim. Old rows with `NULL` here fall back to `mtime:lines`; current shared persistence still requires the first two cursor segments to be numeric. |
-
-Codex and Pi write `mtime:lines:size:ctime:inode`; their legacy two-part cursors are replayed once before the stronger snapshot is stored.
+| `mtime` | Last indexed mtime |
+| `lines_processed` | Incremental line cursor |
+| `cursor` | Exact opaque provider cursor; legacy rows fall back to `mtime:lines_processed` |
 
 Sentinel keys include `__last_build__`, `__app_heartbeat__`,
 `__app_last_successful_build__`, `__indexer_owner_app__`, and
@@ -254,6 +269,7 @@ FROM tool_calls tc
 JOIN messages m ON m.uuid = tc.message_uuid
 JOIN sessions s ON s.id = tc.session_id
 WHERE s.project LIKE ?
+  AND COALESCE(m.visibility, 'visible') = 'visible'
 ORDER BY m.timestamp DESC
 LIMIT 20;
 ```
@@ -266,6 +282,7 @@ FROM tool_results tr
 JOIN tool_calls tc ON tc.id = tr.tool_use_id
 JOIN messages m ON m.uuid = tr.message_uuid
 WHERE tr.is_error = 1
+  AND COALESCE(m.visibility, 'visible') = 'visible'
 ORDER BY m.timestamp DESC
 LIMIT 20;
 ```
@@ -278,6 +295,7 @@ FROM messages m
 JOIN sessions s ON s.id = m.session_id
 WHERE s.project LIKE ?
   AND COALESCE(m.is_meta, 0) = 0
+  AND COALESCE(m.visibility, 'visible') = 'visible'
 ORDER BY m.timestamp DESC
 LIMIT 20;
 ```
@@ -285,7 +303,7 @@ LIMIT 20;
 Active memories:
 
 ```sql
-SELECT id, path, summary, session_id, message_start, message_end, created_at
+SELECT id, path, anchors, summary, session_id, created_at
 FROM memories
 WHERE project LIKE ?
   AND deleted_at IS NULL
@@ -325,9 +343,7 @@ Common indexed filters:
 - `sessions.project` is a slug/fuzzy scope; `sessions.project_path` is the
   absolute path when known; `messages.cwd` is per-message working directory.
 - Memory rows are archived with `deleted_at`; do not recall archived memories.
-- Ordinary indexed text and JSON fields are capped at 10k chars. Tool-result
-  messages keep a 1k head-tail preview and `tool_results.content` keeps up to
-  10k head-tail chars. Use `raw()` from `references/api-reference.md` when a
-  specific message needs the original JSONL line.
+- Indexed text and JSON fields are truncated to 10k chars. Use `raw()` from
+  `references/api-reference.md` when a specific message needs its source record.
 - Prefer SQL-side `COUNT`, `GROUP BY`, `MAX`, `ORDER BY`, and `LIMIT` over
   returning large row sets and hand-counting in the final answer.

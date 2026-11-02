@@ -66,7 +66,7 @@ handler 第一个参数 `event` 的字段（types.ts）：
 | `message_start` | `{ type, message: AgentMessage }` | `message` 是联合类型（UserMessage / AssistantMessage / ToolResultMessage） |
 | `message_end` | `{ type, message: AgentMessage }` | handler 返回 `{ message: newMsg }` 可替换，但 **role 必须一致**（见陷阱 4） |
 
-> **三层 payload 差异**（v0.80.2 源码核对）：`turn_start` / `turn_end` / `agent_end` 在扩展层与 session 层字段不同。若集成时跨层转发事件，**不能假设 payload 同构**。详见 [04-events.md 三层差异速查](../sdk_doc/04-events.md#事件数据结构)。
+> **三层 payload 差异**（v0.80.2 源码核对）：`turn_start` / `turn_end` / `agent_end` 在扩展层与 session 层字段不同。若集成时跨层转发事件，**不能假设 payload 同构**。详见 [04-events.md 三层差异速查](../sdk_doc/04-events.md#三层-payload-差异速查)。
 
 #### handler 返回值
 
@@ -248,7 +248,7 @@ pi.on("message_end", (event, ctx) => {
 
 1. **role 必须一致**——不能把 assistant 消息改成 user 消息（runner 校验失败后丢弃，并 emitError）
 2. **多 handler 累积替换**——前一个 handler 返回的 message 会作为下一个 handler 的输入（`{ ...event, message: currentMessage }`）
-3. **粒度是「每次 LLM 调用」**——单轮对话可能触发多次（如调用工具前的预文本 + 工具返回后的最终回答），不是「一条最终消息一次」（见 [04-events 坑 2](../sdk_doc/04-events.md#坑-2message_end-不是整个-run-的最终答案)）
+3. **粒度是「每次 LLM 调用」**——单轮对话可能触发多次（如调用工具前的预文本 + 工具返回后的最终回答），不是「一条最终消息一次」（见 [04-events 坑 2](../sdk_doc/04-events.md#坑-2message_end-单轮多次触发粒度是每次-llm-调用非每条消息)）
 
 ---
 
@@ -354,7 +354,7 @@ await prompt() 或 agent_settled 是稳定边界，后者含 aborted。prompt �
 - [sdk_doc/07-extensions-api.md](../sdk_doc/07-extensions-api.md)：ExtensionAPI 完整接口
 - [sdk_doc/02-agent-session.md §subscribe](../sdk_doc/02-agent-session.md)：外部层事件订阅（17 种事件清单）
 
-## 1.4.0 启动与边界
+## 1.2.0 启动与边界
 
 before_agent_start 的 prompt/images 只在 messageType==="user" 时可读；custom 分支读 message。starting 期间 session.isStreaming 已为 true。turn_end 与 agent_before_settle 可追加草案/请求继续，payload 包含 entries、continue、context、outcome，详情见 [04](../sdk_doc/04-events.md)。startup 依赖显式 session.bindExtensions({})。
 

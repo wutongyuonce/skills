@@ -63,7 +63,7 @@ turn_start → sendUserMessage(steer) → 消息入 queue
 | `pi.sendUserMessage()` | `sendUserMessage(content: string \| (TextContent \| ImageContent)[], options?: { deliverAs?: "steer" \| "followUp" }): void` | 注入 user 消息，**总是触发 turn**（deliverAs 仅控制排队时机） | [07-extensions-api.md](../sdk_doc/07-extensions-api.md) |
 | Context Files | `loadProjectContextFiles({ cwd, agentDir })` → `Array<{path, content}>` | 启动时发现 `AGENTS.md` / `CLAUDE.md`，注入 system prompt（★ 不受 projectTrusted 门槛，无条件加载） | [11-context-files.md](../sdk_doc/11-context-files.md) |
 
-> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`context` 和 `before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)。
+> ⚠️ **派发层次差异**（★ E02 横向陷阱）：`context` 和 `before_agent_start` 是**扩展独有事件**——只在扩展层 `pi.on` 派发，`session.subscribe` 静默收不到。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)。
 
 ## 核心代码
 

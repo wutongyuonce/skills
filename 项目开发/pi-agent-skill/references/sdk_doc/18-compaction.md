@@ -29,7 +29,7 @@ Compaction 是 pi-agent 的**上下文窗口管理机制**。当会话历史积�
 
 > **注意**：`pi-agent-core`（`packages/agent/`）中有一套独立的 compaction 实现，API 签名不同（使用 `Models` 对象、`Result<>` 包装等）。本文档以 `pi-coding-agent` 为准——这是 `pi.on()` 扩展事件和 `@earendil-works/pi-coding-agent` 导入所使用的版本。
 
-> **目标**：本页按安装的 public 1.4.0 声明/实现核对；内部物理文件不等于公开子路径。仅从包根导入已导出的 compaction 工具。
+> **目标**：本页按安装的 public 1.2.0 声明/实现核对；内部物理文件不等于公开子路径。仅从包根导入已导出的 compaction 工具。
 
 ---
 
@@ -123,10 +123,12 @@ export function getLastAssistantUsage(entries: SessionEntry[]): Usage | undefine
 | 字段 | 类型 | 说明 | 默认值 |
 |------|------|------|--------|
 | `enabled` | `boolean` | 是否启用自动压缩 | `true` |
-| `reserveTokens` | `number` | 触发阈值的空闲上下文 token 数（`contextWindow - reserveTokens`）；**不再决定摘要输出上限** | `16384` |
+| `reserveTokens` | `number` | 为摘要 prompt 和模型输出保留的 token | `16384` |
 | `keepRecentTokens` | `number` | 压缩后保留的最近上下文 token 近似值（按 `estimateTokens` 的 char/4 启发式估算，非精确值） | `20000` |
 
-> **`reserveTokens` 的单一用途**：1.4.0 起它只决定 `shouldCompact` 的触发阈值（`contextWindow - reserveTokens`，见「关键细节 1」）。摘要请求改用模型自身的输出上限，并在输入+输出超窗时下调；不再用 `0.8 * reserveTokens` 反推 `maxTokens`。因此调大 `reserveTokens` 只会更早触发压缩，不会扩大摘要输出。
+> **`reserveTokens` 的双重用途**：`reserveTokens`（默认 16384）同时决定两件事——
+> (1) `shouldCompact` 的触发阈值（`contextWindow - reserveTokens`，见「关键细节 1」）；
+> (2) 摘要 LLM 调用的 `maxTokens` 上限：`Math.min(Math.floor(0.8 * reserveTokens), model.maxTokens)`（compaction.ts:637-640）。也就是说，`reserveTokens` 越大，触发压缩越早，同时摘要可输出的 token 越多。
 
 ### 切点查找
 
@@ -184,11 +186,10 @@ export async function compact(
 ): Promise<CompactionResult>
 
 // 生成摘要文本（不含压缩框架逻辑），出错时 throw
-// 第三个参数已废弃：签名保留为 _reserveTokens（number | undefined），实现忽略它
 export async function generateSummary(
   currentMessages: AgentMessage[],
   model: Model<any>,
-  _reserveTokens: number | undefined,
+  reserveTokens: number,
   apiKey: string | undefined,
   headers?: Record<string, string>,
   signal?: AbortSignal,
@@ -210,8 +211,6 @@ export async function generateSummaryWithUsage(
 // 序列化会话消息为纯文本（供摘要 prompt 使用）
 export function serializeConversation(messages: Message[]): string
 ```
-
-> **摘要输出上限**：`generateSummary()` / `generateSummaryWithUsage()` 的 `_reserveTokens` 参数只为兼容旧调用保留，传入任何值都不影响请求；摘要请求不设置 `maxTokens`，由模型输出上限决定，并在输入+输出超窗时下调。命中上限仍以 `stopReason === "length"` 报错。详见「关键细节 9」。
 
 > **关于错误处理**：`compact()` 和 `generateSummary()` 出错时直接 throw，不返回 `Result<>` 包装。调用时用 try/catch 处理异常。
 >
@@ -516,7 +515,7 @@ public compact 会处理 previousSummary、turnPrefixMessages、保留边界及�
 
 ### 1. `shouldCompact` 的计算逻辑
 
-公式：`contextTokens > contextWindow - reserveTokens`。即当上下文 token 数超过 (模型窗口 - 保留 token) 时触发压缩。`reserveTokens` 默认 16384，意味着在 128K 窗口的模型上，约 112K token 时触发。它只控制触发时机；摘要输出上限由模型自身决定（见「关键细节 9」）。
+公式：`contextTokens > contextWindow - reserveTokens`。即当上下文 token 数超过 (模型窗口 - 保留 token) 时触发压缩。`reserveTokens` 默认 16384，意味着在 128K 窗口的模型上，约 112K token 时触发。
 
 ### 2. 切割点选择确保不破坏工具调用链
 
@@ -569,16 +568,6 @@ public compact 会处理 previousSummary、turnPrefixMessages、保留边界及�
 
 `compact()` 和 `generateSummary()` 在出错时直接 throw Error（不是返回 `Result<>`）。摘要生成失败的原因包括：
 - `stopReason === "error"` → throw `"Summarization failed: ..."`
-- `stopReason === "length"` → throw `"... generation hit the token cap and the summary is incomplete"`
 - `firstKeptEntryId` 缺失 → throw `"First kept entry has no UUID..."`
 
 调用时用 try/catch 捕获。
-
-### 9. 摘要输出上限（1.4.0 变化）
-
-1.4.0 前，`generateSummary()` 用 `Math.min(Math.floor(0.8 * reserveTokens), model.maxTokens)` 作为 `maxTokens`，推理占用较多时容易在长对话上因“hit the token cap”失败。现在：
-
-- `generateSummary()` / `generateSummaryWithUsage()` 忽略 `reserveTokens`；`compaction.reserveTokens` 仅控制自动压缩何时开始。
-- 摘要请求不传 `maxTokens`，使用模型输出上限；输入+输出超出上下文窗口时由请求层下调。
-- 分支摘要同样取消 4096 的固定上限；其 `reserveTokens` 仍用于 `contextWindow - reserveTokens` 选择要摘要的输入量。
-- 失败仍以 `stopReason === "length"` 归一化为摘要不完整错误，不能当成成功摘要写入。

@@ -42,7 +42,7 @@
 
 ## 工具启用规则
 
-工具启用规则统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)。
+工具启用规则统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)。
 
 注册不等于声明/可调用：exposure/defaultActive 和会话选择共同决定，统一见 [06-tools.md](../sdk_doc/06-tools.md)。customTools 合并在扩展工具后，可同名覆盖。
 

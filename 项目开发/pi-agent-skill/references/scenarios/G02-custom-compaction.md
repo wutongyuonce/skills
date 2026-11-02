@@ -20,7 +20,7 @@
 | `SessionBeforeCompactResult` | 扩展返回值：`{ cancel?, compaction? }`（**注意：没有 `customInstructions` 字段**） | [sdk_doc/18-compaction.md](../sdk_doc/18-compaction.md) |
 | `ctx.compact(options?)` | 主动触发压缩（不等待结果） | ExtensionContext 方法，详见 [sdk_doc/04-events.md](../sdk_doc/04-events.md) |
 
-> **派发层提醒**：`session_before_compact` / `session_compact` 是**扩展层 `pi.on` 事件**，外部宿主用 `session.subscribe` **收不到**。subscribe 层只能收到 `compaction_start` / `compaction_end`（不带 preparation 详情）。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-4扩展独有-hooks-不能用-subscribe)。
+> **派发层提醒**：`session_before_compact` / `session_compact` 是**扩展层 `pi.on` 事件**，外部宿主用 `session.subscribe` **收不到**。subscribe 层只能收到 `compaction_start` / `compaction_end`（不带 preparation 详情）。详见 [04-events.md 坑 4](../sdk_doc/04-events.md#坑-46-个扩展独有事件sessionsubscribe-静默收不到-最大集成坑)。
 
 ## ⚠️ 最大陷阱：扩展返回 `customInstructions` 会被静默忽略
 
@@ -121,14 +121,14 @@ pi.on("session_compact", (event, ctx) => {
 shouldCompact = contextTokens > contextWindow - settings.reserveTokens
 ```
 
-即"上下文已用 token 数 > 模型窗口 - 预留值"时触发。**`reserveTokens` 不是"阈值"本身**，而是从窗口里扣除的空闲空间，反推出阈值；它**不再决定摘要输出上限**（1.4.0 起摘要请求用模型自身输出上限，并在输入+输出超窗时下调）。
+即"上下文已用 token 数 > 模型窗口 - 预留值"时触发。**`reserveTokens` 不是"阈值"本身**，而是"给摘要 prompt 和模型输出预留的空间"——反推出阈值。
 
 **默认值**（`compaction.ts`）：
 
 | 字段 | 类型 | 说明 | 默认值 |
 |------|------|------|--------|
 | `enabled` | `boolean` | 是否启用自动压缩 | `true` |
-| `reserveTokens` | `number` | 触发阈值的空闲上下文 token 数（反推触发阈值；不限制摘要输出） | `16384` |
+| `reserveTokens` | `number` | 为摘要 prompt 和模型输出保留的 token（反推触发阈值） | `16384` |
 | `keepRecentTokens` | `number` | 压缩后保留的最近上下文 token 近似值 | `20000` |
 
 settings 的 CompactionSettings 还支持 `modelOverrides: { "provider/id": { reserveTokens?, keepRecentTokens? } }`；getCompactionSettings(model) 返回解析后的三个必填字段。没有 threshold/triggerRatio。threshold 在工具结果/边界处理后、下一次 provider 调用前也检查；修改参数见 [B02](B02-settings.md)。

@@ -40,7 +40,7 @@
 
 **工具启用规则**（与 [A04](A04-tool-whitelist.md) / [D01](D01-custom-tool.md) / [D02](D02-dynamic-tools.md) 一致）：
 
-工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则140-权威表)，不在此复制。
+工具选择（patterns、modifier-only、defaultTools、MCP 保留例外）统一见 [06-tools.md 权威表](../sdk_doc/06-tools.md#工具选择规则120-权威表)，不在此复制。
 
 **关键事实**：
 

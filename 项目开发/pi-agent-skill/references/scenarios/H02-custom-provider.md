@@ -370,6 +370,5 @@ interface ProviderModelConfig {
 
 - **自定义 Anthropic Provider**：`packages/coding-agent/examples/extensions/custom-provider-anthropic/` — OAuth 登录 + 自定义 streamSimple 的完整实现（含 Claude Code stealth mode）。
 - **GitLab Duo Provider**：`packages/coding-agent/examples/extensions/custom-provider-gitlab-duo/` — 通过 GitLab AI Gateway 代理 Anthropic 和 OpenAI 模型，用 `anthropicMessagesApi()` / `openAIResponsesApi()` 工厂函数复用 `pi-ai` 内置 stream。
-- **完整字段表**：目标安装包的 `docs/models-configuration.md`（由 `models.schema.json` 生成）列出 provider / model / modelOverrides 与各协议 compat 的全部字段；本文只保留常用项。
 
 > 新代码请从 `@earendil-works/pi-ai/api/{anthropic-messages|openai-responses|openai-completions}` 导入 `stream`/`streamSimple`，或从 `@earendil-works/pi-ai/compat` 导入 `anthropicMessagesApi()` / `openAIResponsesApi()` 工厂函数（旧导出名 `streamSimpleAnthropic` / `streamSimpleOpenAIResponses` 等已弃用）。详见 [sdk_doc/16](../sdk_doc/16-custom-provider.md)。

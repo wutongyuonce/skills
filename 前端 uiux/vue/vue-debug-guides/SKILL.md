@@ -1,6 +1,10 @@
 ---
 name: vue-debug-guides
 description: Vue 3 debugging and error handling for runtime errors, warnings, async failures, and SSR/hydration issues. Use when diagnosing or fixing Vue issues.
+license: MIT
+metadata:
+  author: github.com/vuejs-ai
+  version: "19.0.1"
 ---
 
 Vue 3 debugging and error handling for runtime issues, warnings, async failures, and hydration bugs.

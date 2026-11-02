@@ -14,17 +14,17 @@ description: |
 
 # pi-agent SDK 开发指南
 
-> ⚠️ **版本基线**: 本 skill 的 API 描述已对齐到 **pi-coding-agent v1.4.0**。
+> ⚠️ **版本基线**: 本 skill 的 API 描述已对齐到 **pi-coding-agent v1.2.0**。
 >
 > **遇 import 失败时**，先查目标包 `package.json` 的 `exports` 与对应 `.d.ts`；物理文件存在不代表该子路径公开。项目已安装其他版本时，以其声明和实现为准。
 >
-> 1.4.0 的严格 NodeNext 检查仍存在上游 JSON 声明缺陷；本次严格 Bundler 与离线行为检查通过。验收范围、限制和复跑入口见 [同步报告](references/updates/1.4.0.md)。
+> 1.2.0 的严格 NodeNext 检查存在上游 JSON 声明缺陷；本次严格 Bundler 与离线行为检查通过。验收范围、限制和复跑入口见 [同步报告](references/updates/1.2.0.md)。
 
 ## 版本协议 ⭐
 
 本 skill 核对到顶部基线版本。涉及安装/升级 pi-agent 时遵循三步：
 
-1. **默认对齐**：引导安装一律用基线版本 `npm install @earendil-works/pi-coding-agent@1.4.0`，**不装 `latest`**——skill 的 API 描述精确核对到基线版本，装 latest 会立即漂移。场景文档里的安装命令同样以基线版本为准。
+1. **默认对齐**：引导安装一律用基线版本 `npm install @earendil-works/pi-coding-agent@1.2.0`，**不装 `latest`**——skill 的 API 描述精确核对到基线版本，装 latest 会立即漂移。场景文档里的安装命令同样以基线版本为准。
 
 2. **升级前评估**：当任务涉及安装/升级（或用户问版本）时，先跑 `npm view @earendil-works/pi-coding-agent version` 拿 latest 与基线对比。若不同，联网查该版本 CHANGELOG/release notes，从 SDK 二次开发角度评估（新功能 / 破坏性变更），给用户简短建议，由用户决定是否升级。日常开发（项目已装好）不触发。
 
@@ -78,7 +78,7 @@ createAgentSession()  ← 组装入口(Provider + 工具 + 资源)
 需要 Node.js `>=22.19.0`（以目标发布包 `engines` 为准）。
 
 ```bash
-npm install @earendil-works/pi-coding-agent@1.4.0
+npm install @earendil-works/pi-coding-agent@1.2.0
 ```
 
 最简示例:

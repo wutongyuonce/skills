@@ -35,7 +35,7 @@ function createAgentSession(options?: CreateAgentSessionOptions): Promise<Create
 interface CreateAgentSessionResult {
   session: AgentSession;           // 创建的会话实例
   extensionsResult: LoadExtensionsResult;  // 扩展加载结果
-  modelFallbackMessage?: string;   // 模型回退警告，详见下方「新建与恢复」
+  modelFallbackMessage?: string;   // 模型回退警告，详见下方「会话恢复行为」
 }
 ```
 
@@ -102,7 +102,7 @@ const { session } = await createAgentSession({
 
 ### 工具白名单/黑名单/抑制三者的优先级（★ 易踩坑）
 
-工具选择规则（`*`、modifier-only、defaultTools、MCP 注册例外）统一见 [06-tools.md 权威表](06-tools.md#工具选择规则140-权威表)。只读工具名选择不是宿主隔离；非空 allowlist 通常保留未显式 scoped 的 MCP 注册。
+工具选择规则（`*`、modifier-only、defaultTools、MCP 注册例外）统一见 [06-tools.md 权威表](06-tools.md#工具选择规则120-权威表)。只读工具名选择不是宿主隔离；非空 allowlist 通常保留未显式 scoped 的 MCP 注册。
 
 ### 其他细节
 

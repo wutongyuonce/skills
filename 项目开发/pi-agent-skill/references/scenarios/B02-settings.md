@@ -131,10 +131,6 @@ sm.setSteeringMode("all");  // "all" | "one-at-a-time"
 
 // 主题（影响 TUI，但服务端集成一般用不到）
 sm.setTheme("dracula");
-
-// /share 目标（1.4.0）：auto 优先 Radius，未认证则 gist；gist 只用 gist；radius 不回退
-sm.setSessionShareDestination("gist");
-// 取值："auto"（默认） | "gist" | "radius"
 ```
 
 ⚠️ **所有 `set*()` 方法写入 global scope（`~/.pi/agent/settings.json`）**，不是项目级。如需写项目级，使用对应的 `setProjectXxx()`（仅 5 个字段支持，方法名映射：`packages`→`setProjectPackages` / `extensions`→`setProjectExtensionPaths` / `skills`→`setProjectSkillPaths` / `prompts`→`setProjectPromptTemplatePaths` / `themes`→`setProjectThemePaths`）。
@@ -152,9 +148,8 @@ sm.applyOverrides({
 
 `applyOverrides` **不是 `Settings` 字段的任意值**——只能传 `Settings` 接口定义的字段。例如：
 
-- ✅ `compaction: { enabled, reserveTokens, keepRecentTokens, modelOverrides }`（override key 为 `provider/modelId`；`reserveTokens` 只改变触发时机）
+- ✅ `compaction: { enabled, reserveTokens, keepRecentTokens, modelOverrides }`（override key 为 `provider/modelId`）
 - ✅ `retry: { enabled, maxRetries, baseDelayMs, maxAgentDelayMs, provider }`
-- ✅ `sessionShareDestination: "auto" | "gist" | "radius"`
 - ✅ `defaultTools: ["read", "bash"]` 或纯 modifiers `["-bash", "+grep"]`
 - ✅ per-model thinking 用 `setModelThinkingLevel(provider, id, level)`；TUI 用 `getTuiMode/setTuiMode`（`TuiMode` 公共类型）
 - `cacheWarming: "off" | "streaming" | "idle"` 有费用，getter 只读 global；请用 `setCacheWarmingMode`，不是 project/applyOverrides

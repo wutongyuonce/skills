@@ -260,7 +260,7 @@ interface SessionInfo {
 6. **文件落盘延迟（重要陷阱）**：`create()` 并不会立即写盘——会话文件在**第一条 assistant 消息**到达后才真正写入磁盘（在此之前只生成文件名，entries 暂存内存）。这是 `_persist` 的 `hasAssistant` 守卫行为（见 `SessionManager._persist in session-manager.ts:1015-1042`）。因此测试中若在 `create()` 后立刻去 inspect 文件，会发现文件不存在或为空。需要立即落盘时用 `inMemory()` + 手动序列化，或等首条 assistant 后再读文件。
 7. **环境变量覆盖**：`PI_CODING_AGENT_DIR` 可覆盖 agent 根目录（默认 `~/.pi/agent`），从而改变整个 sessions 根目录位置；`PI_CODING_AGENT_SESSION_DIR` 覆盖会话目录。CI / 容器 / 多实例场景常用（见 `getAgentDir in config.ts:515-521`）。
 
-## Canonical context（1.4.0）
+## Canonical context（1.2.0）
 
 SessionManager 的 entry tree/projection 是 finalized 模型上下文的权威来源。恢复宿主保存的条目用 `SessionManager.inMemory(cwd, options, entries)`；不能靠赋值 `session.agent.state.messages` 恢复。
 

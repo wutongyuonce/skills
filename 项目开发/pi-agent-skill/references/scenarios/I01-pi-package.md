@@ -398,4 +398,4 @@ project 条目默认完全覆盖同身份的 user 条目。但如果 project 条
 8. **「git ref 会自动跟随 upstream 更新」**——错。ref 是 pin，`pi update --extensions` 只 `git reset` 到**配置的 ref**，不会移动到新 tag。要切 ref 必须重 install。
 9. **「`keywords: ["pi-package"]` 是 pi 校验的」**——半错。pi 不强制校验，但 pi.dev 包画廊用这个 keyword 发现包——不发 npm 只本地用可以不写。
 
-自 1.3.0 起 coding-agent 对内部 pi 包使用精确版本依赖（1.4.0 的 `package.json` 为 `"@earendil-works/pi-ai": "1.4.0"` 等），fresh install 不再混合不同发行版的内部包。它仍不附带 npm-shrinkwrap；若宿主同时直接声明这些包，以自己项目的依赖与锁文件为准。`pi config` 也可管理内置扩展，`-ne` 会禁用它们，显式 `-e builtin:<name>` 可加载。
+Pi 1.2.0 npm 包不再附带 npm-shrinkwrap；SDK 关联包实际版本由消费者依赖解析及锁文件决定。`pi config` 也可管理内置扩展，`-ne` 会禁用它们，显式 `-e builtin:<name>` 可加载。

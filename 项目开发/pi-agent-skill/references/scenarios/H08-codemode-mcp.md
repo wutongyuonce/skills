@@ -60,8 +60,7 @@ try {
 - `tools.bash()` 等有 output schema 的工具可能在失败时返回结构化值，必须检查 `exit_code` / `isError` 等业务结果，不能把 Promise fulfilled 当成功。
 - `text()` 输出文本；`image()` 输出并保存图片。`store/load` 只保存小型 JSON 状态，成功脚本的状态写入当前会话分支，可恢复。
 - MCP 默认 `codemode` exposure 按需发现，不等于把所有工具都声明给模型。脚本用 `searchTools()`、`describeTool()`、`describeNamespace()` 查工具；`direct` 和 `deferred` 的选择影响工具是否直接暴露或由 tool-search 加载。
-- `models.classify()` 和 `models.generateImages()` 使用会话的认证，返回值必须检查 `stopReason` / `errorMessage`。模型目录按 chat/image/classifier 分开；详见 [模型运行时](../sdk_doc/05-auth-model-registry.md)。codemode 的 `models.classify()` 自 1.1.0 起支持 `images`；1.4.0 扩大到 Jev / Clef 等模型，并由模型 `compat.imageInput` 区分请求格式（`assets` / `images` / `state-image-urls`），自定义代理需在 `models.json` 提供。
-- **Worker 并发**：同一个 pi 进程内最多 2 个 codemode worker（跨会话、含 in-process subagent）；`PI_CODEMODE_MAX_WORKERS` 可调高。满载时脚本按到达顺序排队，等不到空闲 worker（最长 60 秒，或先到 `timeout_ms`）则失败且不执行。取消的 worker 直到真正退出才释放名额。
+- `models.classify()` 和 `models.generateImages()` 使用会话的认证，返回值必须检查 `stopReason` / `errorMessage`。模型目录按 chat/image/classifier 分开；详见 [模型运行时](../sdk_doc/05-auth-model-registry.md)。
 
 QuickJS 隔离的是脚本运行环境，**不是宿主工具的安全沙箱**。MCP stdio 服务器和扩展在宿主权限下运行；为不可信项目提供隔离进程、允许列表与租户资源隔离，不能只依赖 Codemode。
 

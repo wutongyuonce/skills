@@ -1,8 +1,9 @@
-# Trajex Query Patterns
+# Obelisk Query Patterns
 
-These are copyable CodeAct patterns for `trajex --query` scripts plus
+These are copyable CodeAct patterns for `obelisk --query` scripts plus
 `--attune` memory mutation patterns. They are not new APIs. Adapt them to the
-user's scope and return compact evidence.
+user's scope and return compact evidence. Before persistent memory changes,
+read the [memory workflow](memory-workflow.md).
 
 Read this before the first query for broad synthesis, progress summaries,
 design history, weekly/monthly reviews, or questions that ask what the user did,
@@ -13,7 +14,9 @@ aggregation.
 ## First Pass: Overview + Recall + Evidence
 
 Use this for broad synthesis before writing custom SQL. It gives the agent a
-map, prior notes, and raw session evidence in one bounded result. Then run a
+map, prior notes, and raw session evidence in one bounded result. Semantic
+recall can use `fallback: 'or'` on zero hits; omit it for exact scopes or
+sentinels where an empty result is meaningful. Then run a
 faceted detail pass if the first pass reveals useful projects, sessions, files,
 or terms.
 
@@ -43,18 +46,20 @@ return {
     memories: map.current_project.memories.map(m => ({
       id: m.id,
       path: m.path,
+      anchors: m.anchors,
       summary: m.summary?.slice(0, 240),
     })),
   },
   prior_memories: memories({ ...scoped, query: topic, limit: 5 }).map(m => ({
     id: m.id,
     path: m.path,
+    anchors: m.anchors,
     session_id: m.session_id,
     created_at: m.created_at,
     rank: m.rank,
     summary: m.summary?.slice(0, 260),
   })),
-  session_evidence: search(topic.replace(/[-_]/g, ' '), { ...scoped, limit: 8 })
+  session_evidence: search(topic.replace(/[-_]/g, ' '), { ...scoped, limit: 8, fallback: 'or' })
     .slice(0, 6)
     .map(h => ({
       session_id: h.session.id,
@@ -89,6 +94,7 @@ return {
     memories: map.current_project.memories.map(m => ({
       id: m.id,
       path: m.path,
+      anchors: m.anchors,
       summary: m.summary?.slice(0, 240),
     })),
   },
@@ -104,14 +110,15 @@ Use `search()` to locate candidates, then expand only the strongest hits.
 ```js
 const hits = search('"runtime query"', { project: '%quiet-zero%', limit: 8 });
 return hits.slice(0, 5).map(h => {
-  const c = context(h.message.uuid);
+  const c = messages({ around: h.message.uuid, relation: 'parents', beforeCount: 3,
+    contentTypes: ['text'] });
   return {
     session_id: h.session.id,
     session_title: h.session.title,
     uuid: h.message.uuid,
     timestamp: h.message.timestamp,
     snippet: h.message.text?.slice(0, 240),
-    parentChain: (c?.parentChain || []).slice(-3).map(m => ({
+    ancestors: (c?.messages || []).filter(m => m.uuid !== h.message.uuid).map(m => ({
       uuid: m.uuid,
       role: m.role,
       snippet: m.text?.slice(0, 120),
@@ -119,112 +126,6 @@ return hits.slice(0, 5).map(h => {
   };
 });
 ```
-
-For an exact session, treat `thread()` rows as internal data and return only a
-small projection:
-
-```js
-return thread(sessionId)
-  .slice(-30)
-  .map(m => ({
-    uuid: m.uuid,
-    role: m.role,
-    timestamp: m.timestamp,
-    content_type: m.content_type,
-    text: m.text?.slice(0, 300),
-  }));
-```
-
-## Resume Session By Title And Time
-
-Use this when the user identifies one or more historical sessions by title,
-time range, project, or provider. Resolve candidates first. Read summaries and
-messages only when exactly one candidate matches each requested session; if a
-request is missing or ambiguous, return candidates and ask the user to choose.
-Do not call `thread()` for unresolved candidates. Keep only visible text
-messages; tool calls and tool results are not part of this resume context.
-
-```js
-const requests = [
-  // Fill these from the user's request. Use null for an unspecified constraint.
-  { title: 'requested session title', after: '2026-08-01T00:00:00Z', before: '2026-09-01T00:00:00Z' },
-  { title: 'second session title', after: null, before: null },
-];
-const source = 'codex'; // null to search all providers
-const project = null; // e.g. '%Trajex%'
-const maxMessages = 40;
-const maxCharsPerMessage = 1200;
-
-const normalize = value => String(value || '').trim().toLowerCase();
-const sessionOpts = { limit: 100 };
-if (source) sessionOpts.source = source;
-if (project) sessionOpts.project = project;
-const after = requests.reduce((v, r) => r.after && (!v || r.after < v) ? r.after : v, null);
-const before = requests.reduce((v, r) => r.before && (!v || r.before > v) ? r.before : v, null);
-if (after) sessionOpts.after = after;
-if (before) sessionOpts.before = before;
-const all = sessions(sessionOpts);
-
-const matches = request => all.filter(session => {
-  const title = normalize(request.title);
-  return (!title || normalize(session.title) === title) &&
-    (!request.after || session.started_at >= request.after) &&
-    (!request.before || session.started_at <= request.before);
-});
-
-const resolved = [];
-const unresolved = [];
-for (const request of requests) {
-  const candidates = matches(request);
-  if (candidates.length === 1) resolved.push({ request, session: candidates[0] });
-  else unresolved.push({ request, reason: candidates.length ? 'ambiguous' : 'not_found', candidates });
-}
-
-const readSession = session => ({
-    id: session.id,
-    title: session.title,
-    source: session.source,
-    project: session.project,
-    started_at: session.started_at,
-    ended_at: session.ended_at,
-    summaries: summaries({ sessionId: session.id, limit: 10 }).map(summary => ({
-      timestamp: summary.timestamp,
-      content: summary.content?.slice(0, maxCharsPerMessage),
-    })),
-    messages: thread(session.id)
-      .filter(message => message.content_type === 'text' && (message.role === 'user' || message.role === 'assistant'))
-      .slice(-maxMessages)
-      .map(message => ({
-        uuid: message.uuid,
-        role: message.role,
-        timestamp: message.timestamp,
-        text: message.text?.slice(0, maxCharsPerMessage),
-      })),
-});
-
-return {
-  status: unresolved.length ? 'needs_selection' : 'resumed',
-  sessions: resolved.map(({ session }) => readSession(session)),
-  unresolved: unresolved.map(({ request, reason, candidates }) => ({
-    request,
-    reason,
-    candidates: candidates.map(s => ({
-      id: s.id,
-      title: s.title,
-      source: s.source,
-      project: s.project,
-      started_at: s.started_at,
-      ended_at: s.ended_at,
-      message_count: s.message_count,
-    })),
-  })),
-};
-```
-
-The character limits are intentional context bounds, not exact token limits;
-reduce them for large sessions. A `needs_selection` or `not_found` result means
-only uniquely resolved sessions were read; unresolved sessions remain unread
-until the user chooses one.
 
 ## Memory Plus Session Evidence
 
@@ -245,6 +146,7 @@ const prior_memories = memories({
 }).map(m => ({
   id: m.id,
   path: m.path,
+  anchors: m.anchors,
   session_id: m.session_id,
   message_start: m.message_start,
   message_end: m.message_end,
@@ -281,17 +183,18 @@ Use this only after the user approves writing memory and the markdown file
 already exists. `remember()` validates the file and stores a normalized absolute
 path, so keep the script small and return the registered record.
 
-Run this script with `trajex --attune <script>`. The `--attune` runtime
+Run this script with `obelisk --attune <script>`. The `--attune` runtime
 exposes only `remember()` and `forget()`, not retrieval helpers.
 
 ```js
 return remember({
-  path: '.trajex/memories/memory-layer-design.md',
+  path: '.obelisk/memories/memory-layer-design.md',
   session_id: 'source-session-id',
   message_start: 'first-message-uuid',
   message_end: 'last-message-uuid',
+  anchors: [{ kind: 'file', path: 'SKILL.md' }],
   summary: [
-    'Decision: Trajex uses one user-facing entry that queries both memory and raw sessions.',
+    'Decision: Obelisk uses one user-facing entry that queries both memory and raw sessions.',
     'Memory records are prior notes and must be identified naturally when they influence an answer.',
     'New memory writes require human confirmation before the markdown file is written and registered.',
   ].join(' '),
@@ -305,7 +208,7 @@ the exact memory ID in a normal `--query` script first. If one candidate clearly
 matches the user's request, that request is approval to archive it; if several
 candidates match, ask which one to forget.
 
-Run the mutation with `trajex --attune <script>`:
+Run the mutation with `obelisk --attune <script>`:
 
 ```js
 return forget({
@@ -331,10 +234,11 @@ const archived = forget({
 });
 
 const created = remember({
-  path: '.trajex/memories/updated-memory.md',
+  path: '.obelisk/memories/updated-memory.md',
   session_id: 'current-session-id',
   message_start: 'first-message-uuid',
   message_end: 'last-message-uuid',
+  anchors: [{ kind: 'file', path: 'src/path/to/file.ts' }],
   summary: 'Updated summary: concise English retrieval surface for the replacement memory.',
 });
 
@@ -355,7 +259,7 @@ evidence pass, and optionally one targeted detail pass by stable IDs.
 
 ```js
 const project = '%quiet-zero%';
-const topic = 'trajex retrieval semantics';
+const topic = 'obelisk retrieval semantics';
 const ftsTopic = topic.replace(/[-_]/g, ' ');
 const facets = [
   'summary conclusion',
@@ -380,7 +284,7 @@ for (const facet of facets) {
 }
 
 for (const s of summaries({ project, limit: 8 })) {
-  if (/trajex|retrieval|context|summary/i.test(`${s.content || ''} ${s.session_title || ''}`)) {
+  if (/obelisk|retrieval|context|summary/i.test(`${s.content || ''} ${s.session_title || ''}`)) {
     candidates.push({
       kind: 'summary',
       facet: 'summary',
@@ -449,6 +353,7 @@ for (const { facet, terms } of learnedFacets) {
     JOIN sessions s ON s.id = m.session_id
     WHERE m.session_id IN (${sessionIds.map(() => '?').join(',')})
       AND m.text IS NOT NULL
+      AND COALESCE(m.visibility, 'visible') = 'visible'
       AND (${clauses})
     ORDER BY m.timestamp
     LIMIT 3
@@ -487,7 +392,7 @@ Keep the sweep small: 3-4 facets, `limit: 3` per facet, and at most 12 compact
 evidence rows.
 
 ```js
-const name = 'trajex';
+const name = 'obelisk';
 const facets = [
   'runtime CLI script',
   'schema SQLite FTS',
@@ -548,6 +453,7 @@ const before = sql(
   `SELECT uuid, role, timestamp, substr(text,1,200) AS snippet
    FROM messages
    WHERE session_id=? AND timestamp<?
+     AND COALESCE(visibility, 'visible') = 'visible'
    ORDER BY timestamp DESC LIMIT 3`,
   s.session_id,
   s.timestamp
@@ -556,6 +462,7 @@ const after = sql(
   `SELECT uuid, role, timestamp, substr(text,1,200) AS snippet
    FROM messages
    WHERE session_id=? AND timestamp>?
+     AND COALESCE(visibility, 'visible') = 'visible'
    ORDER BY timestamp ASC LIMIT 3`,
   s.session_id,
   s.timestamp
@@ -632,6 +539,7 @@ const counts = sql(`
   JOIN messages m ON m.uuid = tr.message_uuid
   JOIN sessions s ON s.id = tr.session_id
   WHERE tr.is_error = 1
+    AND COALESCE(m.visibility, 'visible') = 'visible'
     AND s.project LIKE ?
   GROUP BY tc.name
   ORDER BY failure_count DESC, last_failure_at DESC
@@ -651,6 +559,7 @@ const examples = sql(`
   JOIN messages m ON m.uuid = tr.message_uuid
   JOIN sessions s ON s.id = tr.session_id
   WHERE tr.is_error = 1
+    AND COALESCE(m.visibility, 'visible') = 'visible'
     AND s.project LIKE ?
   ORDER BY m.timestamp DESC
   LIMIT 8
@@ -680,6 +589,7 @@ const groups = sql(`
   JOIN messages m ON m.uuid = tr.message_uuid
   JOIN sessions s ON s.id = tr.session_id
   WHERE tr.is_error = 1
+    AND COALESCE(m.visibility, 'visible') = 'visible'
     AND s.project LIKE ?
   GROUP BY s.id
   ORDER BY last_failure_at DESC
@@ -698,6 +608,7 @@ const examples = sql(`
   JOIN messages m ON m.uuid = tr.message_uuid
   JOIN sessions s ON s.id = tr.session_id
   WHERE tr.is_error = 1
+    AND COALESCE(m.visibility, 'visible') = 'visible'
     AND s.project LIKE ?
   ORDER BY m.timestamp DESC
   LIMIT 12
@@ -706,45 +617,11 @@ const examples = sql(`
 return { groups, examples };
 ```
 
-## Workflow Tree Compact View
+## Advanced Workflow Investigation
 
-Find the run with `workflows()` under scope, then project `workflowTree()` into
-compact fields. Do not return raw `script`, `result_json`, or the full tree.
-
-```js
-const runs = workflows({ project: '%quiet-zero%', limit: 30 });
-const target = runs.find(w =>
-  /session[-_ ]journal/i.test(`${w.workflow_name || ''} ${w.task_id || ''} ${w.run_id || ''}`)
-);
-if (!target) {
-  return {
-    found: false,
-    candidates: runs.slice(0, 8).map(w => ({
-      run_id: w.run_id,
-      workflow_name: w.workflow_name,
-      timestamp: w.timestamp,
-      agent_count: w.agent_count,
-    })),
-  };
-}
-
-const tree = workflowTree(target.run_id);
-return {
-  run_id: target.run_id,
-  workflow_name: target.workflow_name,
-  status: tree?.status ?? target.status,
-  timestamp: tree?.timestamp ?? target.timestamp,
-  agent_count: tree?.agent_count ?? tree?.agents?.length ?? target.agent_count,
-  agents: (tree?.agents || []).map(a => ({
-    agent_id: a.agent_id,
-    phase: a.phase,
-    label: a.label,
-    state: a.state,
-    tokens: a.tokens,
-    messageCount: a.messageCount,
-  })),
-};
-```
+For workflow-specific metadata and trees, see
+[advanced-helpers.md](advanced-helpers.md). These compatibility capabilities are
+outside the default retrieval surface.
 
 ## Subagent Metadata Recall
 
@@ -753,7 +630,7 @@ Use `subagents()` for metadata. Do not expand transcripts unless the user asks.
 ```js
 const rows = subagents({ project: '%quiet-zero%', limit: 50 });
 return rows
-  .filter(r => /trajex/i.test(`${r.description || ''} ${r.agent_type || ''}`))
+  .filter(r => /obelisk/i.test(`${r.description || ''} ${r.agent_type || ''}`))
   .map(r => ({
     agent_id: r.agent_id,
     agent_type: r.agent_type,
@@ -770,11 +647,11 @@ If the user asks for an exact sentinel, scoped project, or exact file, an empty
 result is valid. Report it; do not broaden automatically.
 
 ```js
-const needle = 'trajex-impossible-sentinel-20260602';
+const needle = 'obelisk-impossible-sentinel-20260602';
 const hits = search(`"${needle.replace(/-/g, ' ')}"`, { limit: 10 });
 const real = hits.filter(h => {
   const scope = `${h.session?.project || ''} ${h.message?.cwd || ''}`;
-  return !/SkillOpt[-/. ]outputs|trajex_train|trajex-eval/i.test(scope);
+  return !/SkillOpt[-/. ]outputs|obelisk_train|obelisk-eval/i.test(scope);
 });
 return real.map(h => ({
   session_id: h.session.id,
@@ -794,6 +671,7 @@ const row = sql(`
   SELECT uuid, length(text) AS indexed_len
   FROM messages
   WHERE length(text) >= 10000
+    AND COALESCE(visibility, 'visible') = 'visible'
   LIMIT 1
 `)[0];
 if (!row) return null;

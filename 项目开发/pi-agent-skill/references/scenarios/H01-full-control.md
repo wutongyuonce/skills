@@ -88,7 +88,7 @@ createAgentSession ─┤
 
 ## ResourceLoader 接口签名
 
-目标发布版 1.4.0 的 `ResourceLoader` 接口包含以下 11 个方法：
+目标发布版 1.2.0 的 `ResourceLoader` 接口包含以下 11 个方法：
 
 ```ts
 interface ResourceLoader {
@@ -106,9 +106,9 @@ interface ResourceLoader {
 
   // 系统提示词
   getSystemPrompt(): string | undefined;
-  getSystemPromptSource(): { path: string } | undefined;   // 1.2.0 起必需
+  getSystemPromptSource(): { path: string } | undefined;   // 1.2.0 必需方法
   getAppendSystemPrompt(): string[];  // 追加到系统提示词末尾
-  getAppendSystemPromptSources(): Array<{ path: string }>; // 1.2.0 起必需
+  getAppendSystemPromptSources(): Array<{ path: string }>; // 1.2.0 必需方法
 
   // 路径扩展（运行时添加扩展/技能/提示词路径）
   extendResources(paths: ResourceExtensionPaths): void;
@@ -122,7 +122,7 @@ interface ResourceLoader {
 
 ## 核心代码
 
-以下示例按 public 1.4.0 声明组装；runtime 默认仍读取认证/models/catalog 存储，并非零 I/O 保证。
+以下示例按 public 1.2.0 声明组装；runtime 默认仍读取认证/models/catalog 存储，并非零 I/O 保证。
 
 ```ts
 import {
@@ -150,9 +150,9 @@ const myLoader: ResourceLoader = {
   getThemes: () => ({ themes: [], diagnostics: [] }),
   getAgentsFiles: () => ({ agentsFiles: [] }),
   getSystemPrompt: () => "You are a custom assistant.",
-  getSystemPromptSource: () => undefined,              // 1.2.0 起必需
+  getSystemPromptSource: () => undefined,              // 1.2.0 必需方法
   getAppendSystemPrompt: () => [],
-  getAppendSystemPromptSources: () => [],              // 1.2.0 起必需
+  getAppendSystemPromptSources: () => [],              // 1.2.0 必需方法
   extendResources: () => {},
   reload: async () => {},
 };

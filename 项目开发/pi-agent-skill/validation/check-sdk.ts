@@ -1,4 +1,4 @@
-// Portable offline integration check for pi 1.4.0. Run with Node 22's type stripping.
+// Portable offline integration check for pi 1.2.0. Run with Node 22's type stripping.
 import assert from "node:assert/strict";
 import { mkdtemp, mkdir, rm } from "node:fs/promises";
 import { dirname, join } from "node:path";
@@ -57,8 +57,6 @@ try {
   assert.equal(estimateTokens({ role: "user", content: "offline", timestamp: 1 }) > 0, true);
   assert.equal(typeof compat.getModel, "function");
   assert.equal(typeof modelExports.createModels, "function");
-  assert.equal(typeof sdk.formatReadLineRange, "function");
-  assert.equal(sdk.formatReadLineRange(10, 5), ":10-14");
   for (const factory of [sdk.createCodemodeExtension, sdk.createMcpExtension, sdk.createToolSearchExtension]) {
     assert.equal(typeof factory, "function");
   }
@@ -113,46 +111,6 @@ try {
   console.log("PASS tagged native auth login/check, credential metadata, scoped env/nullable headers, request/runtime overrides, logout");
   const response = (value: string) => ai.fauxAssistantMessage(value, { timestamp: 1 });
   const result = (value: string) => ({ content: [{ type: "text" as const, text: value }], details: {} });
-  // 1.4.0: generateSummary's third argument no longer caps the request.
-  {
-    const requestOptions: Record<string, unknown>[] = [];
-    const summaryStream = (model: never, context: never, options: never) => {
-      requestOptions.push({ ...(options as Record<string, unknown>) });
-      return runtime.streamSimple(model, context, options as never);
-    };
-    for (const reserveTokens of [16384, 0]) {
-      requestOptions.length = 0;
-      faux.setResponses([response("summary")]);
-      const summary = await generateSummary([{ role: "user", content: "offline", timestamp: 1 }],
-        faux.getModel(), reserveTokens, undefined, undefined, undefined, undefined, undefined,
-        undefined, summaryStream as never);
-      assert.equal(summary, "summary");
-      assert.equal(requestOptions[0]?.maxTokens, undefined,
-        "summary output cap must come from the model, not reserveTokens");
-    }
-    console.log("PASS generateSummary ignores reserveTokens for the output cap");
-  }
-  // 1.4.0: thinking from another model is dropped, not converted to visible text.
-  {
-    const { transformMessages } = await import("@earendil-works/pi-ai/api/transform-messages");
-    const { getBuiltinModel } = await import("@earendil-works/pi-ai/providers/all");
-    const target = getBuiltinModel("anthropic", "claude-sonnet-4-5");
-    const assistant = (modelId: string) => ({
-      role: "assistant" as const, provider: target.provider, api: target.api, model: modelId,
-      usage: { input: 0, output: 0, cacheRead: 0, cacheWrite: 0 }, stopReason: "stop" as const, timestamp: 1,
-      content: [{ type: "thinking" as const, thinking: "prior reasoning" },
-        { type: "text" as const, text: "answer" }],
-    });
-    const sameModel = transformMessages([assistant(String(target.id))] as never, target);
-    const otherModel = transformMessages([assistant("claude-haiku-4-5")] as never, target);
-    const blockTypes = (message: { content: unknown } | undefined) => {
-      const content = message?.content;
-      return Array.isArray(content) ? content.map((block) => (block as { type: string }).type) : [];
-    };
-    assert.deepEqual(blockTypes(sameModel[0]), ["thinking", "text"]);
-    assert.deepEqual(blockTypes(otherModel[0]), ["text"]);
-    console.log("PASS cross-model thinking blocks are dropped instead of replayed as text");
-  }
   let childExecutions = 0;
   const child = sdk.defineTool({ name: "check_child", label: "Child", description: "Return a value",
     parameters: Type.Object({ value: Type.String() }),
@@ -180,11 +138,6 @@ try {
       agentsFilesOverride: () => ({ agentsFiles: [] }), appendSystemPromptOverride: () => [],
     });
   }
-  const shareSettings = sdk.SettingsManager.inMemory({});
-  assert.equal(shareSettings.getSessionShareDestination(), "auto");
-  shareSettings.setSessionShareDestination("gist");
-  assert.equal(shareSettings.getSessionShareDestination(), "gist");
-  console.log("PASS formatReadLineRange export and sessionShareDestination getter/setter");
   async function create(options: Partial<CreateAgentSessionOptions> = {}) {
     const { session } = await sdk.createAgentSession({ cwd, agentDir, modelRuntime: runtime,
       model: faux.getModel(), thinkingLevel: "off", settingsManager: settings(),
@@ -424,20 +377,6 @@ try {
   assert.ok(text(diskRestored.messages).includes("persisted-user"));
   assert.ok(text(diskRestored.messages).includes("persisted-ok"));
   console.log("PASS default-new disk sessions, isolated storage, explicit open restores persisted history");
-  // 1.4.0: a resumed session restores the transcript's active tools and applies modifiers.
-  const loadout = await create({ sessionManager: undefined });
-  loadout.setActiveToolsByName([...loadout.getActiveToolNames(), "check_parent"]);
-  faux.setResponses([response("loadout-ok")]);
-  await loadout.prompt("record-loadout");
-  const loadoutPath = loadout.sessionManager.getSessionFile();
-  loadout.dispose();
-  const resumedLoadout = await create({ sessionManager: sdk.SessionManager.open(loadoutPath!),
-    tools: ["+check_inactive", "-bash"] });
-  assert.ok(resumedLoadout.getActiveToolNames().includes("check_parent"), "transcript loadout restored");
-  assert.ok(resumedLoadout.getActiveToolNames().includes("check_inactive"), "modifier adds a tool");
-  assert.equal(resumedLoadout.getActiveToolNames().includes("bash"), false, "modifier removes a tool");
-  resumedLoadout.dispose();
-  console.log("PASS resumed sessions restore the transcript tool loadout with modifiers applied");
   restored.dispose(); unsubscribe(); current.dispose();
   await current.settingsManager.flush();
   assert.deepEqual(current.settingsManager.drainErrors(), []);

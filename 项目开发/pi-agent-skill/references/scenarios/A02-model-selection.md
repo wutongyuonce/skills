@@ -15,7 +15,7 @@
 
 ## 前置条件
 
-1. **安装 SDK**：`npm install @earendil-works/pi-coding-agent@1.4.0`
+1. **安装 SDK**：`npm install @earendil-works/pi-coding-agent@1.2.0`
 2. **配好目标模型的 API Key**：见 [场景 B01](B01-auth-config.md)
    - ⚠️ **注意**：缺 key 时 `createAgentSession()` **不会 throw**——它会返回一个带 `modelFallbackMessage` 警告的 session，真正的报错（`No model selected.` / `No API key found for <provider>.`）要等到 `session.prompt()` 时才抛出。详见 [A01「延迟报错机制」](A01-minimal-startup.md)
 3. **确认模型 ID 存在**：内置模型清单见 pi-ai 包的 `providers/<provider>.models.ts`，或用 [B03](B03-available-models.md) 的代码列出。
@@ -197,7 +197,6 @@ async session.setModel(model: Model<any>): Promise<void>
 
 - 先 `await this._modelRuntime.checkAuth(model.provider)` 校验认证——**失败时立即 throw** `No API key for ${model.provider}/${model.id}`
 - 成功时保存到 session（`agent.state.model` + `appendModelChange`）+ 触发 settings 持久化（`setDefaultModelAndProvider`）+ 按新模型能力重新 clamp thinkingLevel
-- **旧模型的 thinking 不再转成正文**：请求组装时，来自其它模型（`provider` / `api` / `model` 任一不同）的 assistant thinking 块会被整块丢弃，包括带签名或加密的块；同模型的历史 thinking 仍会保留以复用缓存。因此切换模型后，新模型看不到旧模型的推理内容，也不会把它当可见回复重放（`pi-ai` 的 `transformMessages`）。
 
 **典型用法**——基于任务类型动态切换：
 
@@ -305,5 +304,5 @@ settings.setDefaultModel("claude-opus-4-5");
 - 配置 API Key → [场景 B01](B01-auth-config.md)
 - 获取所有可用模型 → [场景 B03](B03-available-models.md)
 - 完整 `createAgentSession` 参数（含 `scopedModels` / `cwd` / `tools`） → [sdk_doc/01-create-agent-session.md](../sdk_doc/01-create-agent-session.md)
-- 会话恢复时模型/thinkingLevel 如何回填 → [sdk_doc/01-create-agent-session.md §新建与恢复](../sdk_doc/01-create-agent-session.md)
+- 会话恢复时模型/thinkingLevel 如何回填 → [sdk_doc/01-create-agent-session.md §会话恢复行为](../sdk_doc/01-create-agent-session.md)
 - 运行时 thinkingLevel 切换 → [sdk_doc/02-agent-session.md](../sdk_doc/02-agent-session.md) `setThinkingLevel()`

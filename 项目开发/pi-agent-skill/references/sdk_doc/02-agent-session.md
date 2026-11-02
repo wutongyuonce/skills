@@ -152,10 +152,8 @@ session.setModel(model: Model<any>, options?: { persist?: boolean }): Promise<vo
 运行时切换模型。
 
 ```ts
-session.setModel(getBuiltinModel("openai", "gpt-5"));
+session.setModel(getModel("openai", "gpt-5"));
 ```
-
-> 切换后，请求组装会丢弃其它模型产生的 assistant thinking 块（`provider` / `api` / `model` 任一不同），不将其转成可见正文；同模型仍保留带签名/加密的 thinking 以复用缓存。见 [A02 模型切换](../scenarios/A02-model-selection.md)。
 
 > ⚠️ **`model_select` 是扩展层独有事件，`session.subscribe` 收不到**。
 > `setModel()` 会经扩展 runner 派发 `model_select`（含 `model / previousModel / source`），但该事件**不在 `AgentSessionEvent` 中**——subscribe 监听器里写 `event.type === "model_select"` 永远不会命中（静默失败）。需要监听模型切换的话，必须写成扩展走 `pi.on("model_select", ...)`。
@@ -262,7 +260,7 @@ session.dispose()         ← 释放（必须）
 
 > 切换会话 / 分叉 / 重启等运行时操作不在 `AgentSession` 本身，而在 `AgentSessionRuntime` —— 详见 [03-agent-session-runtime.md](03-agent-session-runtime.md)。
 
-## 上下文与控制边界（1.4.0）
+## 上下文与控制边界（1.2.0）
 
 `SessionManager` 是已完成模型上下文的权威来源；直接改 `agent.state.messages` 不会替换持久上下文。追加或编辑 manager 后调用 `session.refreshContext()` 刷新公开历史。`session.isStreaming` 在 starting（包括 `before_agent_start`）期间也为 true；`session.isIdle` 是 getter，扩展中则是 `ctx.isIdle()`。
 

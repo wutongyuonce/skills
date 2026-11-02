@@ -12,7 +12,7 @@ pi-agent 事件系统分**两层**，本文聚焦**扩展层** `pi.on`：
   `queue_update` / `compaction_*` 等 **session 状态事件**（扩展层也收不到；`session_info_changed` 是例外，两层都派发）
 
 > 两层多数事件共有（`agent_start` / `turn_*` / `message_*` / `tool_execution_*`），具体派发差异
-> 见本文末尾[坑 4](#坑-4扩展独有-hooks-不能用-subscribe)。
+> 见本文末尾[坑 4](#坑-47-个扩展独有事件-subscribe-静默收不到--最大集成坑)。
 
 ---
 
@@ -92,8 +92,6 @@ pi-agent 通过**事件驱动**架构运行。所有 Agent 生命周期、消息
 | `after_provider_response` | `{ status, headers }` | HTTP 状态码、响应头 | **响应体、token usage**（需从 `message_end` 的 AssistantMessage.usage 获取） |
 
 > ⚠️ **`before_provider_headers` 与 `before_provider_request` 语义不同**：前者要求 in-place mutate `event.headers`（返回值被忽略），后者要求 return 新 payload。两者顺序：`before_provider_request` 改请求体 → headers 组装 → `before_provider_headers` 改 headers → HTTP 发出。证据：`ext-types.ts:681-689`、`sdk.ts:318-328` 的 `streamSimple` `transformHeaders` 回调。
->
-> **Provider 归属头不经过 handler**：自 1.4.0 起，OpenRouter / NVIDIA NIM / OpenCode 等归属头由 pi-ai 的 client identity 在 `before_provider_headers` 之后叠加，handler 读不到它们；仍可返回 `null` 删除已知头。`PI_TELEMETRY` 控制是否携带这些头；pi-ai 层的 `identity` 选项可覆盖默认 client identity。
 
 #### 事件触发频次
 
@@ -131,7 +129,7 @@ pi-agent 通过**事件驱动**架构运行。所有 Agent 生命周期、消息
 > - **本文详述**：消息生命周期（`message_*` + 流式 12 子事件）、工具调用（`tool_call` / `tool_result`）、Provider 事件、Agent 生命周期（5 种）、工具执行（3 种）—— 都是**一般 Web/Server 集成必备**
 > - **按需查源码**（未列出 payload）：模型事件、输入事件（`input` / `user_bash`）、资源事件（`resources_discover`）、8 种 `session_*` 事件（多数 CLI 专属）—— 见 `packages/coding-agent/src/core/extensions/types.ts`
 >
-> **模型事件 payload 速查**（两者都是 [扩展独有](#坑-4扩展独有-hooks-不能用-subscribe)、subscribe 收不到）：
+> **模型事件 payload 速查**（两者都是 [扩展独有](#坑-47-个扩展独有事件-subscribe-静默收不到--最大集成坑)、subscribe 收不到）：
 > - `model_select`：`{ model: Model, previousModel: Model | undefined, source: "set" | "cycle" | "restore" }`（`ext-types.ts:794-799`；派发 `_emitModelSelect` `agent-session.ts:1558-1570`，模型未变时不触发）
 > - `thinking_level_select`：`{ level: ThinkingLevel, previousLevel: ThinkingLevel }`（`ext-types.ts:802-806`；派发 `agent-session.ts:1691-1695`）。注意 session 层对应的是 `thinking_level_changed`（subscribe 能收），别与 select 混淆。
 >
@@ -439,7 +437,7 @@ export default (pi) => {
 
 **对策**：用 agent_settled 收尾或由宿主监听 auto_retry_*；不要用 retry 正则自行推断是否还会继续（预算/abort/overflow/queue 都影响它）。
 
-## 1.4.0 边界与扩展独有 hooks
+## 1.2.0 边界与扩展独有 hooks
 
 事件归属以目标包根导出的 `AgentSessionEvent` / `ExtensionEvent` 和 `ExtensionAPI.on` 重载为准；“只有 6/7 个扩展独有事件”不是完整集合。下面补充实际 public hooks：
 
